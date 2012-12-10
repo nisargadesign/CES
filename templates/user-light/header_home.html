@@ -69,8 +69,8 @@ function playSlideshow(){
 		//var lastImage = $('#slideshow a:last');
 		//lastImage.clone().prependTo("#slideshow");
 		//lastImage.animate({opacity: 0.0}, 4000, function (){$(this).remove();});
-		var lastImage = jQuery('#slideshow a:last');
-        lastImage.animate({opacity: 0.0}, 3500, function (){jQuery('#slideshow a:first').before(lastImage);lastImage.css({opacity: 1});});
+		var lastImage = $('#slideshow div:last');
+        lastImage.animate({opacity: 0.0}, 3500, function (){$('#slideshow div:first').before(lastImage);lastImage.css({opacity: 1});});
 	}
 	
 	$(document).ready( function(){
@@ -89,8 +89,8 @@ function playSlideshow(){
 	});
 	
 	$(window).load(function(){
-            $('#slideshow a').fadeIn("slow");
-            if($('#slideshow a').length > 1){
+            $('#slideshow div').fadeIn("slow");
+            if($('#slideshow div').length > 1){
                 resumeAnimation();
                 $(window).focus(resumeAnimation);
                 $("#slideshow").mouseout(resumeAnimation);
@@ -175,17 +175,20 @@ function playSlideshow(){
 
 		</ul><!-- end secondary_menus_rows  -->
 </div>
-<div id="slideshow" class="slideshow">
-<a style="display: none;" href="/wall-stencils-mural-stencils.html"><img src="/images/home/header-slideshow/10.jpg" alt="Cutting Edge Stencils" /></a>
-<a style="display: none;" href="/wall-stencils-damask-stencils.html"><img src="/images/home/header-slideshow/9.jpg" alt="Cutting Edge Stencils" /></a>
-<a style="display: none;" href="/wall-art-stencils.html"><img src="/images/home/header-slideshow/8.jpg" alt="Cutting Edge Stencils" /></a>
-<a style="display: none;" href="/classical-stencils-for-walls.html"><img src="/images/home/header-slideshow/7.jpg" alt="Cutting Edge Stencils" /></a>
-<a style="display: none;" href="/wall-art-stencils.html"><img src="/images/home/header-slideshow/6.jpg" alt="Cutting Edge Stencils" /></a>
-<a style="display: none;" href="/wall-stencils-murals-large-stencils.html"><img src="/images/home/header-slideshow/5.jpg" alt="Cutting Edge Stencils" /></a>
-<a style="display: none;" href="/wall-stencils-damask-stencils.html"><img src="/images/home/header-slideshow/4.jpg" alt="Cutting Edge Stencils" /></a>
-<a style="display: none;" href="/wall-stencils-border-stencils.html"><img src="/images/home/header-slideshow/3.jpg" alt="Cutting Edge Stencils" /></a>
-<a style="display: none;" href="/nursery-stencils-walls.html"><img src="/images/home/header-slideshow/2.jpg" alt="Cutting Edge Stencils" /></a>
-<a style="display: none;" href="/wall-art-stencils.html"><img src="/images/home/header-slideshow/1.jpg" alt="Cutting Edge Stencils" /></a>
-<a style="display: none;" href="/kim-myles.html"><img src="/images/home/header-slideshow/kim-myles.jpg" alt="Cutting Edge Stencils" /></a>
-<a href="/kim-myles.html"><img src="/images/home/header-slideshow/kim-myles.jpg" alt="Cutting Edge Stencils" /></a>
+<div id="slideshow" class="slideshow"  style="position: relative;">
+<div style="display: none;"><a href="/wall-stencils-mural-stencils.html"><img src="/images/home/header-slideshow/10.jpg" alt="Cutting Edge Stencils" /></a></div>
+<div style="display: none;"><a href="/wall-stencils-damask-stencils.html"><img src="/images/home/header-slideshow/9.jpg" alt="Cutting Edge Stencils" /></a></div>
+<div style="display: none;"><a href="/wall-art-stencils.html"><img src="/images/home/header-slideshow/8.jpg" alt="Cutting Edge Stencils" /></a></div>
+<div style="display: none;"><a href="/classical-stencils-for-walls.html"><img src="/images/home/header-slideshow/7.jpg" alt="Cutting Edge Stencils" /></a></div>
+<div style="display: none;"><a href="/wall-art-stencils.html"><img src="/images/home/header-slideshow/6.jpg" alt="Cutting Edge Stencils" /></a></div>
+<div style="display: none;"><a href="/wall-stencils-murals-large-stencils.html"><img src="/images/home/header-slideshow/5.jpg" alt="Cutting Edge Stencils" /></a></div>
+<div style="display: none;"><a href="/wall-stencils-damask-stencils.html"><img src="/images/home/header-slideshow/4.jpg" alt="Cutting Edge Stencils" /></a></div>
+<div style="display: none;"><a href="/wall-stencils-border-stencils.html"><img src="/images/home/header-slideshow/3.jpg" alt="Cutting Edge Stencils" /></a></div>
+<div style="display: none;"><a href="/nursery-stencils-walls.html"><img src="/images/home/header-slideshow/2.jpg" alt="Cutting Edge Stencils" /></a></div>
+<div style="display: none;"><a href="/wall-art-stencils.html"><img src="/images/home/header-slideshow/1.jpg" alt="Cutting Edge Stencils" /></a>
+	<a href="/wall-stencils.html" class="button rightArrow" style="position: absolute; right: 30px; bottom: 25px;"> &nbsp; &nbsp; SHOP NOW &nbsp; &nbsp; </a>
+</div>
+<div style="display: none;"><a href="/kim-myles.html"><img src="/images/home/header-slideshow/kim-myles.jpg" alt="Cutting Edge Stencils" /></a>
+</div>
+<div><a href="/kim-myles.html"><img src="/images/home/header-slideshow/kim-myles.jpg" alt="Cutting Edge Stencils" /></a></div>
 </div>
