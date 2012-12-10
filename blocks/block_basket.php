@@ -1,42 +1,28 @@
 <?php
-
 	include_once("./includes/shopping_cart.php");
 	include_once("./includes/order_items.php");
 	include_once("./messages/" . $language_code . "/cart_messages.php");
 
-	$default_title = CART_TITLE;
-
 	$tax_rates = get_tax_rates();
-
-	// check admin call center permissions
-	$permissions = get_admin_permissions();
-	$call_center = get_setting_value($permissions, "create_orders", 0);
 
 	$site_url = get_setting_value($settings, "site_url", "");
 
 	$html_template = get_setting_value($block, "html_template", "block_basket.html"); 
   $t->set_file("block_body", $html_template);
 	$t->set_var("basket_href",  get_custom_friendly_url("basket.php"));
+	$t->set_var("current_href", $current_page);
 	$t->set_var("checkout_href", get_custom_friendly_url("checkout.php"));
 	$t->set_var("products_href", get_custom_friendly_url("products.php"));
 	$t->set_var("cart_save_href", get_custom_friendly_url("cart_save.php"));
 	$t->set_var("cart_retrieve_href", get_custom_friendly_url("cart_retrieve.php"));
 	$t->set_var("shipping_calculator_href", get_custom_friendly_url("shipping_calculator.php"));
-	$t->set_var("call_center_products_href", get_custom_friendly_url("call_center_products.php"));
-
 	$hide_shipping_basket = get_setting_value($settings, "hide_shipping_basket", 0);
 
 	$confirm_add = get_setting_value($settings, "confirm_add", 1);
 	$t->set_var("confirm_add", $confirm_add);
 
-	if ($call_center) {
-		$t->sparse("products_button", false);
-	} else {
-		$t->sparse("continue_button", false);
-	}
-
 	// generate page link with query parameters
-	$page = "basket.php";
+	$page = $current_page;
 	$remove_parameters = array("rnd", "cart", "item_id", "type", "cart_id", "quantity", "new_quantity", "operation", "coupon_code", "coupon_id");
 	$get_vars = isset($_GET) ? $_GET : $HTTP_GET_VARS;
 	$query_string = get_query_string($get_vars, $remove_parameters, "", true);
@@ -249,7 +235,11 @@
 			$t->parse("item_price_incl_tax_total_header", false);
 		}
 		$t->set_var("columns_colspan", $columns_colspan);
-
+		
+		//Customization by Vital
+		include("./includes/shipping_functions.php");
+		$cart_items = array();
+		//END customization
 		foreach ($shopping_cart as $cart_id => $item) {
 			$item_id = $item["ITEM_ID"];
 			$quantity = $item["QUANTITY"];
@@ -367,6 +357,7 @@
 			$sql .= " it.credit_reward_type AS type_credit_reward, it.credit_reward_amount AS type_credit_amount, ";
 			$sql .= " i.tax_free, i.stock_level, i.use_stock_level, i.hide_out_of_stock, i.disable_out_of_stock, ";
 			$sql .= " i.min_quantity, i.max_quantity, i.quantity_increment ";
+			$sql .= ", i.is_shipping_free, i.shipping_cost, i.shipping_rule_id "; //Customization by Vital
 			if ($image_field) { $sql .= " , i." . $image_field; }
 			if ($image_alt_field) { $sql .= " , i." . $image_alt_field; }
 			$sql .= " FROM (" . $table_prefix . "items i ";
@@ -420,6 +411,13 @@
 				$min_quantity = $db->f("min_quantity");
 				$max_quantity = $db->f("max_quantity");
 				$quantity_increment = $db->f("quantity_increment");
+				
+				//Customization by Vital
+				$shipping_cost = $db->f("shipping_cost");
+				$is_shipping_free = $db->f("is_shipping_free");
+				if ($is_shipping_free) { $shipping_cost = 0; }
+				$shipping_rule_id = $db->f("shipping_rule_id");
+				//END customization
 
 				$item_image = ""; $item_image_alt = ""; 
 				$image_exists = false;
@@ -538,14 +536,14 @@
 
 									// check price for selected quantity for current user
 									$sub_user_price  = ""; 
-									$discount_applicable = 1;
-									$q_prices = get_quantity_price($sub_item_id, $quantity * $sub_quantity);
-									if (sizeof($q_prices)) {
+									$sub_user_action = 0;							
+									$q_prices    = get_quantity_price($sub_item_id, $quantity * $sub_quantity);
+									if ($q_prices) {
 										$sub_user_price   = $q_prices[0];
-										$discount_applicable = $q_prices[2];
+										$sub_user_action  = $q_prices[2];
 									}
 																		
-									$sub_prices = get_product_price($sub_item_id, $sub_price, $sub_buying, $sub_is_sales, $sub_sales, $sub_user_price, $discount_applicable, $user_discount_type, $user_discount_amount);
+									$sub_prices = get_product_price($sub_item_id, $sub_price, $sub_buying, $sub_is_sales, $sub_sales, $sub_user_price, $sub_user_action, $user_discount_type, $user_discount_amount);
 									$component_price = $sub_prices["base"];
 									// update information in the cart as well
 									if ($sub_is_sales && $sub_sales > 0) {
@@ -555,7 +553,7 @@
 									}
 									$component["buying"] = $db->f("buying_price");
 									$component["user_price"] = $sub_user_price;
-									$component["user_price_action"] = $discount_applicable;
+									$component["user_price_action"] = $sub_user_action;
 									$shopping_cart[$cart_id]["COMPONENTS"][$property_id][$item_property_id] = $component;
 								}
 								if ($sub_points_price <= 0) {
@@ -803,12 +801,13 @@
 									if (strtoupper($control_type) == "TEXTBOXLIST") {
 										$properties_values .= "<br>" . $property_name . ": ";
 									} else {
+// --------- OPTION DISPLAY																											
 										$properties_values .= "<br>" . $property_name . ": " . $values_list;
 									}
 									if ($property_price > 0) {
-										$properties_values .= $option_positive_price_right . currency_format($shown_price) . $option_positive_price_left;
+										//$properties_values .= $option_positive_price_right . currency_format($shown_price) . $option_positive_price_left;
 									} elseif ($property_price < 0) {
-										$properties_values .= $option_negative_price_right . currency_format(abs($shown_price)) . $option_negative_price_left;
+										//$properties_values .= $option_negative_price_right . currency_format(abs($shown_price)) . $option_negative_price_left;
 									}
 									if (strtoupper($control_type) == "TEXTBOXLIST") {
 										$properties_values .= $values_list;
@@ -999,6 +998,7 @@
 					$show_type = $tax_info["show_type"];
 					if ($show_type & 2) {
 						$t->set_var("tax_name", $tax_info["tax_name"]);
+						$t->set_var("quantity", $quantity);
 						$t->set_var("tax_amount", currency_format($tax_info["tax_amount"]));
 						$t->set_var("tax_amount_total", currency_format($tax_info["tax_amount"] * $quantity));
 						$t->parse("item_taxes", true);
@@ -1164,6 +1164,14 @@
 				$t->parse("items", true);
 				unset($shopping_cart[$cart_id]);
 			}
+			//Customization by Vital
+			$cart_item_id = $cart_id;
+			$cart_items[$cart_item_id] = array("packages_number" => "", "width" => "", "height" => "", "length" => "",
+						"weight" => "", "price" => $price, "quantity" => $quantity,
+						"shipping_cost" => $shipping_cost, "is_shipping_free" => $is_shipping_free, 
+						"shipping_rule_id" => $shipping_rule_id );
+			//END customization	
+			
 		}
 	}
 	set_session("shopping_cart", $shopping_cart);
@@ -1341,6 +1349,23 @@
 
 		// parse goods total values
 		$t->set_var("total_quantity", $total_quantity);
+		
+		//Customization by Vital
+		$delivery_site_id = (isset($site_id)) ? $site_id : "";
+		$country_id = ( get_param("country_id") ) ? get_param("country_id") : "228";
+		$shipping_types = get_shipping_types($country_id, "", "", $delivery_site_id, $user_type_id, $cart_items);
+		
+		list ($row_shipping_type_id, $row_shipping_type_code, $row_shipping_type_desc, $row_shipping_cost, $row_tare_weight, $row_shipping_taxable, $row_shipping_time) = $shipping_types[0];
+		$t->set_var("shipping_type_desc", $row_shipping_type_desc);
+		//$t->set_var("shipping_type_desc", var_export($shopping_cart)); 
+		$t->set_var("estimated_US_shipping", currency_format($row_shipping_cost));
+		$t->set_var("estimated_total", currency_format($row_shipping_cost + $goods_total_incl_tax));
+		
+		$countries = get_db_values("SELECT country_id,country_name FROM " . $table_prefix . "countries WHERE show_for_user=1 ORDER BY country_order, country_name ", array(array("", SELECT_COUNTRY_MSG)));
+		$selected_country = ($country_id == 228) ? "" : $country_id;
+	set_options($countries, $selected_country, "country_id");
+		//END customization
+		
 		// show total reward credits
 		if ($credit_system && $reward_credits_basket && $total_reward_credits && ($reward_credits_users == 0 || ($reward_credits_users == 1 && $user_id))) {
 			$t->set_var("reward_credits_total", currency_format($total_reward_credits));
@@ -1618,5 +1643,6 @@
 	}
 
 	$block_parsed = true;
+	$t->parse("block_body", false);
 
 ?>
