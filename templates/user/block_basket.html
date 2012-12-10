@@ -20,6 +20,15 @@ var addProduct = "{ADD_PRODUCT_MSG}";
 
 var confirmAdd = "{confirm_add}";
 
+$(document).ready(function() {
+    if($("div.errorMessage").html() && $("div.errorMessage").html().length != 0) {
+	var message = $("div.errorMessage").html();
+	showDialog('400', '220',
+                       '<b style="color: red;">' + message + '</b> ',
+		       function(){closeInMs(3500, "#background, #dialogWindow");}
+            );}
+});
+
 //]]>
 
 </script>
@@ -60,35 +69,7 @@ var confirmAdd = "{confirm_add}";
 
 	</table><br /><!-- end sc_errors -->
 
-
-
-<div class="BlockTop">
-
-	<div class="TopCenter">
-
-		<div class="TopLeftBgr">
-
-			<div class="TopRightBgr">
-
-				<div class="TopLeft"></div>
-
-				<div class="TopRight"></div>
-
-				<div class="TopTitle">
-
-					<div class="TopTitleBgr"><div>{CART_TITLE}</div></div>
-
-				</div>
-
-			</div>
-
-		</div>
-
-	</div>
-
-</div>
-
-
+<h1 class="commonbg">{CART_TITLE}</h1>
 
 <div class="BlockMiddle">
 
@@ -110,7 +91,7 @@ var confirmAdd = "{confirm_add}";
 		<input type="hidden" name="cart_id" value="">
 		<input type="hidden" name="new_quantity" value="">
 
-		<table border="0" cellspacing="0" width="100%">
+		<table border="0" cellspacing="0" width="100%" class="cartTable">
 		<tr>
 			<td colspan="11" class="">{CART_INSTRUCTIONS}<br><br></td>
 			
@@ -132,7 +113,7 @@ var confirmAdd = "{confirm_add}";
 			<!-- begin item_quantity_header -->
 			<td align="right" class="cartHeader">{PROD_QTY_COLUMN}</td><!-- end item_quantity_header -->
 			<!-- begin item_price_total_header -->
-			<td align="right" class="cartHeader">{PROD_TOTAL_COLUMN} {tax_note_excl}</td><!-- end item_price_total_header -->
+			<td align="right" class="cartHeader" width="100">{PROD_PRICE_COLUMN} {tax_note_excl}</td><!-- end item_price_total_header -->
 			<!-- begin item_tax_total_header -->
 			<td class="cartHeader">{tax_name} {PROD_TAX_TOTAL_COLUMN}</td><!-- end item_tax_total_header -->
 			<!-- BEGIN item_price_incl_tax_total_header -->
@@ -189,7 +170,7 @@ var confirmAdd = "{confirm_add}";
 				<td align="right" class="cartRow">{tax_total}</td><!-- end item_tax_total_column -->
 				<!-- begin item_price_incl_tax_total_column -->
 				<td align="right" class="cartRow">{price_incl_tax_total}</td><!-- end item_price_incl_tax_total_column -->
-				<td align="center" class="cartRow"><a href="{remove_href}" onClick="return confirmDelete('{item_type}');" class="buttonSmall">{REMOVE_FROM_CART_MSG}</a></td>
+				<td align="center" class="cartRow"><a href="{remove_href}" onClick="return confirmDelete('{item_type}');" class="button small-button">{REMOVE_FROM_CART_MSG}</a></td>
 			</tr><!-- end items -->
 		<tr>
 			<td colspan="{columns_colspan}" align="right" class="totals1">
@@ -216,7 +197,33 @@ var confirmAdd = "{confirm_add}";
             <td align="right" class="totals1"></td>
 			<!-- BEGIN goods_total_incl_tax_column -->
 			<td align="right">{goods_total_incl_tax}</td><!-- END goods_total_incl_tax_column -->
-		</tr><!-- begin coupons -->
+		</tr>
+		
+		<!-- Customization by Vital - adding US estimated shipping costs -->
+		<tr>
+			<td colspan="{columns_colspan}" align="right" class="totals1">
+			    {shipping_type_desc} <br />
+			    <div class="commonbg floatright" style="padding: 3px 5px 5px 6px; margin: 2px;">Shipping Internationaly? <select style="font-size: 8pt;" name="country_id" onchange="document.basket.submit();"><!-- begin country_id -->
+			<option {country_id_selected} value="{country_id_value}">{country_id_description}</option><!-- end country_id -->
+		</select></div>
+			    <div  class="clearboth">
+		<small>
+		<b>This is only an estimate. The final shipping cost<br />depends on the actual delivery address</b>
+			    </small></div>
+			</td>
+			<td align="right"  valign="top" class="totals1LastCart">{estimated_US_shipping}</td>
+			<td align="right"></td>
+		</tr>
+		<tr>
+			<td colspan="{columns_colspan}" align="right" class="totals1">
+			    Estimated Grand Total
+			</td>
+			<td align="right" class="totals1LastCart">{estimated_total}</td>
+			<td align="right"></td>
+		</tr>
+		<!-- E N D Customization by Vital -->
+		
+		<!-- begin coupons -->
 		<tr valign="top">
 			<td align="right" colspan="{columns_colspan}" class="totals1">{coupon_title}</td>
 			<!-- BEGIN discount_amount_excl_tax_column -->
@@ -260,28 +267,43 @@ var confirmAdd = "{confirm_add}";
 		</form>
 		<!-- end basket -->
        
-	
-        
 		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="padding6px">
-        <tr>
-			<td>&nbsp;<br><br></td>
-			<td></td>
-		</tr>
         
 		<!-- begin coupon_errors -->
 		<tr>
-			<td><div class="errorMessage">{errors_list}</div></td>
+			<td><div class="errorMessage" style="display: none;">{errors_list}</div></td>
 			<td></td>
 		</tr>
 		<!-- end coupon_errors -->
 		<tr>
         	
 			<!-- begin coupon_form -->
-			<td width="540"><div>
+			<td valign="top"><div>
 				<form name="coupon" action="{basket_href}">
 				<input type="hidden" name="operation" value="add">
 				{hidden_parameters}
+                
+                <div class="boxCoupon commonbg"><div class="couponText floatleft">{COUPON_CODE_FIELD}</div><input class="field" size="16" type="text" name="coupon_code" value="{coupon_code}" /><input class="submit button" type="submit" value="{APPLY_BUTTON}"></form></div>
+                
+                </div>
+			     <a class="button button-continue clearboth" id="" href="javascript:history.back();"><span><< Continue Shopping</span></a>
+			</td>
+			<!-- end coupon_form -->
+			<td align="right" valign="top">
+				<!--a class="buttonBasket button-shopping" id="shopping" href="{rp_href}">{CONTINUE_SHOPPING_MSG}</a>
+				<span class="spacer">&nbsp;|&nbsp;</span>
+				<a class="buttonBasket button-retrieve" id="retrieve" href="{cart_retrieve_href}">{RETRIEVE_CART_BUTTON}</a-->
+				<!-- begin basket_links -->
+				<!--span class="spacer">&nbsp;|&nbsp;</span>
+				<a class="buttonBasket button-save" id="save" href="{cart_save_href}">{SAVE_CART_BUTTON}</a>
+				&nbsp;|&nbsp;<br><br>
+				<a class="linkGeneral" id="clear" href="{remove_all_href}" onCLick=" return confirm('{CLEAR_CART_JS}');">{CLEAR_CART_MSG}</a>
+				&nbsp;&nbsp;-->
+<!--<a class="button button-shipping-calculator" id="shipping" href="{shipping_calculator_href}" onclick="popupShippingWin('{shipping_calculator_href}'); return false;"><span>{SHIPPING_CALCULATOR_MSG}</span></a>-->
 
+				<a class="button button-check-cart" id="checkout" href="{checkout_href}"><span>{GOTO_CHECKOUT_MSG} >></span></a>
+				<!-- end basket_links -->
+				
 				<div class="boxConfidence">
                 <script>
 function openWin(examplesURL)
@@ -302,27 +324,6 @@ detailsWindow.focus();
                 
                 </div>
                 
-                <div class="boxCoupon">{COUPON_CODE_FIELD}<br><input class="field" size="16" type="text" name="coupon_code" value="{coupon_code}">&nbsp;<span class="submit"><input class="submit" type="submit" value="{APPLY_BUTTON}"></span></form></div>
-                
-                </div>
-			</td>
-			<!-- end coupon_form -->
-			<td align="right" valign="top">
-				<!--a class="buttonBasket button-shopping" id="shopping" href="{rp_href}">{CONTINUE_SHOPPING_MSG}</a>
-				<span class="spacer">&nbsp;|&nbsp;</span>
-				<a class="buttonBasket button-retrieve" id="retrieve" href="{cart_retrieve_href}">{RETRIEVE_CART_BUTTON}</a-->
-				<!-- begin basket_links -->
-				<!--span class="spacer">&nbsp;|&nbsp;</span>
-				<a class="buttonBasket button-save" id="save" href="{cart_save_href}">{SAVE_CART_BUTTON}</a>
-				&nbsp;|&nbsp;<br><br>
-				<a class="linkGeneral" id="clear" href="{remove_all_href}" onCLick=" return confirm('{CLEAR_CART_JS}');">{CLEAR_CART_MSG}</a>
-				&nbsp;&nbsp;-->
-<a class="button button-shipping-calculator" id="shipping" href="{shipping_calculator_href}" onclick="popupShippingWin('{shipping_calculator_href}'); return false;"><span>{SHIPPING_CALCULATOR_MSG}</span></a>
-
-				<a class="button button-check-cart" id="checkout" href="{checkout_href}"><span>{GOTO_CHECKOUT_MSG} >></span></a>
-				<!-- end basket_links -->
-                
-                <a class="button button-continue" id="" href="javascript:history.back();"><span>Continue Shopping >></span></a>
 			</td>
 		</tr>
         
