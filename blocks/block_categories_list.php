@@ -24,6 +24,11 @@
 		$search_string = get_param("search_string");
 		$is_search = strlen($search_string);
 		if ($is_search && $search_category_id) { $category_id = $search_category_id; }
+		//Customization by Vital
+		if (!strlen($category_id)) {
+			$category_id = get_session("category_id");
+		}
+		//END customization
 	}
 
 
