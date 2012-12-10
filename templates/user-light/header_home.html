@@ -1,0 +1,191 @@
+<script type="text/javascript">    
+	
+	var viewPortSize = 205;
+        var slideNumber = 1;
+        var curentSlide = 1;
+	var lastSlide;
+	
+function newsSlideshowStart(){
+    var nav = '<div class="slideshow-nav">';
+    $( "#news-slideshow-viewport #news-slide-strip" ).width( ++$("#news-slideshow-viewport #news-slide-strip .slide").length * viewPortSize );
+    $( "#news-slideshow-viewport #news-slide-strip div.slide" ).each( function(){nav += '<a rel="' + slideNumber + '"></a>';$(this).attr("rel", slideNumber++ );});
+    nav += '</div>';
+    $('#news-slideshow-viewport #news-slide-strip').after(nav);
+    lastSlide = parseInt($('#news-slideshow-viewport #news-slide-strip div.slide:last').attr("rel"));
+    $('div.slideshow-nav a[rel="' + curentSlide + '"]').addClass("current");
+    $('#news-slideshow-viewport div.slideshow-nav a').click(function(){
+            if (typeof newsTimerID !== 'undefined') window.clearInterval(newsTimerID);
+            curentSlide = $(this).attr("rel");
+            $('div.slideshow-nav a').removeClass("current");
+            $('div.slideshow-nav a[rel="' + curentSlide + '"]').addClass("current");
+            $('#news-slide-strip').animate({marginLeft: -(curentSlide - 1)*viewPortSize}, 1200);
+            playSlideshow();
+        });
+        $('#news-slideshow-viewport #news-slide-strip').mouseenter(function(){if (typeof newsTimerID !== 'undefined') window.clearInterval(newsTimerID);}).mouseleave(function(){playSlideshow();});
+        playSlideshow();
+    }
+        
+function nextSlide() {
+     if($('#news-slideshow-viewport #news-slide-strip div.slide').length > 1){
+            if(curentSlide < lastSlide){ 
+                    $('#news-slideshow-viewport #news-slide-strip').animate({marginLeft: '-=' + viewPortSize}, 1200,function (){++curentSlide; $('div.slideshow-nav a').removeClass("current"); $('div.slideshow-nav a[rel="' + curentSlide + '"]').addClass("current");
+    });
+            } else{
+                rewind();
+            }
+     }
+}
+
+function rewind() {
+    curentSlide = 1;
+    $('#news-slideshow-viewport #news-slide-strip').animate({marginLeft: 0}, 800,function (){ $('div.slideshow-nav a').removeClass("current"); $('div.slideshow-nav a[rel="' + curentSlide + '"]').addClass("current");});
+}
+
+function playSlideshow(){
+    if (typeof newsTimerID !== 'undefined') window.clearInterval(newsTimerID);
+    if($('#news-slideshow-viewport #news-slide-strip div.slide').length > 1){
+        newsTimerID = window.setInterval(nextSlide,5000);
+    }
+}
+	
+	var timerID;
+	var newsTimerID;
+
+        function stopAnimation(){
+            if (typeof timerID !== 'undefined'){
+                window.clearInterval(timerID);
+                timerID = 0;
+            } 
+        }
+        
+        function resumeAnimation(){
+            if (!timerID){
+                play();
+                timerID = window.setInterval(play, 6000);
+            } 
+        }
+	
+	function play(){
+		//var lastImage = $('#slideshow a:last');
+		//lastImage.clone().prependTo("#slideshow");
+		//lastImage.animate({opacity: 0.0}, 4000, function (){$(this).remove();});
+		var lastImage = jQuery('#slideshow a:last');
+        lastImage.animate({opacity: 0.0}, 3500, function (){jQuery('#slideshow a:first').before(lastImage);lastImage.css({opacity: 1});});
+	}
+	
+	$(document).ready( function(){
+		 $(".cartContainer, .boxAccount").hover( function(){jQuery('div.cartAccountItems', this).slideToggle('fast', function(){
+			//alert($("#shoppingCartItems").height());
+			if($("#shoppingCartItems").height() > 299) {
+			//$("#shoppingCartItems").height( ($("#shoppingCartItems div.small-cart-item").length * 73 < 400) ?  $("#shoppingCartItems  div.small-cart-item").length * 73 : 400 );
+			$("#shoppingCartItems").height($("#shoppingCartItems").height());
+			$("#shoppingCartItems").alternateScroll({"hide-bars": false, "bar-class": "customScroll"});
+			}
+			});
+							}
+							);
+		 //$("#shoppingCartItems").alternateScroll();
+
+	});
+	
+	$(window).load(function(){
+            $('#slideshow a').fadeIn("slow");
+            if($('#slideshow a').length > 1){
+                resumeAnimation();
+                $(window).focus(resumeAnimation);
+                $("#slideshow").mouseout(resumeAnimation);
+                $(window).blur(stopAnimation);
+                $("#slideshow").mouseover(stopAnimation);
+            }
+	});
+	
+	$(function() {
+		$.getFeed({
+			url: 'proxy.php?url=http://blog.cuttingedgestencils.com/category/news/feed',
+			success: function(feed) {
+				$('#news-slide-strip').html("");
+				var html = '';
+				for(var i = 0; i < feed.items.length && i < 5; i++) {
+					var item = feed.items[i];
+					var image = item.description.substring(item.description.indexOf("<img "), item.description.indexOf(" />")) + " />";
+					var itemTitle = item.title.length < 50 ? item.title : item.title.substr(0, 47) + "...";
+					html += '<div class="slide" rel="' + (i+1) + '"><h4>' + '<a href="' + item.link + '">' + itemTitle + '</a>' + '</h4><a href="' + item.link + '">' + image + '</a></div>';
+				}
+				$('#news-slide-strip').append(html);
+				newsSlideshowStart();
+			}
+		});
+	});
+</script>
+
+<script type="text/javascript" src="js/menu.js"></script>
+
+<div class="Header" style="{block_style}">
+	<a class="floatleft" href="{site_url}"><img src="/images/custom/logo.png" alt="{logo_alt}" title="{logo_alt}" /></a>
+<div class="boxSearch floatleft">{header_search}</div>
+
+
+    <div class="boxAccount floatright greenOnHover"> My Account
+	<div class="cartAccountItems">
+	<a href="/user_home.php">My Account</a>
+	<a class="{loginClass}" href="/user_orders.php">My Orders</a>
+	<a class="{loginClass}" href="/user_profile.php">My Profile</a>
+	<a href="/user_wishlist.php" class="floatleft">My Wishlist</a>
+	<a class="floatleft {logoutClass} clearboth" href="/user_profile.php">Register</a>
+	<a class="floatright {logoutClass}" href="/user_login.php">Login</a>
+	<!-- begin logout_button --><a class="floatright" href="/user_home.php?operation=logout">Logout</a><!-- end logout_button -->
+	</div>
+    </div>
+    <div class="cartContainer greenOnHover floatright">
+    {header_cart}
+    </div> 
+	<!-- BEGIN menus_rows -->
+
+		<ul class="TopMenu">
+			<!-- BEGIN menus -->
+
+			<li id="m_{menu_path_id}" class="topmenu"><!-- BEGIN menu_image -->
+
+				<a href="{menu_href}" {menu_target} onmouseover="javascript:show('{menu_path_id}', 1);" onmouseout="javascript:hide('{menu_path_id}', 1);"><img border="0" src="{src}" {width} {height} alt="{alt}" title="{alt}" /></a><br /><!-- END menu_image --><!-- BEGIN menu_text -->
+
+				<a href="{menu_href}" {menu_target} class="{menu_style}" onmouseover="javascript:show('{menu_path_id}', 1);" onmouseout="javascript:hide('{menu_path_id}', 1);"><span class="nobr">{menu_title}</span></a><!-- END menu_text -->			<!-- BEGIN submenus_rows --> 
+
+				<ul class="SubMenu" id="sm_{menu_path_id}">{submenus}</ul><!-- END submenus_rows --> 
+
+			</li><!-- END menus -->		
+		</ul><!-- END menus_rows -->
+
+		<!-- begin secondary_menus_rows -->
+
+		<ul class="{secondary_table_class}">
+
+			<li class="{secondary_begin_id}"><img class="Img" src="images/tr.gif" alt="" /></li><!-- begin secondary_menus -->
+
+			<li id="secondary_{secondary_menu_path_id}" class="secondaryMenu"><!-- BEGIN secondary_menu_image -->
+
+				<a href="{secondary_menu_href}" {secondary_menu_target} onmouseover="javascript:show('{submenu_path_id}', 2);" onmouseout="javascript:hide('{secondary_menu_path_id}', 2);"><img border="0" src="{src}" {width} {height} alt="{alt}" title="{alt}" /></a><!-- END secondary_menu_image --><!-- BEGIN secondary_menu_text -->
+
+				<a href="{secondary_menu_href}" {secondary_menu_target} class="{secondary_menu_style}" onmouseover="javascript:show('{secondary_menu_path_id}', 2);" onmouseout="javascript:hide('{secondary_menu_path_id}', 2);"><span class="nobr">{secondary_menu_title}</span></a><!-- END secondary_menu_text --><!-- BEGIN secondary_submenus_rows --> 
+
+				<ul class="SubMenu" id="secondary_ddm_{secondary_menu_path_id}">{secondary_submenus}</ul><!-- END secondary_submenus_rows --> 
+
+			</li><!-- end secondary_menus -->
+
+			<li class="{secondary_end_id}"><img class="Img" src="images/tr.gif" alt="" /></li>
+
+		</ul><!-- end secondary_menus_rows  -->
+</div>
+<div id="slideshow" class="slideshow">
+<a style="display: none;" href="/wall-stencils-mural-stencils.html"><img src="/images/home/header-slideshow/10.jpg" alt="Cutting Edge Stencils" /></a>
+<a style="display: none;" href="/wall-stencils-damask-stencils.html"><img src="/images/home/header-slideshow/9.jpg" alt="Cutting Edge Stencils" /></a>
+<a style="display: none;" href="/wall-art-stencils.html"><img src="/images/home/header-slideshow/8.jpg" alt="Cutting Edge Stencils" /></a>
+<a style="display: none;" href="/classical-stencils-for-walls.html"><img src="/images/home/header-slideshow/7.jpg" alt="Cutting Edge Stencils" /></a>
+<a style="display: none;" href="/wall-art-stencils.html"><img src="/images/home/header-slideshow/6.jpg" alt="Cutting Edge Stencils" /></a>
+<a style="display: none;" href="/wall-stencils-murals-large-stencils.html"><img src="/images/home/header-slideshow/5.jpg" alt="Cutting Edge Stencils" /></a>
+<a style="display: none;" href="/wall-stencils-damask-stencils.html"><img src="/images/home/header-slideshow/4.jpg" alt="Cutting Edge Stencils" /></a>
+<a style="display: none;" href="/wall-stencils-border-stencils.html"><img src="/images/home/header-slideshow/3.jpg" alt="Cutting Edge Stencils" /></a>
+<a style="display: none;" href="/nursery-stencils-walls.html"><img src="/images/home/header-slideshow/2.jpg" alt="Cutting Edge Stencils" /></a>
+<a style="display: none;" href="/wall-art-stencils.html"><img src="/images/home/header-slideshow/1.jpg" alt="Cutting Edge Stencils" /></a>
+<a style="display: none;" href="/kim-myles.html"><img src="/images/home/header-slideshow/kim-myles.jpg" alt="Cutting Edge Stencils" /></a>
+<a href="/kim-myles.html"><img src="/images/home/header-slideshow/kim-myles.jpg" alt="Cutting Edge Stencils" /></a>
+</div>
