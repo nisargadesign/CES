@@ -67,7 +67,7 @@
 		if (isset($list_template) && strlen($list_template)) {
 			$html_template = $list_template; 
 		} else {
-			$html_template = get_setting_value($block, "html_template", "block_products_list.html"); 
+			$html_template = get_setting_value($block, "html_template", "block_products_list_add.html"); 
 		}
 		$hide_add_column = "hide_add_list";
 		$options_type = "list";
@@ -80,9 +80,9 @@
 		$quantity_control = get_setting_value($settings, "quantity_control_list", "");
 		$stock_level_list = get_setting_value($settings, "stock_level_list", 0);
 	}
-	if ($show_all) {
-		$html_template = "block_products_list_all.html"; 
-	}
+	//if ($show_all) {	//Customization by Vital
+	//	$html_template = "block_products_list_all.html"; 
+	//}
 
 	$t->set_file("block_body",      $html_template);
 	$t->set_var("items_cols",       "");
@@ -173,6 +173,15 @@
 	$current_ts = va_timestamp();
 
 	$category_id = get_param("category_id");
+	//Customization by Vital
+	if(strlen($category_id) && $category_id != 0 ){
+		$sql_is_category = "SELECT * FROM ". $table_prefix . "categories WHERE is_showing=1 AND category_id=".$category_id;
+		if(!get_db_value($sql_is_category)){
+			header("Location: wall-stencils.html");
+			exit;
+		}
+	}
+	//END customization
 	$search_category_id = get_param("search_category_id");
 	$search_string = trim(get_param("search_string"));
 	$pq = get_param("pq");
@@ -216,10 +225,17 @@
 	} else {
 		$products_form_url = $script_name;
 	}
-	$t->set_var("products_href", $products_page);
-	if($all_products_page && !$show_all){
-		$t->parse("all_products_page", false);
+	//Customization by Vital
+	if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] != "") {
+		$t->set_var("show_all", "?".$_SERVER['QUERY_STRING']."&show_all=1");
+	} else {
+		$t->set_var("show_all", "?show_all=1");
 	}
+	//END customization
+	$t->set_var("products_href", $products_page);
+	//if($all_products_page && !$show_all){	//Customization by Vital
+	//	$t->parse("all_products_page", false);
+	//}
 	$t->set_var("products_form_url", $products_form_url);
 	$t->set_var("product_details_href", get_custom_friendly_url("product_details.php"));
 	$t->set_var("basket_href",   get_custom_friendly_url("basket.php"));
@@ -292,8 +308,8 @@
 	$sql_params = array();
 	$sql_params["brackets"] = $pr_brackets . "((";		
 	$sql_params["join"]     = " INNER JOIN " . $table_prefix . "items_categories ic ON i.item_id=ic.item_id) ";		
-	if (($is_search || $is_manufacturer || $show_sub_products) && $category_id != 0)	{
-		$sql_params["join"] .= "INNER JOIN " . $table_prefix . "categories c ON c.category_id = ic.category_id)";
+	if (($is_search || $is_manufacturer || $show_sub_products))	{
+		$sql_params["join"] .= "INNER JOIN " . $table_prefix . "categories c ON c.category_id = ic.category_id AND c.is_showing=1)";
 	} else {
 		$sql_params["join"] .= ")";
 	}
@@ -302,8 +318,8 @@
 	$sql_where = "";
 	if (($is_search || $is_manufacturer || $show_sub_products) && $category_id != 0)	{
 		if (strlen($sql_where)) $sql_where .= " AND ";
-		$sql_where .= " (ic.category_id = " . $db->tosql($category_id, INTEGER);
-		$sql_where .= " OR c.category_path LIKE '" . $db->tosql($category_path, TEXT, false) . "%')";
+		$sql_where .= "( c.is_showing=1 AND (ic.category_id = " . $db->tosql($category_id, INTEGER);
+		$sql_where .= " OR c.category_path LIKE '" . $db->tosql($category_path, TEXT, false) . "%') )";
 	} elseif (!$is_search && !$is_manufacturer && !$is_user) {
 		if (strlen($sql_where)) $sql_where .= " AND ";
 		$sql_where .= " ic.category_id = " . $db->tosql($category_id, INTEGER);
@@ -450,6 +466,12 @@
 	$products_nav_prev_next = get_setting_value($vars, "products_nav_prev_next", 1);
 	$inactive_links = false;
 
+	//Customization by Vital
+	$t->set_var("all_products_style", "display: none;");
+	if($records_per_page < $total_records && !$show_all && !$is_search){
+			$t->set_var("all_products_style", "display: block;");
+		}
+	//END customization
 	if($show_all){
 		$records_per_page = $total_records;
 	}
@@ -540,6 +562,7 @@
 			}
 		}
 		set_session("products_ids", $products_ids);
+		set_session("category_id", $category_id); //Customization by Vital
 
 		$items_where = ""; $items_ids = array(); 
 		$categories_ids = array();
@@ -600,7 +623,7 @@
 			$sql  = " SELECT ic.item_id, ic.category_id, c.category_name ";
 			$sql .= " FROM (" . $table_prefix . "items_categories ic ";
 			$sql .= " LEFT JOIN " . $table_prefix . "categories c ON ic.category_id=c.category_id) ";
-			$sql .= " WHERE ic.item_id IN (" . $db->tosql($items_ids, INTEGERS_LIST) . ") ";
+			$sql .= " WHERE ic.item_id IN (" . $db->tosql($items_ids, INTEGERS_LIST) . ")  AND c.is_showing=1 ";
 			$db->query($sql);
 			while ($db->next_record()) {
 				$item_id = $db->f("item_id");
@@ -664,6 +687,9 @@
 		if (!$is_search && !$is_manufacturer && !$products_group_by_cats && $category_order) {
 			// if products should be shown from one category 
 			$sql .= " AND ic.category_id=" . $db->tosql($category_id, INTEGER);
+		}
+		if ($products_group_by_cats) {
+			$sql .= " AND c.is_showing=1";
 		}
 		$sql .= $s->order_by;
 
@@ -1067,6 +1093,7 @@
 						}
 
 						$t->set_var("discount_percent", $discount_percent);
+						$t->set_var("old_price", " priceBlockOld");	//Customization by Vital
 						set_tax_price($item_id, $item_type_id, $price, 1, $sales_price + $selected_price, $tax_id, $tax_free, "price", "sales_price", "tax_sales", true, $components_price, $components_tax_price);
 
 						$t->sparse("price_block", false);
@@ -1077,6 +1104,7 @@
 						set_tax_price($item_id, $item_type_id, $price + $selected_price, 1, 0, $tax_id, $tax_free, "price", "", "tax_price", true, $components_price, $components_tax_price);
 
 						$t->sparse("price_block", false);
+						$t->set_var("old_price", ""); //Customization by Vital
 						$t->set_var("sales", "");
 						$t->set_var("save", "");
 					}
