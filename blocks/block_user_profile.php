@@ -2488,8 +2488,8 @@
 
 					$section_properties++;
 
-					$order = get_setting_value($user_profile, $param_name . "_order", $section_properties);
-
+					$order = get_setting_value($user_profile, $parameters[$i] . "_order", $section_properties); //Customization by Vital // original line: $order = get_setting_value($user_profile, $param_name . "_order", $section_properties);
+					
 					$displayed_profile_properties[$param_name] = $t->get_var($param_name . "_block");
 
 					$displayed_profile_properties_orders[$param_name] = $order;
