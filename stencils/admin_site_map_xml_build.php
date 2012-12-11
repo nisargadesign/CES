@@ -50,11 +50,11 @@
 	}
 
 	$languages = array();
-	$sql = "SELECT language_code FROM " . $table_prefix . "languages WHERE show_for_user = '1' ";
-	$db->query($sql);
-	while ($db->next_record()) {
-		$languages[] = $db->f('language_code');
-	}
+	//$sql = "SELECT language_code FROM " . $table_prefix . "languages WHERE show_for_user = '1' ";
+	//$db->query($sql);
+	//while ($db->next_record()) {
+	//	$languages[] = $db->f('language_code');
+	//}
 
 	if (!strlen($sm_errors)) {
 		$show_custom_pages = get_param("site_map_custom_pages");
