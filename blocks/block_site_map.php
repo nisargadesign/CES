@@ -374,7 +374,7 @@
 		if ($ic > 3) {
 			$total_records += $ic - 2;
 		} else {
-			unset($site_map_tree[$type]);
+			//unset($site_map_tree[$type]);
 		}
 	}
 	
