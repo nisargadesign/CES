@@ -5002,6 +5002,7 @@
 		phone_code_checks($phone_codes);
 	}
 
+	$r->set_value("subscribe", 1);	//Customization by Vital
 	if (!strlen($operation)) {
 		// check subscribe option
 		if ($subscribe_block) {
@@ -5013,8 +5014,8 @@
 				$sql  = " SELECT email_id FROM " . $table_prefix . "newsletters_users ";
 				$sql .= " WHERE email=" . $db->tosql($subscribe_email, TEXT);
 				$db->query($sql);
-				if ($db->next_record()) {
-					$r->set_value("subscribe", 1);
+				if (!$db->next_record()) {		//Customization by Vital
+					$r->set_value("subscribe", 0);	//Customization by Vital
 				}
 			}
 		}
