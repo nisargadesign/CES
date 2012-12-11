@@ -280,7 +280,7 @@
 					$found_items = VA_Articles::find_all("", 
 						array("a.article_id", "a.article_title", "a.friendly_url"),
 						array(
-							"where" => " c.category_path LIKE '0," . $db->tosql($article_top_category_id, INTEGER) . ",%' OR c.category_id=" . $db->tosql($article_top_category_id, INTEGER),
+							"where" => " a.status_id IN ( 1, 2 ) AND ( c.category_path LIKE '0," . $db->tosql($article_top_category_id, INTEGER) . ",%' OR c.category_id=" . $db->tosql($article_top_category_id, INTEGER). " )", //Customization by Vital
 							"order" => " ORDER BY a.article_order, a.article_id"
 						)
 					);
