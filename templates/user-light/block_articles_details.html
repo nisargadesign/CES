@@ -1,142 +1,111 @@
-<script type="text/javascript" src="js/video.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("img.ArticleImg").css({cursor: "pointer"}).click(function(){
+			var viewPortWidth = window.innerWidth;
+			var dialogWidth = ( viewPortWidth > 200 ) ? viewPortWidth*0.9 : 160;
+			var dialogHeight = (dialogWidth + 40*0.7777)/1.7777;
+			if(jQuery.browser.mobile && viewPortWidth - $(window).width() < -40 ){
+				dialogWidth += 30;
+				dialogHeight += 30;
+			}
+			showDialog(dialogWidth, dialogHeight,
+					     '<iframe width="' + (dialogWidth - 40) + '" height="' + (dialogHeight - 40) + '" src="' + $(this).attr("alt").replace("/v/", "/embed/").replace("&rel=", "?rel=") + '" frameborder="0" allowfullscreen></iframe>',
+					     function(){
+						$("#background, #dialogHeader a").click(function(){
+							$("#dialogContent").html("");
+							});
+						});
+				  return false;
+			})
+		});
+</script>	
 
 <div class="block-articles-details {block_class}" style="{block_style}">
+	<h1 class="commonbg">{article_title}</h1>
+<div class="BlockMiddle">
+	<div class="MiddleCenter">
+		<!-- begin no_article_item --><div class="errorbg" align="center">{NO_ARTICLE_MSG}</div><!-- end no_article_item -->
+		<!-- BEGIN article_item -->
+		<div>
+{PREPREV}{PREV}{MIDDLE}{NEXT}{POSNEXT}          
+		<!-- begin author_block -->
 
-<div class="BlockTop">
+		<div class="AuthorBlock">
 
-	<div class="TopCenter">
+		<!-- begin author_name_block --><b>{author_name}</b> <!-- end author_name_block -->
 
-		<div class="TopLeftBgr">
+		<!-- begin author_email_block -->&lt;{author_email}&gt;<!-- end author_email_block -->
 
-			<div class="TopRightBgr">
-
-				<div class="TopLeft"></div>
-
-				<div class="TopRight"></div>
-
-				<div class="TopTitleIco">
-
-	<!--div class="boxTotalShareRight">
-<div class="boxContentShare">
-<table border="0" cellspacing="0" cellpadding="0" class="">
-<tr><td class="shareFacebook"><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like layout="button_count" show_faces="false" width="66" font="verdana"></fb:like></td>
-<td class="shareTwitter"><iframe allowtransparency="true" frameborder="0" scrolling="no" src="http://platform.twitter.com/widgets/tweet_button.html?count=horizontal&url={daUrl}" style="width:97px; height:20px;"></iframe></td>
-<td class="shareFriend">
-<a onclick="window.open('{tell_friend_href}','tell_friend','toolbar=no,scrollbars=yes,resizable=no,width=625,height=400');return false;" href="{tell_friend_href}"><img src="images/ico-friend.gif" alt="{TELL_FRIEND_TITLE}" border="0" /></a></td></tr></table>
-</div>
-</div-->
-
-</div>
-				<div class="TopTitle">
-
-					<div class="TopTitleBgr"><h1>{article_title}</h1></div>
-
-				</div>
-
-			</div>
+		<!-- begin author_url_block --> <a href="{author_url}" target="_blank">{author_url}</a><!-- end author_url_block -->
 
 		</div>
 
-	</div>
-
-</div>
-
-<div class="BlockMiddle">
-
-	<div class="MiddleCenter">
+		<!-- end author_block -->
 
 
+		<!-- begin date_block -->
+
+		<div class="articleDate">
+
+		<!-- begin article_date_block -->{article_date}<!-- end article_date_block --> 
+
+		<!-- begin date_end_block --> &ndash; {date_end}<!-- end date_end_block --> 
+
+		</div>
+
+		<!-- end date_block -->
 
 
-			<!-- begin no_article_item --><div class="errorbg" align="center">{NO_ARTICLE_MSG}</div><!-- end no_article_item -->
+		<div class="ArticleDescription">
+
+		<!-- begin flash_player_block -->
+
+		<script type="text/javascript">
+
+		//<![CDATA[
+
+		flashplayer('{stream_video}','{stream_video_preview}','{stream_video_width}','{stream_video_height}','no','');
+
+		//]]>
+
+		</script><!-- end flash_player_block -->
+
+		<!-- begin windows_media_block-->
+
+		<script type="text/javascript">
+
+		//<![CDATA[
+
+		mediaplayer('{stream_video}','{stream_video_width}','{stream_video_height}','false');
+
+		//]]>
+
+		</script><!-- end windows_media_block-->
+
+		<!-- begin image_large_block -->
+
+		<div class="boxArticleImg"><img src="{src}" {width} {height} class="ArticleImg" alt="{alt}" /></div><br><!-- end image_large_block -->
+
+		<!-- begin image_small_block -->
+
+		<img src="{src}" {width} {height} class="ArticleImg" alt="{alt}" /><!-- end image_small_block -->
+
+		<!-- begin short_description_block -->
+
+		{short_description}<!-- end short_description_block -->
+
+		{full_description}
+
+		</div>
 
 
+		<!-- begin link_url_block --><div><b>{LINK_URL_MSG}</b>: <a href="{link_url}" target="_blank">{link_url}</a></div><!-- end link_url_block -->
 
-			<!-- BEGIN article_item -->
+		<!-- begin download_url_block --><div><b>{DOWNLOAD_URL_MSG}</b>: <a href="{download_url}" target="_blank">{download_url}</a></div><!-- end download_url_block -->
 
-			<div>
-{PREPREV}{PREV}{MIDDLE}{NEXT}{POSNEXT}          
-					<!-- begin author_block -->
+		<!-- begin notes_block --><div><b>{NOTES_MSG}</b>: {notes}</div><!-- end notes_block -->
 
-					<div class="AuthorBlock">
-
-					<!-- begin author_name_block --><b>{author_name}</b> <!-- end author_name_block -->
-
-					<!-- begin author_email_block -->&lt;{author_email}&gt;<!-- end author_email_block -->
-
-					<!-- begin author_url_block --> <a href="{author_url}" target="_blank">{author_url}</a><!-- end author_url_block -->
-
-					</div>
-
-					<!-- end author_block -->
-
-
-
-					<!-- begin date_block -->
-
-					<div class="articleDate">
-
-					<!-- begin article_date_block -->{article_date}<!-- end article_date_block --> 
-
-					<!-- begin date_end_block --> &ndash; {date_end}<!-- end date_end_block --> 
-
-					</div>
-
-					<!-- end date_block -->
-
-
-
-					<div class="ArticleDescription">
-
-					<!-- begin flash_player_block -->
-
-					<script type="text/javascript">
-
-					//<![CDATA[
-
-					flashplayer('{stream_video}','{stream_video_preview}','{stream_video_width}','{stream_video_height}','no','');
-
-					//]]>
-
-					</script><!-- end flash_player_block -->
-
-					<!-- begin windows_media_block-->
-
-					<script type="text/javascript">
-
-					//<![CDATA[
-
-					mediaplayer('{stream_video}','{stream_video_width}','{stream_video_height}','false');
-
-					//]]>
-
-					</script><!-- end windows_media_block-->
-
-					<!-- begin image_large_block -->
-
-					<div class="boxArticleImg"><img src="{src}" {width} {height} class="ArticleImg" alt="{alt}" /></div><br><!-- end image_large_block -->
-
-					<!-- begin image_small_block -->
-
-					<img src="{src}" {width} {height} class="ArticleImg" alt="{alt}" /><!-- end image_small_block -->
-
-					<!-- begin short_description_block -->
-
-					{short_description}<!-- end short_description_block -->
-
-					{full_description}
-
-					</div>
-
-
-
-					<!-- begin link_url_block --><div><b>{LINK_URL_MSG}</b>: <a href="{link_url}" target="_blank">{link_url}</a></div><!-- end link_url_block -->
-
-					<!-- begin download_url_block --><div><b>{DOWNLOAD_URL_MSG}</b>: <a href="{download_url}" target="_blank">{download_url}</a></div><!-- end download_url_block -->
-
-					<!-- begin notes_block --><div><b>{NOTES_MSG}</b>: {notes}</div><!-- end notes_block -->
-
-					<!-- begin keywords_block --><div><b>{KEYWORDS_MSG}</b>: {keywords}</div><!-- end keywords_block -->
+		<!-- begin keywords_block --><div><b>{KEYWORDS_MSG}</b>: {keywords}</div><!-- end keywords_block -->
 
 
 {PREPREV}{PREV}{MIDDLE}{NEXT}{POSNEXT}             
@@ -144,10 +113,8 @@
 
 			<!-- END article_item -->
 
-	
 
 			<br />
-
 
 
 			<!-- begin reviews -->
@@ -176,11 +143,7 @@
 
 			</div>
 
-	
-
 			<br />
-
-
 
 			<!-- begin positive_review -->
 
@@ -188,9 +151,7 @@
 
 			<div class="articleDate padding6px floatright">{review_date_added}</div>
 
-			<div class="{review_user_class} padding6px">{review_user_name} <img class="commend" src="images/tr.gif" align="top" alt="" /></div>
-
-		
+			<div class="{review_user_class} padding6px">{review_user_name} <img class="commend" src="images/tr.gif" align="top" alt="" /></div>		
 
 			<div class="RatingImage"><img class="{rating_image}" src="images/tr.gif" align="top" /></div>
 
@@ -202,9 +163,7 @@
 
 			</div>
 
-			<!-- end positive_review -->
-
-		
+			<!-- end positive_review -->	
 
 			<!-- begin negative_review -->
 
@@ -228,31 +187,10 @@
 
 			<!-- end negative_review -->
 
-
-
 			<!-- begin all_reviews_link -->
-
 			<div align="right" class="middlebg padding6px"><a href="{reviews_url}"><a href="{reviews_href}">{SEE_ALL_REVIEWS_MSG}</a></div>
-
 			<!-- end all_reviews_link -->
-
 			<!-- end reviews -->
-
-
 	</div>
-
 </div>
-
-<div class="BlockBottom">
-
-	<div class="BottomCenter">
-
-		<div class="BottomLeft"></div>
-
-		<div class="BottomRight"></div>
-
-	</div>
-
-</div>
-
 </div>

@@ -337,7 +337,7 @@ a.smallText:hover {text-decoration: underline;}
 h2 {text-align: center;}
 .leftStyle h2, .block-product-details h1, .block-articles-details h1, h1.commonbg, .block-user-orders h1 {text-align: center; font: 50px/38px 'Allura', cursive;color: #333333; clear: both; height: 38px; margin: 0 -21px 5px 0; padding: 7px 0px 0px 0px;}
 .leftStyle h2 {margin: 20px 0 10px -20px !important;}
-.block-product-details h1, .block-articles-details h1, .block-user-orders h1 {font-size: 40px !important; line-height: 34px; float: left; height: auto; margin-bottom: 11px!important;}
+.block-product-details h1, .block-articles-details h1, .block-user-orders h1 {font-size: 40px !important; line-height: 34px; height: auto; margin-bottom: 11px!important;}
 .ARTICLE-HOW-TO h1 {text-align: left !important;}
 .block-product-details .TopTitleBgr {float: left;}
 .doubleLine h1.commonbg {line-height: 51px !important;}
@@ -601,8 +601,8 @@ div.block-categories-catalog a:hover:before {box-shadow: 0px 0px 6px rgba(55, 55
 /*--------------  VIDEOS --------------*/
 .BLOCK-VIDEOS {margin-top: 10px;}
 .BLOCK-VIDEOS .text {float:left;width:545px;}
-.BLOCK-VIDEOS img {border: 1px solid #656565;width: 180px;height: 100px;float:left;margin: 0px 10px 15px 0px;}
-.BLOCK-VIDEOS .articlesBox {border-bottom: 1px solid #e6e4dd; overflow: auto; padding: 10px 0px 10px 0px;}
+.BLOCK-VIDEOS img, .video img {border: 1px solid #656565;width: 180px;height: 100px;float:left;margin: 0px 10px 15px 0px;}
+.BLOCK-VIDEOS .articlesBox, .video .ArticleDescription {border-bottom: 1px solid #e6e4dd; overflow: auto; padding: 10px 0px 10px 0px;}
 .BLOCK-VIDEOS .articlesBox .title {font-weight: bold;text-transform: uppercase;line-height: 14pt;clear: right;}
 
 /* --- FAQ --- */
