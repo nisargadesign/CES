@@ -42,6 +42,11 @@
 		include_once($root_folder_path . "includes/license.php");
 	}
 
+	//Customization by Vital
+	@ini_set('session.cookie_lifetime', 604800);	// 7 days
+	@ini_set('session.gc_maxlifetime', 86400);	// 1 day
+	//END customization
+	
 	// start session
 	session_start();
 	
