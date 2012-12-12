@@ -308,6 +308,7 @@ span.nobr      {white-space: nowrap !important;}
 .topCategory .category_img, .subCategory .category_img, .selectedtopCategory .category_img, .selectedsubCategory .category_img {margin: 0}
 
 .commonbg, .boxProductTop, .boxHeader, #smallCartTotal, .thumbBoxBottom, .GALLERY-LIST .articlesBox h2, .BLOCK-HOW-TO-LIST .articlesBox h2, .productGridBoxRound h2.listing, .NEWSLETTER, .boxConfidence h2, .shipping_calculator .boxHeaderResult {background: transparent url(/images/custom/bg3.png) repeat top left;}
+.commonbgPlain {background: none repeat scroll 0 0 #F3F1E9;}
 
 .featureName {color:#791F04; font-weight: bold; font-size: 24px; line-height: 1;}
 .featureValue {width: 96%; float: right;}
@@ -658,15 +659,15 @@ div.block-categories-catalog a:hover:before {box-shadow: 0px 0px 6px rgba(55, 55
 .cartHeader {font-weight: bold; padding: 5px 0 4px 6px;}
 .totals1, .totals2 {font-size: 10pt; font-weight: bold; padding: 5px 6px 4px 6px;}
 .totals1 b {line-height: 9px;}
-.boxConfidence {padding: 6px; border: 1px solid #e6e4dd; font-weight: bold; text-align: right;}
-
+.boxConfidence {padding: 6px; border: 1px solid #e6e4dd; font-weight: bold; text-align: right; text-align: left;}
 .boxConfidence h2 {font-size: 15px; margin: -6px -6px 6px; padding: 6px; text-transform: uppercase;}
 .boxCoupon {padding: 4px 4px 0 8px; font-weight: bold; margin: 10px 20px 30px 0; position: relative; line-height: 15px; overflow: auto;}
-.boxCoupon .couponText {margin: 3px 8px 0 0; font-size: 13px;}
+.boxCoupon .couponText {font-size: 12px; margin: 9px 8px 0 0;}
 .boxCoupon input.field {height: 14px !important;}
 .boxCoupon .submit {height: 28px !important; text-transform: uppercase; font-size: 12px; padding: 0 8px 2px;}
-
 .boxCoupon input, .boxCoupon spam  {margin-top: 4px !important;}
+
+.smallTextCart {font-size: 11px; line-height: 13px; padding: 3px 0; width: 350px;}
 
 
 /* --- MY ACCOUNT PAGES --- */
