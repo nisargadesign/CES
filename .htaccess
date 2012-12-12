@@ -48,3 +48,6 @@ RewriteRule ^(.*\.htm[l]*)$ http://%{HTTP_HOST}/$1#%1? [NE,R=301,L]
 RewriteCond %{REQUEST_URI} .*\.html.*
 RewriteCond %{HTTPS} on
 RewriteRule ^(.*)$ http://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+RedirectMatch 301 (?i)/HDTV http://www.cuttingedgestencils.com/?referrer=HDTV
+Redirect 301 /wall-mural-stencil-faq-2.html http://www.cuttingedgestencils.com/wall-mural-stencil-faq.html
