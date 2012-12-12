@@ -644,7 +644,7 @@ div.block-categories-catalog a:hover:before {box-shadow: 0px 0px 6px rgba(55, 55
 
 
 /* --- CART, CHECKOUT PAGES --- */
-.button-shipping-calculator, .button-check-cart, .button-continue {display: block; text-align: center; margin: 10px 0; max-width: 230px;  text-transform: uppercase; font-size: 13px}
+.button-shipping-calculator, .button-check-cart, .button-continue {display: block; text-align: center; margin: 18px 0 38px; max-width: 230px;  text-transform: uppercase; font-size: 14px}
 .button-shipping-calculator, .button-continue {color: #8b8b8b !important; background-color: #f3f1e9; border: 1px solid #d1cec6;}
 .button-shipping-calculator span, .button-continue span {color: #8b8b8b !important;}
 
@@ -657,9 +657,15 @@ div.block-categories-catalog a:hover:before {box-shadow: 0px 0px 6px rgba(55, 55
 .cartRow, .cartRowLast, .infoTable2 .row  {background: #f3f1e9;	padding: 5px 0 4px 6px;}
 .cartHeader {font-weight: bold; padding: 5px 0 4px 6px;}
 .totals1, .totals2 {font-size: 10pt; font-weight: bold; padding: 5px 6px 4px 6px;}
-.boxConfidence {padding: 6px; width:200px; float:left; border: 1px solid #e6e4dd; font-weight: bold;}
+.totals1 b {line-height: 9px;}
+.boxConfidence {padding: 6px; border: 1px solid #e6e4dd; font-weight: bold; text-align: right;}
+
 .boxConfidence h2 {font-size: 15px; margin: -6px -6px 6px; padding: 6px; text-transform: uppercase;}
-.boxCoupon {padding: 6px 6px 0; border: 1px solid #e6e4dd; width:250px; float:right; font-weight: bold; margin-right: 21px; position: relative; line-height: 19px}
+.boxCoupon {padding: 4px 4px 0 8px; font-weight: bold; margin: 10px 20px 30px 0; position: relative; line-height: 15px; overflow: auto;}
+.boxCoupon .couponText {margin: 3px 8px 0 0; font-size: 13px;}
+.boxCoupon input.field {height: 14px !important;}
+.boxCoupon .submit {height: 28px !important; text-transform: uppercase; font-size: 12px; padding: 0 8px 2px;}
+
 .boxCoupon input, .boxCoupon spam  {margin-top: 4px !important;}
 
 
