@@ -1,0 +1,424 @@
+<!-- {PREV_ORDER}
+{PREV_ID}
+{PREV_NAME}
+<br>
+<b>
+{ORDER}
+{ID}
+{NAME}
+</b>
+<br>
+{NEXT_ORDER}
+{NEXT_ID}
+{NEXT_NAME}
+-->
+<script type="text/javascript" src="js/images.js"></script>
+<script type="text/javascript" src="js/tabs.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+var requiredProperty = "{REQUIRED_PROPERTY_MSG}";
+var addProduct = "{ADD_PRODUCT_MSG}";
+var confirmAdd = "{confirm_add}";
+//]]>
+</script>
+<div class="block-product-details {block_class}" style="{block_style}">
+<div class="BlockTop">
+	<div class="TopCenter">
+		<div class="TopLeftBgr">
+			<div class="TopRightBgr">
+				<div class="TopLeft"></div>
+				<div class="TopRight"></div>
+				<div class="TopTitleIco">
+					<div>
+						
+					</div>
+				</div>
+				<div class="TopTitle">
+						<div class="floatright navigator2"><!--begin previors_item-->&nbsp;&nbsp;<a href="{products_href}">&lt; Previous stencil</a><!--end previors_item-->&nbsp;&nbsp;.&nbsp;&nbsp;<!--begin next_item--><a href="{products_href}">Next stencil &gt;</a>&nbsp;&nbsp;<!--end next_item--></div>
+<div class="TopTitleBgr"><h1 class="{product_new_class}">{item_name}<!--begin product_new_image--><img src="images/tr.gif" alt="" /><!--end product_new_image--></h1></div>
+
+	
+    
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="BlockMiddle">
+	<div class="MiddleCenter">
+
+
+		<!-- begin no_item --><div class="padding10px"><div class="errorbg">{NO_PRODUCT_MSG}</div></div><!-- end no_item -->
+
+		<!-- BEGIN item -->
+		<div class="padding10px">
+			<!-- start item table -->
+			<!-- BEGIN item_added --><div class="messagebgAll">{added_message}</div><!-- END item_added -->
+			<!-- BEGIN sc_errors --><div class="errorbg" align="center">{errors_list}</div><!-- END sc_errors -->
+			<form name="form_{item_id}" action="{product_details_href}" method="post">
+			{hidden_parameters}
+			<input type="hidden" name="rp" value="{rp}" />
+			<input type="hidden" name="rnd" value="{rnd}" />
+			<input type="hidden" name="cart" value="ADD" />
+			<input type="hidden" name="saved_type_id" value="" />
+			<input type="hidden" name="tax_percent" value="{tax_percent}" />
+			<input type="hidden" name="product_params" value="{product_params}" />
+			<input type="hidden" name="tab" value="{tab}" />
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="pixBigTable">
+			<tr>
+				<td align="center" valign="top" width="">
+					<!-- begin big_image -->
+					<div class="pixBigProduct"><img id="image_{form_id}" name="image_{form_id}" src="{src}" border="0" alt="{alt}" /><!-- end big_image --></div>
+				<!-- {product_previews_under_large} -->
+					
+					<!-- begin super_image --><!--div><a id="super_{form_id}" href="{src}" title="{item_name}" onclick="{open_large_image_function}">{PROD_SUPER_IMAGE_MSG}</a></div--><!-- end super_image -->
+					<!-- begin manufacturer_image -->
+					<div class="manufacturerImage"><img src="{manufacturer_image_src}" alt="{manufacturer_image_alt}" border="0" /></div><!-- end manufacturer_image -->
+
+<!-- begin main_images -->
+
+					<div class="imageRow"><!-- begin main_images_rows --><!-- begin main_images_cols -->
+
+					<div class="stayInRowPix"><div class="alignVert"><img src="{image_small}" border="0" alt="{image_alt}" class="pixSize" onmouseover="{rollover_js}" /></div></div>
+
+					<!-- end main_images_cols --><!-- end main_images_rows --></div>
+
+					<!-- end main_images -->
+                    				</td>
+				<td align="left" valign="top" class="padLeft">
+					<div class="boxAddToCart">
+                    
+					<div class="boxTestX">
+						<!-- begin price_block -->
+						<div id="price_block_{item_id}" class="{price_block_class}">{PRICE_MSG}:&nbsp;<span id="price_{item_id}" class="price">{price_control}</span> <span class="priceTax">{tax_price}</span></div><!-- end price_block -->
+						<!-- begin sales -->
+						<div class="salesBlock">{OUR_PRICE_MSG}:&nbsp;<span id="sales_price_{item_id}" class="salesPrice">{sales_price_control}</span> <span class="salesTax">{tax_sales}</span></div><!-- end sales -->
+						<!-- begin save -->
+						<div class="priceSaveBlock">{YOU_SAVE_MSG}: <span class="price">{you_save}</span> <span class="percent">({discount_percent}%)</span></div><!-- end save -->
+
+						<!-- begin price_matrix -->
+						<div class="matrix">
+							<div class="matrixQty">
+								<div class="matrixTitle">{QTY_MSG}</div><!-- begin matrix_quantities -->
+								<div class="matrixItem">{matrix_quantity}</div><!-- end matrix_quantities -->
+							</div>
+							<div class="matrixPrice">
+								<div class="matrixTitle">{PRICE_MSG}</div><!-- begin matrix_prices -->
+								<div class="matrixItem priceBlock"><span class="price">{matrix_price}</span> <span class="priceTax">{matrix_tax_price}</span></div><!-- end matrix_prices -->
+							</div>
+							<div class="clearboth"></div>
+						</div>
+						<!-- end price_matrix -->
+
+						<!-- begin points_price_block -->
+						<div class="pointsPriceBlock">{POINTS_PRICE_MSG}:&nbsp;<span id="points_price_{item_id}" class="points">{points_price}</span></div><!-- end points_price_block -->
+						<!-- begin reward_points_block -->
+						<div class="rewardPointsBlock">{REWARD_POINTS_MSG}:&nbsp;<span id="reward_points_{item_id}" class="points">{reward_points}</span></div><!-- end reward_points_block -->
+						<!-- begin reward_credits_block -->
+						<div class="rewardCreditsBlock">{REWARD_CREDITS_MSG}:&nbsp;<span id="reward_credits_{item_id}" class="credits">{reward_credits}</span></div><!-- end reward_credits_block -->
+
+						<!-- begin item_code_block -->
+						<div class="price">{PROD_CODE_MSG}: {item_code}</div><!-- end item_code_block -->	
+						
+						<!-- begin product_preview -->
+						<div class="productPreview">{PROD_PREVIEW_MSG}: <a href="{preview_url}" onclick="return openPreviewWin('{preview_url}', {preview_width}, {preview_height});">{PROD_PREVIEW_CLICK_MSG}</a></div><!-- end product_preview -->
+						<!-- begin stock_level_block -->
+						<div class="stockLevel">{STOCK_LEVEL_MSG}: <span id="stock_level_{item_id}" class="stock_level">{stock_level}</span></div><!-- end stock_level_block -->	
+                       
+						<!-- begin quantity -->
+						<div class="price">{PROD_QTY_COLUMN}: {quantity_control}</div><!-- end quantity -->	
+                        
+                        
+                        
+					<!-- begin properties -->
+						<div id="{property_block_id}" class="price">{property_name}: {property_control}</div><!-- end properties -->
+<div class="buttonSection">
+<!-- begin add_button -->
+<a class="button button-add" id="add_{item_id}" href="{buy_href}" onclick="return confirmBuy(document.form_{item_id}, 'cart', this);"><span>{ADD_TO_CART_MSG}</span></a> 
+<!-- end add_button -->
+                        
+{wishlist_button_message}{wishlist_button_non_logged}
+<!-- begin wishlist_button -->
+<a class="button button-wishlist" id="wishlist_{item_id}" href="{wishlist_href}" onclick="return confirmBuy(document.form_{form_id}, 'wishlist', this);"><span>{ADD_TO_WISHLIST_MSG}</span><img src="images/tr.gif" alt="{ADD_TO_WISHLIST_MSG}" /></a><br><div class="wishListSpace2">&nbsp;&nbsp;&nbsp;&nbsp;</div> 
+<!-- end wishlist_button -->  
+</div>
+                                                                     
+</div>
+  
+
+					<div class="sectionAddButtonX">
+						
+						<!-- begin add_button_disabled -->
+						<a class="disabled" title="{PRODUCT_OUT_STOCK_MSG}" onclick="alert('{out_stock_alert}');">{ADD_TO_CART_MSG}</a> 
+						<!-- end add_button_disabled -->
+						<!-- begin view_button -->
+						<a class="button button-view" id="view_{item_id}" href="{basket_href}?rp={rp_url}"><span>{VIEW_CART_MSG}</span><img src="images/tr.gif" alt="{VIEW_CART_MSG}" /></a> 
+						<!-- end view_button -->
+						<!-- begin checkout_button -->
+						<a class="button button-check" id="check_{item_id}" href="{checkout_href}?rp={rp_url}"><span>{GOTO_CHECKOUT_MSG}</span><img src="images/tr.gif" alt="{GOTO_CHECKOUT_MSG}" /></a>
+						<!-- end checkout_button -->
+
+						<!-- begin shipping_button -->
+						<a class="button button-shipping" id="shipping_{item_id}" href="{buy_href}" onclick="return confirmBuy(document.form_{form_id}, 'shipping', this);"><span>{SHIPPING_CALCULATOR_MSG}</span><img src="images/tr.gif" alt="{SHIPPING_CALCULATOR_MSG}" /></a> 
+						<!-- end shipping_button -->
+					</div>
+                    
+					</div>
+                    
+                    
+                    
+                    
+                    
+                    
+<!-- begin features_list_block -->
+<div class="boxTotal">
+						<div class="boxHeader">{PROD_HIGHLIGHT_MSG}</div>
+                        <div class="boxContentHighlight">{features_list}</div>
+</div>                        
+<!-- end features_list_block -->
+{rel_prod}
+<!-- begin manufacturer_code_block -->
+<div class="manufacturerCode"><a href="#" class="tt"><img src="images/manufacturers/large/skill_{manufacturer_code}.gif" border="0" /><span class="tooltip"><span class="top"></span><span class="middle"><span class="title">Beginner</span>Roller/brush technique, one layer stencil<br /><br />
+<span class="title">Intermediate</span>Roller/Brush technique, Multi layer stencil<br /><br />
+<span class="title">Advanced</span>Multi color, shading brush technique, Multi layer stencil</span><span class="bottom"></span></span></a></div>
+<!-- end manufacturer_code_block -->
+
+<div class="videos"><a href="/how-to-stencil-videos.html"><img src="images/custom/videos.jpg" border="0" /></a></div>
+
+				</td>
+			</tr>
+		</table>
+
+
+		</form>
+
+		</div>
+		<!-- END item -->
+
+		<!-- begin tabs_block -->
+		<ul class="DetailTabs">	
+			<!-- BEGIN tabs --><li id="{tab_td_id}" class="{tab_style}"><a id="{tab_a_id}" href="{tab_href}" class="{tab_style}" onclick="changeProductTab(document.form_{form_id}, '{tab_name}'); return false;">{tab_title}</a></li><!-- END tabs -->
+		<li class="EndTab">&nbsp;</li>                  	
+		</ul>            
+
+		<!-- end tabs_block -->
+	
+
+		<!-- begin description_block -->
+		<!-- begin title_desc -->
+		<div class="sectionHeader">{PROD_DESCRIPTION_MSG}</div>
+		<!-- end title_desc -->
+
+		<div id="desc_data" style="{desc_style}">
+
+			<!-- begin description --><div class="descText">{full_description}</div><!-- end description -->
+			<!-- BEGIN notes_block --><div class="smallText"><b>{PROD_NOTE_MSG}:</b> {notes}</div><!-- END notes_block -->
+			<!-- begin availability --><div class="smallText"><b>{PROD_AVAILABILITY_MSG}:</b> {shipping_time_desc}</div><!-- end availability -->
+			<!-- BEGIN shipping_block --><div class="smallText"><b>{PROD_SHIPPING_MSG}:</b> {shipping_rule_desc}</div><!-- END shipping_block -->
+			<!-- BEGIN weight_block --><div class="smallText"><b>{PROD_WEIGHT_MSG}:</b> {weight}</div><!-- END weight_block -->
+
+		</div>
+		<!-- end description_block -->
+
+		<!-- begin specification_block -->
+		<!-- begin title_spec -->
+		<br />
+		<div class="middlebg padding6px bigtitle">{PROD_SPECIFICATION_MSG}</div>
+		<!-- end title_spec -->
+
+		<div id="spec_data" style="{spec_style}">
+		<div class=""><!-- begin groups -->
+			<div class="specification">
+				<!--div class="groupTitle"><b>{group_name}</b></div--><!-- begin features -->
+				<div class="feature">
+					<!--div class="featureName">{feature_name}</div-->
+					<div class="featureName">&bull;&nbsp;</div><div class="featureValue">{feature_value}</div>
+					<div class="clearboth"></div>
+				</div><!-- end features -->
+			</div><!-- end groups -->
+		</div>
+		</div>
+		<!-- end specification_block -->
+
+		<!-- begin images_block -->
+		<!-- begin title_images -->
+		<br />
+		<div class="middlebg padding6px bigtitle">{PROD_IMAGES_MSG}</div>
+		<!-- end title_images -->
+
+		<div id="images_data" style="{images_style}">
+
+		<table width="100%" border="0" cellspacing="0" class="padding6px">
+		<tr>
+			<td align="center" width="50%">
+				<div class="padding10px"><img name="rollover_image" src="{rollover_image}" border="0" /></div>
+				<div><a id="rollover_super" style="{rollover_super_style}" href="{rollover_super_src}" title="" onclick="{rollover_super_click}">{PROD_SUPER_IMAGE_MSG}</a></div>
+			</td>
+			<td width="50%">
+				<!-- begin images_rows --><!-- begin images_cols -->
+				<div class="rolloverImages">
+					<div class="title">{image_title}</div>
+					<a href="{image_super}" target="_blank" onclick="{image_click_js}" onload="alert('{image_large}')" onmouseover="{rollover_js}"><img src="{image_small}" {image_size} border="0" /></a>
+					<div class="smallText">{image_description}</div>
+				</div>
+				<!-- end images_cols --><!-- end images_rows -->
+			</td>
+		</tr>
+		</table>
+
+		</div>
+		<!-- end images_block -->
+		
+		<!-- begin previews_block -->
+		<!-- begin title_previews -->
+		<br />
+		<div class="middlebg padding6px bigtitle">{PROD_PREVIEWS_MSG}</div>
+		<!-- end title_previews -->
+		<div id="previews_data" style="{previews_style}">
+		<div class="padding10px">
+			{product_previews_tab}
+		</div>
+		</div>
+		<!-- end previews_block -->
+		
+		
+
+		<!-- begin accessories_block -->
+		<!-- begin title_accessories -->
+		<br />
+		<div class="middlebg padding6px bigtitle">{PROD_ACCESSORIES_MSG}</div>
+		<!-- end title_accessories -->
+
+		<div id="accessories_data" style="{accessories_style}">       
+<div class="feature">
+<div class="featureName">&bull;&nbsp;</div><div class="featureValue">If you compare our stencil thickness, size, design quality and prices, you will be amazed at the value that Cutting Edge Stencils offers!</div>
+<div class="clearboth"></div>
+</div>
+<div class="feature">
+<div class="featureName">&bull;&nbsp;</div><div class="featureValue">Our stencils are expertly designed by decorative painting professionals, so when you’re buying a stencil from Cutting Edge it’s backed by our 20+ years of painting and decorating experience.</div>
+<div class="clearboth"></div>
+</div>
+<div class="feature">
+<div class="featureName">&bull;&nbsp;</div><div class="featureValue">Our Sturdy and Reusable stencils can be used again and again. One stencil can produce many images unlike one-time use vinyl decals. Our sturdy clear 12 mil stencil material is user-friendly and easy to clean.</div>
+<div class="clearboth"></div>
+</div>
+<div class="feature">
+<div class="featureName">&bull;&nbsp;</div><div class="featureValue">Stencils are super economical! Stenciling is more cost effective than wallpaper, decals or faux finishes. Stencils work on walls, even lightly textured ones, also on floors, ceilings, furniture and fabric You are not limited with your color choices. Choose any paint color you want to perfectly match your décor Stencils will never damage your walls. No peeling, no glue residue, no worries.</div>
+<div class="clearboth"></div>
+</div>
+<div class="feature">
+<div class="featureName">&bull;&nbsp;</div><div class="featureValue">Unlike decals or wallpaper, stenciling is easy to touch-up, adjust or re-do. With most decals you only get one chance to install it right. With wallpaper, the splitting seams and messy removal together with high cost makes it a less attractive option.</div>
+<div class="clearboth"></div>
+</div>
+<div class="feature">
+<div class="featureName">&bull;&nbsp;</div><div class="featureValue">We ship our stencils fast using USPS Priority Mail.</div>
+<div class="clearboth"></div>
+</div>
+<div class="feature">
+<div class="featureName">&bull;&nbsp;</div><div class="featureValue">Our stencil collection is large and constantly growing, so you have plenty of designs to choose from. </div>
+<div class="clearboth"></div>
+</div>
+<div class="feature">
+<div class="featureName">&bull;&nbsp;</div><div class="featureValue">We offer custom scaling of our designs up or down to accommodate your specific project.</div>
+<div class="clearboth"></div>
+</div>
+<div class="feature">
+<div class="featureName">&bull;&nbsp;</div><div class="featureValue">Our customer service is the best and the friendliest! We are here for you to answer your questions, to help you place an order, and to solve any possible issues.</div>
+<div class="clearboth"></div>
+</div>        
+        
+<!--span class="descText">{WHY_BUY_FROM_US}</span-->
+		<!--table cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+		<!-- begin accessories_rows -->
+		<tr valign="top">
+			<!-- begin accessories_cols -->
+			<td width="50%" class="padding10px">
+				<a class="title {restricted_class}" href="{accessory_details_url}" title="{accessory_a_title}">{accessory_name}<!--begin restricted_image--><img src="images/tr.gif" alt="" class="{restricted_class}" /><!--end restricted_image--></a> 
+				<!-- begin accessory_price_block -->
+				- <span class="ourprice">{accessory_price}</span> <span class="taxprice">{accessory_tax_price}</span>
+				<!-- end accessory_price_block -->
+				<div class="smallText" align="justify">{accessory_description} <a href="{accessory_details_url}" title="{accessory_a_title}">{READ_MORE_MSG}</a></div>
+			</td>
+			<!-- end accessories_cols -->
+		</tr>
+		<!-- end accessories_rows -->
+		</table-->
+		</div>
+		<!-- end accessories_block -->
+
+		<!-- begin reviews_block -->
+		<!-- begin title_reviews -->
+		<br />
+		<div class="middlebg padding6px bigtitle">{REVIEWS_MSG}</div>
+		<!-- end title_reviews -->
+
+		<div id="reviews_data" style="{reviews_style}">
+		<div class="padding10px">
+			<!--div><a href="{reviews_url}">{RATE_PRODUCT_MSG}</a>.</div-->
+			<div class="SummaryStatistic">
+				<!-- begin not_rated -->
+				<b>{NOT_RATED_PRODUCT_MSG}</b> <a href="{reviews_url}">{WRITE_REVIEW_MSG}</a> 
+				<!-- end not_rated -->
+				<!-- begin summary_statistic -->
+				<!--b>{AVERAGE_RATING_MSG}:</b> 
+				<img class="{average_rating_image}" src="images/tr.gif" alt="{average_rating_alt}" align="top" /> 
+				{BASED_ON_REVIEWS_MSG}. -->
+				<!-- end summary_statistic -->
+
+			
+	
+
+	</div>
+			<!-- begin positive_review -->
+			<!--div class="middlebg padding6px">{POSITIVE_REVIEW_MSG}</div>
+			<div class="articleDate padding6px floatright">{review_date_added}</div>
+			<div class="{review_user_class} padding6px">{review_user_name} <img class="commend" src="images/tr.gif" align="top" alt="" /></div>
+		
+			<div class="RatingImage"><img class="{rating_image}" src="images/tr.gif" align="top" /></div-->
+			<div class="RatingText">
+				<!--div class="title">{review_summary}</div-->
+				{review_comments}
+			</div>
+            				
+
+			<!-- end positive_review -->
+		
+			<!-- begin negative_review -->
+			<!--div class="middlebg padding6px">{NEGATIVE_REVIEW_MSG}</div>
+			<div class="articleDate padding6px floatright">{review_date_added}</div>
+			<div class="{review_user_class} padding6px">{review_user_name} <img class="discommend" src="images/tr.gif" align="top" /></div>
+		
+			<div class="RatingImage"><img class="{rating_image}" src="images/tr.gif" align="top" /></div>
+			<div class="RatingText">
+				<div class="title">{review_summary}</div>
+				<div align="justify">{review_comments}</div>
+			</div-->
+			<!-- end negative_review -->
+		
+			<!-- begin all_reviews_link -->
+			<!--div align="right" class="middlebg padding6px"><a href="{reviews_url}">{SEE_ALL_REVIEWS_MSG}</a></div-->
+			<!-- end all_reviews_link -->
+		</div>
+		</div>
+		<!-- end reviews_block -->
+<br />
+
+
+
+
+	</div>
+</div>
+
+<div class="">
+<div class="floatright navigator2"><!--begin previors_item-->&nbsp;&nbsp;<a href="{products_href}">&lt; Previous stencil</a><!--end previors_item-->&nbsp;&nbsp;.&nbsp;&nbsp;<!--begin next_item--><a href="{products_href}">Next stencil &gt;</a>&nbsp;&nbsp;<!--end next_item--></div><div class="clearBoth"></div>
+</div>
+<div class="clearboth"></div>
+
+<div class="BlockBottom">
+	<div class="BottomCenter">
+		<div class="BottomLeft"></div>
+		<div class="BottomRight"></div>
+	</div>
+</div>
+</div>
+
