@@ -12,13 +12,145 @@
 {NEXT_ID}
 {NEXT_NAME}
 -->
+
 <script type="text/javascript" src="js/images.js"></script>
 <script type="text/javascript" src="js/tabs.js"></script>
+<script type="text/javascript">
+star1 = new Image(); star1.src = "../images/icons/rating-1.png";
+star2 = new Image(); star2.src = "../images/icons/rating-2.png";
+star3 = new Image(); star3.src = "../images/icons/rating-3.png";
+star4 = new Image(); star4.src = "../images/icons/rating-4.png";
+star5 = new Image(); star5.src = "../images/icons/rating-5.png";
+
+var rated = false;
+var expanded = false;
+function showMore(){
+    if(!expanded && $("div#desc_data div.descText").height() > 400 ){
+	$("div#desc_data .specs-more").show();
+	$("div#desc_data .specs-more a.button").click(function(){
+	    $("div#desc_data").animate({height: $("div#desc_data div.descText").height()}, 800, function(){
+		$("div#desc_data .specs-more").fadeOut(500);
+	    });
+	});
+	expanded = true;
+    }
+}
+
+function updateRatings(itemID, rating){
+    $("#rateIt").css("background-image","url('../images/icons/rating-" + rating + ".png')");
+    rated = true;
+    
+    $.ajax({
+	type: "POST",
+	url: "/blocks_custom/rating.php",
+	data: {id : itemID, rating: rating},
+	success: function() {rated = true; $("#ratingProgress").fadeOut("3000");},
+	error: function() {alert("Sorry it didn't work. Let the webmaster know about it.");},
+	dataType:"html",
+    });
+}
+
+function goToReviews(){
+    replaceComentsToReviews();
+    changeProductTab($('form[name*="form_"]')[0], 'reviews');
+    $('html,body').animate({scrollTop: $('.DetailTabs').offset().top},'slow');
+    location.hash = 'reviews';
+    return false;
+}
+
+function replaceComentsToReviews(){
+    $("#dsq-content h3").each( function(){
+	$(this).html($(this).html().replace("comment", "review").replace("Add New Comment", "Write Your Review"));
+    });
+}
+
+function goToTab(tab){
+    changeProductTab($('form[name*="form_"]')[0], tab);
+    $('html,body').animate({scrollTop: $('.DetailTabs').offset().top},'slow');
+    location.hash = tab;
+}
+
+$(document).ready(function() {
+    $(".star").mouseover(function(){
+        if(!rated) $("#rateIt").css("background-image","url('../images/icons/" + $(this).attr("id") + ".png')");
+        }).mouseout(function(){
+        if(!rated) $("#rateIt").css("background-image","url('../images/icons/not-rated.png')");
+        }).click(function(){
+            $("#rateIt").css("background-image","url('../images/icons/" + $(this).attr("id") + ".png')");
+	    $("#ratingProgress").show();
+            updateRatings($('input[name="item_id"]').val(), $(this).attr("id").replace("rating-","") );
+        });
+    
+    $("#reviews_a_tab, #goToRating").click(goToReviews);
+    $("#desc_a_tab, #spec_a_tab, #accessories_a_tab").click(function (){goToTab(this.id.replace("_a_tab", "")); showMore(); });
+    
+    if( window.location.hash.length > 2){
+	if(window.location.hash.substr(1) == "reviews")
+	    setTimeout(goToReviews, 3000);
+	else if (window.location.hash.substr(1) == "desc" || window.location.hash.substr(1) == "spec" || window.location.hash.substr(1) == "accessories")
+	    goToTab(window.location.hash.substr(1));
+    }
+    
+    $(window).scroll(function() {replaceComentsToReviews();});
+    $("#reviews_data").focus(function() {replaceComentsToReviews();});
+    $("#reviews_data").mouseover(function() {replaceComentsToReviews();});
+    showMore();
+});
+</script>
 <script type="text/javascript">
 //<![CDATA[
 var requiredProperty = "{REQUIRED_PROPERTY_MSG}";
 var addProduct = "{ADD_PRODUCT_MSG}";
 var confirmAdd = "{confirm_add}";
+
+function addToWishlist(){
+	var wishlistUserID = "new";
+	if($.cookie('wishlist_user_id') != null){
+		wishlistUserID = $.cookie('wishlist_user_id');
+	}
+	
+	var itemID = $('input[name="item_id"]').val();
+	var itemName = $("h1").html();
+	var quantity = $('select[name="quantity"] option:selected').val();
+	var price = "";
+	if($("div.salesBlock span.salesPrice").length != 0){
+		price = $("div.salesBlock span.salesPrice").html().replace("$", "");
+	}
+	else if($("div.priceBlock span.price").length != 0){
+		price = $("div.priceBlock span.price").html().replace("$", "");
+	}
+	
+    $.ajax({
+	type: "POST",
+	url: "/blocks_custom/wishlist.php",
+	data: {action : "add", item_id: itemID, item_name : itemName, quantity : quantity, price : price, user_id : wishlistUserID },
+	success: function(data) {
+		/*alert(data);*/
+		if(wishlistUserID == "new"){
+			$.cookie('wishlist_user_id', data.user_id, { expires: 1000 });
+		}
+		var message = data.duplicates ? "is already on your wishlist" : "has been added to your wishlist";
+		showDialog('400', '180',
+                       '<b>' + itemName + '</b> ' + message,
+		       function(){loadWishlist();$(".submit").click(function(){jQuery("#background, #dialogWindow").fadeOut("normal"); return false;}); closeInMs(2000, "#background, #dialogWindow");}
+            );
+		},
+	error: function() {alert("Sorry it didn't work. Let the webmaster know about it.");},
+	dataType:"json",
+    });
+    return false;
+}
+
+$(document).ready(function() {
+    $("a#not-logged-in, a.button-wishlist").click(addToWishlist);
+    if($(".messagebgAll").html() && $(".messagebgAll").html().search("was added to your Wishlist") != -1) {
+	var message = " was added to your Wishlist";
+	var itemName = $("h1").html();
+	showDialog('400', '220',
+                       '<b>' + itemName + '</b> ' + message,
+		       function(){$(".submit").click(function(){jQuery("#background, #dialogWindow").fadeOut("normal"); return false;}); closeInMs(2000, "#background, #dialogWindow");}
+            );}
+});
 //]]>
 </script>
 <div class="block-product-details {block_class}" style="{block_style}">
@@ -34,7 +166,7 @@ var confirmAdd = "{confirm_add}";
 					</div>
 				</div>
 				<div class="TopTitle">
-						<div class="floatright navigator2"><!--begin previors_item-->&nbsp;&nbsp;<a href="{products_href}">&lt; Previous stencil</a><!--end previors_item-->&nbsp;&nbsp;.&nbsp;&nbsp;<!--begin next_item--><a href="{products_href}">Next stencil &gt;</a>&nbsp;&nbsp;<!--end next_item--></div>
+						<div class="floatright navigator2"><!--begin previors_item-->&nbsp;&nbsp;<a href="{products_href}">&lt; Previous {nav_product_name}</a><!--end previors_item-->&nbsp;&nbsp;.&nbsp;&nbsp;<!--begin next_item--><a href="{products_href}">Next {nav_product_name} &gt;</a>&nbsp;&nbsp;<!--end next_item--></div>
 <div class="TopTitleBgr"><h1 class="{product_new_class}">{item_name}<!--begin product_new_image--><img src="images/tr.gif" alt="" /><!--end product_new_image--></h1></div>
 
 	
@@ -53,7 +185,7 @@ var confirmAdd = "{confirm_add}";
 		<!-- BEGIN item -->
 		<div class="padding10px">
 			<!-- start item table -->
-			<!-- BEGIN item_added --><div class="messagebgAll">{added_message}</div><!-- END item_added -->
+			<!-- BEGIN item_added --><div class="messagebgAll" style="display: none;">{added_message}</div><!-- END item_added -->
 			<!-- BEGIN sc_errors --><div class="errorbg" align="center">{errors_list}</div><!-- END sc_errors -->
 			<form name="form_{item_id}" action="{product_details_href}" method="post">
 			{hidden_parameters}
@@ -89,6 +221,12 @@ var confirmAdd = "{confirm_add}";
 					<div class="boxAddToCart">
                     
 					<div class="boxTestX">
+						<!--Customization by Vital-->
+						<div id="ratingDiv">
+						<div class="RatingImage"><img align="top" src="images/tr.gif" class="{rating_image}"></div>
+<a id="goToRating" href="#reviews">Read/write review</a>
+</div>
+						<!--E N D customization-->
 						<!-- begin price_block -->
 						<div id="price_block_{item_id}" class="{price_block_class}">{PRICE_MSG}:&nbsp;<span id="price_{item_id}" class="price">{price_control}</span> <span class="priceTax">{tax_price}</span></div><!-- end price_block -->
 						<!-- begin sales -->
@@ -139,7 +277,7 @@ var confirmAdd = "{confirm_add}";
                         
 {wishlist_button_message}{wishlist_button_non_logged}
 <!-- begin wishlist_button -->
-<a class="button button-wishlist" id="wishlist_{item_id}" href="{wishlist_href}" onclick="return confirmBuy(document.form_{form_id}, 'wishlist', this);"><span>{ADD_TO_WISHLIST_MSG}</span><img src="images/tr.gif" alt="{ADD_TO_WISHLIST_MSG}" /></a><br><div class="wishListSpace2">&nbsp;&nbsp;&nbsp;&nbsp;</div> 
+<a class="button-wishlist" id="wishlist_{item_id}" href="{wishlist_href}"><span>{ADD_TO_WISHLIST_MSG}</span></a>
 <!-- end wishlist_button -->  
 </div>
                                                                      
@@ -185,6 +323,32 @@ var confirmAdd = "{confirm_add}";
 
 <div class="videos"><a href="/how-to-stencil-videos.html"><img src="images/custom/videos.jpg" border="0" /></a></div>
 
+<!--<div class="boxContentSocialButtons">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+<tr><td class="shareFacebook"><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like layout="button_count" show_faces="false" width="66" font="verdana"></fb:like></td>
+<td class="shareTwitter"><iframe allowtransparency="true" frameborder="0" scrolling="no" src="http://platform.twitter.com/widgets/tweet_button.html?count=horizontal&url={daUrl}" style="width:97px; height:20px;"></iframe></td>
+
+<tr><td colspan="2" class="sharePinterest">
+<a href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.cuttingedgestencils.com&media=http%3A%2F%2Fwww.cuttingedgestencils.com%2Fimages%2Fhome%2Ffff.jpg" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+</td></tr>
+</table>
+</div>-->
+
+<!--div class="boxSocialButtons">
+
+<div class="shareFB"><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like layout="button_count" show_faces="false" width="66" font="verdana"></fb:like></div>
+<div class="shareTW"><iframe allowtransparency="true" src="http://platform.twitter.com/widgets/tweet_button.html?count=horizontal&amp;url=%7BdaUrl%7D" style="width:90px; height:20px;" frameborder="0" scrolling="no"></iframe></div>
+<div class="shareGP">
+        <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+
+<div class="g-plus" data-action="share" data-annotation="bubble"></div>
+</div>
+<div  class="sharePIN"><a href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.cuttingedgestencils.com&amp;media=http%3A%2F%2Fwww.cuttingedgestencils.com%2Fimages%2Fhome%2Ffff.jpg" class="pin-it-button" count-layout="horizontal"><img src="http://assets.pinterest.com/images/PinExt.png" title="Pin It" border="0"></a></div>
+<div class="shareLI">
+   <script src="http://platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/Share" data-counter="right"></script> 
+</div>
+</div-->
 				</td>
 			</tr>
 		</table>
@@ -216,7 +380,7 @@ var confirmAdd = "{confirm_add}";
 			<!-- begin availability --><div class="smallText"><b>{PROD_AVAILABILITY_MSG}:</b> {shipping_time_desc}</div><!-- end availability -->
 			<!-- BEGIN shipping_block --><div class="smallText"><b>{PROD_SHIPPING_MSG}:</b> {shipping_rule_desc}</div><!-- END shipping_block -->
 			<!-- BEGIN weight_block --><div class="smallText"><b>{PROD_WEIGHT_MSG}:</b> {weight}</div><!-- END weight_block -->
-
+    <div class="specs-more"><a class="button small-button"> CLICK TO READ FULL DESCRIPTION </a></div>
 		</div>
 		<!-- end description_block -->
 
@@ -353,64 +517,37 @@ var confirmAdd = "{confirm_add}";
 		<!-- end title_reviews -->
 
 		<div id="reviews_data" style="{reviews_style}">
-		<div class="padding10px">
-			<!--div><a href="{reviews_url}">{RATE_PRODUCT_MSG}</a>.</div-->
-			<div class="SummaryStatistic">
-				<!-- begin not_rated -->
-				<b>{NOT_RATED_PRODUCT_MSG}</b> <a href="{reviews_url}">{WRITE_REVIEW_MSG}</a> 
-				<!-- end not_rated -->
-				<!-- begin summary_statistic -->
-				<!--b>{AVERAGE_RATING_MSG}:</b> 
-				<img class="{average_rating_image}" src="images/tr.gif" alt="{average_rating_alt}" align="top" /> 
-				{BASED_ON_REVIEWS_MSG}. -->
-				<!-- end summary_statistic -->
-
 			
-	
-
-	</div>
-			<!-- begin positive_review -->
-			<!--div class="middlebg padding6px">{POSITIVE_REVIEW_MSG}</div>
-			<div class="articleDate padding6px floatright">{review_date_added}</div>
-			<div class="{review_user_class} padding6px">{review_user_name} <img class="commend" src="images/tr.gif" align="top" alt="" /></div>
-		
-			<div class="RatingImage"><img class="{rating_image}" src="images/tr.gif" align="top" /></div-->
-			<div class="RatingText">
-				<!--div class="title">{review_summary}</div-->
-				{review_comments}
+		<!-- Customization by Vital -->
+		<!-- original line <div class="padding10px"> -->
+		<div class="padding10px" id="starRating" style="position: relative;">
+			<div class="RatingImage" id="ratingDisplay2"><img align="top" src="images/tr.gif" class="{rating_image}"></div>
+			<!--h3>Based on {rating_count} customer reviews</h3-->
+			<h3>Average customer rating.</h3>
+			<h3 style="float: left;">How do you rate this item?</h3>
+			<div id="rateIt" class="not-rated">
+				<div id="rating-1" class="star"></div>
+				<div id="rating-2" class="star"></div>
+				<div id="rating-3" class="star"></div>
+				<div id="rating-4" class="star"></div>
+				<div id="rating-5" class="star"></div>	
 			</div>
-            				
-
-			<!-- end positive_review -->
-		
-			<!-- begin negative_review -->
-			<!--div class="middlebg padding6px">{NEGATIVE_REVIEW_MSG}</div>
-			<div class="articleDate padding6px floatright">{review_date_added}</div>
-			<div class="{review_user_class} padding6px">{review_user_name} <img class="discommend" src="images/tr.gif" align="top" /></div>
-		
-			<div class="RatingImage"><img class="{rating_image}" src="images/tr.gif" align="top" /></div>
-			<div class="RatingText">
-				<div class="title">{review_summary}</div>
-				<div align="justify">{review_comments}</div>
-			</div-->
-			<!-- end negative_review -->
-		
-			<!-- begin all_reviews_link -->
-			<!--div align="right" class="middlebg padding6px"><a href="{reviews_url}">{SEE_ALL_REVIEWS_MSG}</a></div-->
-			<!-- end all_reviews_link -->
+			<img id="ratingProgress" alt="Updating..." src="/images/icons/indicator.gif" />
+			<div class="dsq-brlink">Powered by <img src="/images/custom/disqus.png" alt="Disqus" title="Disqus" /></div>
+		</div>
+		<div class="padding10px" id="disqus_thread">
+		<!-- removed all legacy "reviews" code -->
+		<!-- E N D Customization-->
+	
 		</div>
 		</div>
 		<!-- end reviews_block -->
 <br />
-
-
-
-
 	</div>
 </div>
 
 <div class="">
-<div class="floatright navigator2"><!--begin previors_item-->&nbsp;&nbsp;<a href="{products_href}">&lt; Previous stencil</a><!--end previors_item-->&nbsp;&nbsp;.&nbsp;&nbsp;<!--begin next_item--><a href="{products_href}">Next stencil &gt;</a>&nbsp;&nbsp;<!--end next_item--></div><div class="clearBoth"></div>
+<div class="floatright navigator2"><!--begin previors_item-->&nbsp;&nbsp;<a href="{products_href}">&lt; Previous  {nav_product_name}</a><!--end previors_item-->&nbsp;&nbsp;.&nbsp;&nbsp;<!--begin next_item--><a href="{products_href}">Next {nav_product_name} &gt;</a>&nbsp;&nbsp;<!--end next_item--></div><div class="clearBoth"></div>
 </div>
 <div class="clearboth"></div>
 
@@ -422,3 +559,17 @@ var confirmAdd = "{confirm_add}";
 </div>
 </div>
 
+<!-- Customization by Vital -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'cestencils'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!--<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>-->
+<!-- E N D Customization-->
