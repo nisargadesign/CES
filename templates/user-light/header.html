@@ -48,56 +48,73 @@ function playSlideshow(){
     }
 }
 	
-	var timerID;
+	var timerIDs = new Array();
+	var lastImage = new Array();
 	var newsTimerID;
 
-        function stopAnimation(){
-            if (typeof timerID !== 'undefined'){
-                window.clearInterval(timerID);
-                timerID = 0;
+        function stopAnimation(id){
+            if (typeof timerIDs[id] !== 'undefined'){
+                window.clearInterval(timerIDs[id]);
+                timerIDs[id] = 0;
             } 
         }
         
-        function resumeAnimation(){
-            if (!timerID){
-                play();
-                timerID = window.setInterval(play, 6000);
+        function resumeAnimation(id){
+            if (!timerIDs[id]){
+                play(id);
+                timerIDs[id] = window.setInterval(function(){play(id)}, 6000);
             } 
         }
 	
-	function play(){
+	function play(id){
 		//var lastImage = $('#slideshow a:last');
 		//lastImage.clone().prependTo("#slideshow");
 		//lastImage.animate({opacity: 0.0}, 4000, function (){$(this).remove();});
-		var lastImage = $('#slideshow div:last');
-        lastImage.animate({opacity: 0.0}, 3500, function (){$('#slideshow div:first').before(lastImage);lastImage.css({opacity: 1});});
+		lastImage[id] = $(id + ' a:last');
+        lastImage[id].animate({opacity: 0.0}, 3500, function (){$(id + ' a:first').before(lastImage[id]);lastImage[id].css({opacity: 1});});
 	}
 	
-	$(document).ready( function(){
-		 $(".cartContainer, .boxAccount").hover( function(){jQuery('div.cartAccountItems', this).slideToggle('fast', function(){
-			//alert($("#shoppingCartItems").height());
+function loadWishlist() {
+     var wishlistUserID = "new";
+     if($.cookie('wishlist_user_id') != null){
+	  wishlistUserID = $.cookie('wishlist_user_id');
+     }
+     $.ajax({
+	  type: "POST",
+	  url: "/blocks_custom/wishlist.php",
+	  data: {action : "show", user_id : wishlistUserID },
+	  success: function(data) {if(data != "empty"){$('#wishlistContainer').html(data + '<div align="center"><p><b><a href="/user_wishlist.php">See the complete list &gt;&gt;</a></b></p></div>').show();} else{$('#wishlistContainer').html('<div class="emptyWishlist">No items yet.</div>').show();}},
+	  dataType:"html"
+     });	
+}
+	
+$(document).ready( function(){
+	$(".cartContainer, .boxAccount").hover( function(){
+		$('a.topLink', this).css({color: "white"});$('div.cartAccountItems', this).slideDown('fast', function(){
 			if($("#shoppingCartItems").height() > 299) {
-			//$("#shoppingCartItems").height( ($("#shoppingCartItems div.small-cart-item").length * 73 < 400) ?  $("#shoppingCartItems  div.small-cart-item").length * 73 : 400 );
-			$("#shoppingCartItems").height($("#shoppingCartItems").height());
-			$("#shoppingCartItems").alternateScroll({"hide-bars": false, "bar-class": "customScroll"});
+				$("#shoppingCartItems").height($("#shoppingCartItems").height());
+				$("#shoppingCartItems").alternateScroll({"hide-bars": false, "bar-class": "customScroll"});
 			}
 			});
-							}
-							);
-		 //$("#shoppingCartItems").alternateScroll();
+							},
+			function(){$('a.topLink', this).css({color: "#656565"});$('div.cartAccountItems', this).slideUp('fast');}
+						);
+     if( $('#wishlistContainer') ){
+	  loadWishlist();
+     }
 
-	});
+});
 	
-	$(window).load(function(){
-            $('#slideshow div').fadeIn("slow");
-            if($('#slideshow div').length > 1){
-                resumeAnimation();
-                $(window).focus(resumeAnimation);
-                $("#slideshow").mouseout(resumeAnimation);
-                $(window).blur(stopAnimation);
-                $("#slideshow").mouseover(stopAnimation);
-            }
-	});
+     function startSlideshow(id){
+	  $(id + ' a').fadeIn("slow");
+          if($(id + ' a').length > 1){
+                resumeAnimation(id);
+                $(window).focus(function (id){resumeAnimation(id);});
+                $("#slideshow").mouseout(function (id){resumeAnimation(id);});
+                $(window).blur(function (id){stopAnimation(id);});
+                $("#slideshow").mouseover(function (id){stopAnimation(id);});
+          }  
+     }
 	
 	$(function() {
 		$.getFeed({
@@ -124,8 +141,7 @@ function playSlideshow(){
 	<a class="floatleft" href="{site_url}"><img src="/images/custom/logo.png" alt="{logo_alt}" title="{logo_alt}" /></a>
 <div class="boxSearch floatleft">{header_search}</div>
 
-
-    <div class="boxAccount floatright greenOnHover"> My Account
+    <div class="boxAccount floatright greenOnHover"> <a class="topLink" href="/user_home.php">My Account</a>
 	<div class="cartAccountItems">
 	<a href="/user_home.php">My Account</a>
 	<a class="{loginClass}" href="/user_orders.php">My Orders</a>
@@ -174,38 +190,4 @@ function playSlideshow(){
 			<li class="{secondary_end_id}"><img class="Img" src="images/tr.gif" alt="" /></li>
 
 		</ul><!-- end secondary_menus_rows  -->
-</div>
-<div id="slideshow" class="slideshow"  style="position: relative;">
-<div style="display: none;"><a href="/wall-stencils-mural-stencils.html"><img src="/images/home/header-slideshow/10.jpg" alt="Cutting Edge Stencils" /></a>
-<a href="/wall-stencils.html" style="position: absolute; right: 20px; bottom: 20px;"><img src="/images/custom/button-shop-now.png" alt="Cutting Edge Stencils" /></a>
-</div>
-<div style="display: none;"><a href="/wall-stencils-damask-stencils.html"><img src="/images/home/header-slideshow/9.jpg" alt="Cutting Edge Stencils" /></a>
-<a href="/wall-stencils.html" style="position: absolute; right: 20px; bottom: 20px;"><img src="/images/custom/button-shop-now.png" alt="Cutting Edge Stencils" /></a></div>
-<div style="display: none;"><a href="/wall-art-stencils.html"><img src="/images/home/header-slideshow/8.jpg" alt="Cutting Edge Stencils" /></a>
-<a href="/wall-stencils.html" style="position: absolute; right: 20px; bottom: 20px;"><img src="/images/custom/button-shop-now.png" alt="Cutting Edge Stencils" /></a>
-</div>
-<div style="display: none;"><a href="/classical-stencils-for-walls.html"><img src="/images/home/header-slideshow/7.jpg" alt="Cutting Edge Stencils" /></a>
-<a href="/wall-stencils.html" style="position: absolute; right: 20px; bottom: 20px;"><img src="/images/custom/button-shop-now.png" alt="Cutting Edge Stencils" /></a>
-</div>
-<div style="display: none;"><a href="/wall-art-stencils.html"><img src="/images/home/header-slideshow/6.jpg" alt="Cutting Edge Stencils" /></a>
-</div>
-<div style="display: none;"><a href="/wall-stencils-murals-large-stencils.html"><img src="/images/home/header-slideshow/5.jpg" alt="Cutting Edge Stencils" /></a></div>
-<div style="display: none;"><a href="/wall-stencils-damask-stencils.html"><img src="/images/home/header-slideshow/4.jpg" alt="Cutting Edge Stencils" /></a>
-<a href="/wall-stencils.html" style="position: absolute; right: 20px; bottom: 20px;"><img src="/images/custom/button-shop-now.png" alt="Cutting Edge Stencils" /></a>
-</div>
-<div style="display: none;"><a href="/wall-stencils-border-stencils.html"><img src="/images/home/header-slideshow/3.jpg" alt="Cutting Edge Stencils" /></a>
-	<a href="/wall-stencils.html" style="position: absolute; right: 20px; bottom: 20px;"><img src="/images/custom/button-shop-now.png" alt="Cutting Edge Stencils" /></a>
-</div>
-<div style="display: none;"><a href="/nursery-stencils-walls.html"><img src="/images/home/header-slideshow/2.jpg" alt="Cutting Edge Stencils" /></a>
-<a href="/wall-stencils.html" style="position: absolute; right: 20px; bottom: 20px;"><img src="/images/custom/button-shop-now.png" alt="Cutting Edge Stencils" /></a>
-</div>
-<div style="display: none;"><a href="/wall-art-stencils.html"><img src="/images/home/header-slideshow/1.jpg" alt="Cutting Edge Stencils" /></a>
-	<a href="/wall-stencils.html" style="position: absolute; right: 20px; bottom: 20px;"><img src="/images/custom/button-shop-now.png" alt="Cutting Edge Stencils" /></a>
-</div>
-<div style="display: none;"><a href="/kim-myles.html"><img src="/images/home/header-slideshow/kim-myles.jpg" alt="Cutting Edge Stencils" /></a>
-	<a href="/wall-stencils.html" style="position: absolute; right: 20px; bottom: 20px;"><img src="/images/custom/button-shop-now.png" alt="Cutting Edge Stencils" /></a>
-</div>
-<div><a href="/kim-myles.html"><img src="/images/home/header-slideshow/kim-myles.jpg" alt="Cutting Edge Stencils" /></a>
-<a href="/wall-stencils.html" style="position: absolute; right: 20px; bottom: 20px;"><img src="/images/custom/button-shop-now.png" alt="Cutting Edge Stencils" /></a>
-</div>
 </div>

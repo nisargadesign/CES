@@ -1,51 +1,25 @@
 <div id="pb_{pb_id}" class="block-cart {block_class}" style="{block_style}">
-
 <form name="small_cart" action=""><input type="hidden" name="pb_id" value="{pb_id}" /></form>
-
-<div class="boxHeaderCart">
-
 <!-- begin empty_small_cart -->
-
-
-<table width="100%" cellspacing="0" border="0">
-
-<tr>
-
-	<td rowspan="2" class="pix"><img src="/images/custom/icon_cart.gif" /></td><td align="left" class="textEmpty">Your shopping cart<br>is empty</td>
-</tr>
-
-</table>
-
-
-
-
+<span class="cartTotal">{total_quantity}</span>
+<div class="floatright" style="margin: 4px 28px;"><a class="topLink" href="{basket_href}">Cart</a></div>
+<div class="cartAccountItems">
+Your Shopping Cart is Empty.
+</div>
 <!-- end empty_small_cart -->
 
-
-
 <!-- begin small_cart -->
-
-
-
-
-<table width="100%" cellspacing="0" border="0">
-
-<tr>
-
-	<td rowspan="2" class="pix"><img src="/images/custom/icon_cart.gif" /></td><td align="left" class="text">{total_quantity} {item_text}, {total_price}</td>
-</tr>
-
-<tr>
-
-	<td align="center" class="buttons"><a class="buttonCart button-view" id="view" href="{basket_href}"><span>{VIEW_CART_MSG}</span><img src="images/tr.gif" alt="{VIEW_CART_MSG}" /></a>&nbsp;<a class="buttonCart button-check" id="check" href="{basket_href}"><span>{GOTO_CHECKOUT_MSG}</span><img src="images/tr.gif" alt="{GOTO_CHECKOUT_MSG}" /></a></td>
-    </tr>
-</table>
-
-
-
-
-<!-- end small_cart -->
-
+<span class="cartTotal">{total_quantity}</span>
+<div class="floatright" style="margin: 4px 28px;"><a class="topLink" href="{basket_href}">Cart</a></div>
+<div class="cartAccountItems">
+	<div align="center" id="smallCartTotal"><b>Total: {total_price}</b></div>
+	<div id="shoppingCartItems">
+		<!-- BEGIN small_cart_items -->
+		<div class="small-cart-item"><a href="{item_URL}"><img class="floatleft" src="{small_image}" alt="{short_name}" /></a><a class="carItemLink" href="{item_URL}">{short_name}</a><div class="floatleft">{price}<br />Quantity: {quantity}</div></div>
+		<!-- END small_cart_items -->
+	</div>
+<a class="button rightArrow" id="view" href="{basket_href}">{VIEW_CART_MSG}</a>
 </div>
+<!-- end small_cart -->
 
 </div>
