@@ -1,1 +1,3 @@
-Sitemap: http://www.cuttingedgestencils.com/sitemap_index.xml
+User-agent: *
+Disallow: /newsletters/
+Sitemap: http://www.cuttingedgestencils.com/sitemap1.xml
