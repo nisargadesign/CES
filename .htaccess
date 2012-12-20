@@ -44,8 +44,8 @@ RewriteRule ^(.*\.htm[l]*)$ http://%{HTTP_HOST}/$1?%1 [NE,R=301,L]
 RewriteCond %{QUERY_STRING} ^tab=([a-z]*)$
 RewriteRule ^(.*\.htm[l]*)$ http://%{HTTP_HOST}/$1#%1? [NE,R=301,L]
 
-#if .html and https redirect to http
-RewriteCond %{REQUEST_URI} .*\.html.*
+#if not .php and https redirect to http
+RewriteCond %{REQUEST_URI} !.*\.php.*
 RewriteCond %{HTTPS} on
 RewriteRule ^(.*)$ http://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
