@@ -49,6 +49,7 @@ RewriteCond %{REQUEST_URI} .*\.html.*
 RewriteCond %{HTTPS} on
 RewriteRule ^(.*)$ http://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
-RedirectMatch 301 (?i)/HDTV http://www.cuttingedgestencils.com/?referrer=HDTV
-RedirectMatch 301 (?i)/DIY\W+ http://www.cuttingedgestencils.com/?referrer=DIY
+RedirectMatch 301 (?i)/HDTV$ http://www.cuttingedgestencils.com/?referrer=HDTV
+RedirectMatch 301 (?i)/DIY$ http://www.cuttingedgestencils.com/?referrer=DIY
 Redirect 301 /wall-mural-stencil-faq-2.html http://www.cuttingedgestencils.com/wall-mural-stencil-faq.html
+Redirect 301 /wall-stencils-damask-stencils.html http://www.cuttingedgestencils.com/wall-stencils-geometric-stencils.html
