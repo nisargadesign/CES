@@ -87,9 +87,15 @@
 	if (strlen($search_category_id)) {
 		$category_id = $search_category_id;
 	}
+	//Customization by Vital
+	if (!strlen($category_id)) {
+		$category_id = get_session("category_id");
+	}
+	//END customization
 	if (!strlen($category_id) && strlen($item_id)) {		
 		$category_id = VA_Products::get_category_id($item_id, VIEW_ITEMS_PERM);
 	}
+	set_session("category_id", $category_id);	//Customization by Vital
 
 	$is_list_products = get_setting_value($vars, "is_list_products", 0);
 	$products_ids = get_session("products_ids");
@@ -338,6 +344,10 @@
 // ################ BEGIN: PREV NEXT LINKS ################
 
 	$item_id_key = array_search($item_id, $products_ids);
+	//Customization by Vital
+	$nav_product_name = in_array($category_id, array("6", "1010") )? "product" : "stencil";
+	$t->set_var("nav_product_name", $nav_product_name);
+	 //END Customization
 	if($item_id_key !== false && isset($products_ids[$item_id_key+1])){
 		$sql  = " SELECT i.item_id, i.friendly_url ";
 		$sql .= " FROM " . $table_prefix . "items i ";
@@ -1136,7 +1146,7 @@ if ($db->next_record())
 // NON-LOGGED IN USER WISHLIST LINK
 		
 	if ($user_type_id == '') {
-		$t->set_var("wishlist_button_non_logged", "<a class=\"button button-wishlist\" href=\"/user_login.php\"><span>Add to Wishlist</span></a><br><div class=\"wishListSpace\">To use the wishlist you must login.</div>");
+		$t->set_var("wishlist_button_non_logged", "<a class=\"button-wishlist\" id=\"not-logged-in\" href=\"#\"><span>Add to Wishlist</span></a>");
 		//$t->sparse("wishlist_button_non_logged", false);
 		}
 		
@@ -1962,7 +1972,10 @@ if (($short_description) && ($short_description != "<br>"))
 
 			$total_votes = get_db_value($sql);
 
-			
+			//Customization by vital
+			$rating_image = "not-rated";
+			$t->set_var("rating_image", $rating_image);
+			//END customization
 
 			if ($total_votes)
 
@@ -2004,7 +2017,7 @@ if (($short_description) && ($short_description != "<br>"))
 
 				$t->set_var("BASED_ON_REVIEWS_MSG", $based_on_message);
 
-				$t->parse("summary_statistic", false);
+				//$t->parse("summary_statistic", false);
 
 	    
 
@@ -2022,11 +2035,17 @@ if (($short_description) && ($short_description != "<br>"))
 
 					$sql .= " ORDER BY date_added DESC";  
 
-					$db->RecordsPerPage = 1;
+					//Customization by Vital
+					//$db->RecordsPerPage = 1;
 
-					$db->PageNumber = 1;
+					//$db->PageNumber = 1;
 
-					$db->query($sql);
+					$db->query($sql); //original line left
+					
+					$rating_image = "not-rated";
+					$rating = 0;
+					$rating_count = 0;
+					//END customization
 
 					if ($db->next_record())
 
@@ -2042,17 +2061,24 @@ if (($short_description) && ($short_description != "<br>"))
 
 							if (!$review_user_id) {
 
-								$review_user_name .= " (" . GUEST_MSG . ")";
+								//$review_user_name .= " (" . GUEST_MSG . ")";
 
 							}
 
 							$review_user_class = $review_user_id ? "forumUser" : "forumGuest";
 
-							$rating = round($db->f("rating"), 0);
+							//Customization by Vital
+							if($db->f("rating") != null){
+							$rating += round($db->f("rating"), 0);
+							$rating_count++;
+							}
+							
+							//$rating = round($db->f("rating"), 0);
 
-							$rating_image = $rating ? "rating-" . $rating : "not-rated";
+							//$rating_image = $rating ? "rating-" . $rating : "not-rated";
 
-							$t->set_var("rating_image", $rating_image);
+							//$t->set_var("rating_image", $rating_image);
+							//END customization
 
 							$t->set_var("review_user_class", $review_user_class);
 
@@ -2068,12 +2094,11 @@ if (($short_description) && ($short_description != "<br>"))
 
 							$t->set_var("review_comments", nl2br(htmlspecialchars($db->f("comments"))));
 
-							$t->parse("positive_review", true);
+							//$t->parse("positive_review", true);
 
 						} while ($db->next_record());
 
 					}
-
 	      
 
 					$sql  = " SELECT * FROM " . $table_prefix . "reviews ";
@@ -2084,16 +2109,15 @@ if (($short_description) && ($short_description != "<br>"))
 
 					$sql .= " ORDER BY date_added DESC";  
 
-					$db->RecordsPerPage = 1;
+					//$db->RecordsPerPage = 1;
 
-					$db->PageNumber = 1;
+					//$db->PageNumber = 1;
 
 					$db->query($sql);
 
 					if ($db->next_record())
 
 					{
-
 						$is_reviews = true;
 
 						do {
@@ -2110,11 +2134,17 @@ if (($short_description) && ($short_description != "<br>"))
 
 							$review_user_class = $review_user_id ? "forumUser" : "forumGuest";
 
-							$rating = round($db->f("rating"), 0);
+							//Customization by Vital
+							//$rating = round($db->f("rating"), 0);
+							if($db->f("rating") != null){
+							$rating += round($db->f("rating"), 0);
+							$rating_count++;
+							}
 
-							$rating_image = $rating ? "rating-" . $rating : "not-rated";
+							//$rating_image = $rating ? "rating-" . $rating : "not-rated";
 
-							$t->set_var("rating_image", $rating_image);
+							//$t->set_var("rating_image", $rating_image);
+							//END customization
 
 							$t->set_var("review_user_class", $review_user_class);
 
@@ -2137,6 +2167,16 @@ if (($short_description) && ($short_description != "<br>"))
 						} while ($db->next_record());
 
 					}
+					//Customization by Vital
+					if($rating_count != 0) {
+						$rating = round($rating/$rating_count, 0);
+						$rating_image = "rating-" . $rating;	
+					}else
+						$rating_image = "not-rated";
+
+					$t->set_var("rating_image", $rating_image);
+					$t->set_var("rating_count", $rating_count);
+					//END customization
 
 				}
 
@@ -2146,7 +2186,7 @@ if (($short_description) && ($short_description != "<br>"))
 
 					$t->set_var("SEE_ALL_REVIEWS_MSG",  SEE_ALL_REVIEWS_MSG);
 
-					$t->parse("all_reviews_link", false);
+					//$t->parse("all_reviews_link", false);
 
 				}
 
@@ -2158,7 +2198,7 @@ if (($short_description) && ($short_description != "<br>"))
 
 			{
 
-				$t->parse("not_rated", false);
+				//$t->parse("not_rated", false);
 
 			}
 
