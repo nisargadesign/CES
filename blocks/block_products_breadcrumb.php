@@ -18,6 +18,13 @@
 	$user = get_param("user");
 	$item_id = get_param("item_id");
 	$category_id = get_param("category_id");
+	
+	//Customization by Vital
+	if (!strlen($category_id)) {
+		$category_id = get_session("category_id");
+	}
+	//END customization
+	
 	$search_category_id = get_param("search_category_id");
 	
 	$breadcrumbs_tree_array = array();
@@ -69,7 +76,7 @@
 
 	$tree_title = PRODUCTS_TITLE;
 	if ($erase_tags) { $tree_title = strip_tags($tree_title); }
-	array_unshift($breadcrumbs_tree_array, array (get_custom_friendly_url("products.php"), $tree_title));
+	//array_unshift($breadcrumbs_tree_array, array (get_custom_friendly_url("products.php"), $tree_title));
 
 	if (strlen($manf)) {
 		$sql = "SELECT manufacturer_name, friendly_url FROM " . $table_prefix . "manufacturers WHERE manufacturer_id=" . $db->tosql($manf, INTEGER);
