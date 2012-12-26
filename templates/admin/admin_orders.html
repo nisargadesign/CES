@@ -137,11 +137,14 @@
 		document.search_form.s_on.value = "";
 		document.search_form.s_ne.value = "";
 		document.search_form.s_kw.value = "";
+		document.search_form.s_coupon.value = "";
+		document.search_form.s_sku.value = "";
 		document.search_form.s_sd.value = "";
 		document.search_form.s_ed.value = "";
 		document.search_form.s_os_list.value = 0;
 		document.search_form.s_os.selectedIndex = 0;
 		document.search_form.s_ci.selectedIndex = 0;
+		document.search_form.s_category.selectedIndex = 0;
 		document.search_form.s_si.selectedIndex = 0;
 		document.search_form.s_cct.selectedIndex = 0;
 		document.search_form.s_ex[0].checked = true;
@@ -244,6 +247,21 @@
 			<td>{BY_KEYWORD_MSG}, {SERIAL_NUMBER_MSG}:</td>
 			<td><input type="text" name="s_kw" value="{s_kw}" class="search"></td>
 		</tr>
+		<tr class="usual">
+			<td>By Coupon Code:</td>
+			<td><input type="text" name="s_coupon" value="{s_coupon}" class="search"></td>
+		</tr>
+		<tr class="usual">
+			<td>By SKU:</td>
+			<td><input type="text" name="s_sku" value="{s_sku}" class="search" style="width: 100%"></td>
+		</tr>
+		<tr class="usual">
+			<td>By Category:</td>
+			<td>
+				<select name="s_category" class="search"><!-- begin s_category -->
+					<option {s_category_selected} value="{s_category_value}">{s_category_description}<!-- end s_category -->
+				</select>
+			</td>
 		<tr class="usual">
 			<td>{FROM_DATE_MSG}:</td>
 			<td>
@@ -370,7 +388,24 @@
 <!-- BEGIN orders_messages --><div align="center" class="messagebg">{messages_list}</div><!-- END orders_messages -->
 
 <div class="Block">
-<div class="BlockTitle">{ORDERS_MAINTENANCE_MSG}</div>
+<div class="BlockTitle">{ORDERS_MAINTENANCE_MSG}
+<!--Customization by Vital-->
+- {total_filtered} orders<div style="float: right; color: black;">Orders Total: {total}</div>
+</div>
+<div class="{sku_totals_block}">
+<div class="" style="background: #7da5ea; color: white; font-weight: bold; padding: 5px 14px;">ITEMS TOTALS</div>
+<table border="0" cellpadding="4" cellspacing="1" width="100%">
+	<!-- BEGIN sku_totals -->
+	<tr valign="top" align="center" class="row2">
+		<td align="left">{sku}</td>
+		<td align="left">{item_name}</td>
+		<td align="left">{item_quantity} items</td>
+		<td align="right"><b>{item_total}</b> ({no_discount_total} - {total_order_discount})</td>
+	</tr>
+	<!-- END sku_totals -->
+</table>
+</div>
+<!--E N D Customization-->
 <div class="BlockContent">
 
 <form name="orders" action="{admin_orders_href}" method="POST">
@@ -463,6 +498,8 @@
 <input type="hidden" name="s_on" value="{s_on}">
 <input type="hidden" name="s_ne" value="{s_ne}">
 <input type="hidden" name="s_kw" value="{s_kw}">
+<input type="hidden" name="s_sku" value="{s_sku}">
+<input type="hidden" name="s_coupon" value="{s_coupon}">
 <input type="hidden" name="s_sd" value="{s_sd}">
 <input type="hidden" name="s_ed" value="{s_ed}">
 <input type="hidden" name="s_os" value="{s_os_search}">

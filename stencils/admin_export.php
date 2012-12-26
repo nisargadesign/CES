@@ -10,7 +10,6 @@
   ****************************************************************************
 */
 
-
 	@set_time_limit (900);
 	include_once ("./admin_config.php");
 	include_once ($root_folder_path . "includes/common.php");
@@ -21,6 +20,17 @@
 	include_once("./admin_common.php");
 
 	check_admin_security("import_export");
+	
+	//Customization by Vital
+	$dbp = new VA_SQL();
+	$dbp->DBType      = $db_type;
+	$dbp->DBDatabase  = $db_name;
+	$dbp->DBHost      = $db_host;
+	$dbp->DBPort      = $db_port;
+	$dbp->DBUser      = $db_user;
+	$dbp->DBPassword  = $db_password;
+	$dbp->DBPersistent= $db_persistent;
+	//END customization
 	
 	define("COMMA_DECIMAL", false);
 	if (COMMA_DECIMAL) {
@@ -56,6 +66,11 @@
 	$s_on = get_param("s_on"); // order number / users online
 	$s_ne = get_param("s_ne");
 	$s_kw = get_param("s_kw");
+	//Customization by Vital
+	$s_coupon = get_param("s_coupon");
+	$s_sku = get_param("s_sku");
+	$s_category = get_param("s_category");	
+	//END customization
 	$s_sd = get_param("s_sd"); // start date
 	$s_ed = get_param("s_ed"); // end date
 	$s_ad = get_param("s_ad"); // users address
@@ -378,7 +393,33 @@
 				$sql_where .= " OR oi.item_properties LIKE '%" . $db->tosql($s_kw, TEXT, false) . "%'";
 				$sql_where .= " OR o.shipping_type_desc LIKE '%" . $db->tosql($s_kw, TEXT, false) . "%')";
 			}
-
+			
+			//Customization by Vital
+			if (strlen($s_coupon)) {
+				//get coupon id
+				$sql_cc = "SELECT coupon_id FROM va_coupons WHERE coupon_code=".$db->tosql($s_coupon, TEXT);
+				$dbp->query($sql_cc);
+				$coupon_id = ( $dbp->next_record() ) ? $dbp->f("coupon_id") : "00000000";
+				$sql_where .= " AND ( ( o.order_id IN (SELECT order_id FROM va_orders_coupons WHERE coupon_code=".$db->tosql($s_coupon, TEXT). ") ) OR ( oi.order_id IN ( SELECT order_id FROM va_orders_items WHERE ".$coupon_id." IN (coupons_ids) ) ) )";
+			}
+		
+			if (strlen($s_sku)) {
+				$s_sku = str_replace(",", " ", $s_sku );
+				$s_sku = str_replace("'", "", $s_sku );
+				$s_sku = preg_replace('!\s+!', ' ', $s_sku);
+				$SKUs = explode(" ", $s_sku);
+				$SKUsFinal = array();
+				foreach($SKUs as $SKU){
+					$SKUsFinal[] = "'".$SKU."'";
+				}
+				$s_sku = implode(",", $SKUsFinal);
+				$sql_where .= " AND ( oi.order_id IN ( SELECT order_id FROM va_orders_items WHERE item_code IN (".$s_sku.") ) )";
+			}
+		
+			if (strlen($s_category)) {
+				$sql_where .= " AND ( oi.order_id IN ( SELECT order_id FROM va_orders_items WHERE item_id IN ( SELECT item_id FROM va_items_categories WHERE category_id=".$db->tosql($s_category, INTEGER).") ) )";
+			}
+			//END customization
 			if(strlen($s_sd)) {
 				$s_sd_value = parse_date($s_sd, $date_edit_format, $date_errors);
 				$sql_where .= " AND o.order_placed_date>=" . $db->tosql($s_sd_value, DATE);
@@ -1069,6 +1110,11 @@
 	$t->set_var("s_on", htmlspecialchars($s_on));
 	$t->set_var("s_ne", htmlspecialchars($s_ne));
 	$t->set_var("s_kw", htmlspecialchars($s_kw));
+	//Customization by Vital
+	$t->set_var("s_coupon", htmlspecialchars($s_coupon));
+	$t->set_var("s_sku", htmlspecialchars($s_sku));
+	$t->set_var("s_category", htmlspecialchars($s_category));	
+	//END customization
 	$t->set_var("s_sd", htmlspecialchars($s_sd));
 	$t->set_var("s_ed", htmlspecialchars($s_ed));
 	$t->set_var("s_os", htmlspecialchars($s_os));
@@ -1116,6 +1162,11 @@
 		$admin_orders_url->add_parameter("s_on", REQUEST, "s_on");
 		$admin_orders_url->add_parameter("s_ne", REQUEST, "s_ne");
 		$admin_orders_url->add_parameter("s_kw", REQUEST, "s_kw");
+		//Customization by Vital
+		$admin_orders_url->add_parameter("s_coupon", REQUEST, "s_coupon");
+		$admin_orders_url->add_parameter("s_sku", REQUEST, "s_sku");
+		$admin_orders_url->add_parameter("s_category", REQUEST, "s_category");
+		//END customization
 		$admin_orders_url->add_parameter("s_sd", REQUEST, "s_sd");
 		$admin_orders_url->add_parameter("s_ed", REQUEST, "s_ed");
 		$admin_orders_url->add_parameter("s_os", REQUEST, "s_os");

@@ -10,8 +10,6 @@
   ****************************************************************************
 */
                                    	
-
-
 	include_once("./admin_config.php");
 	include_once($root_folder_path . "includes/common.php");
 	include_once($root_folder_path . "includes/sorter.php");
@@ -25,6 +23,17 @@
 	include_once("./admin_common.php");
 
 	check_admin_security("sales_orders");
+	
+	//Customization by Vital
+	$dbp = new VA_SQL();
+	$dbp->DBType      = $db_type;
+	$dbp->DBDatabase  = $db_name;
+	$dbp->DBHost      = $db_host;
+	$dbp->DBPort      = $db_port;
+	$dbp->DBUser      = $db_user;
+	$dbp->DBPassword  = $db_password;
+	$dbp->DBPersistent= $db_persistent;
+	//END customization
 
 	$orders_currency = get_setting_value($settings, "orders_currency", 0);
 
@@ -72,6 +81,9 @@
 	$sql = "SELECT status_id, status_name FROM " . $table_prefix . "order_statuses WHERE is_active=1 ORDER BY status_order, status_id";
 	$order_statuses = get_db_values($sql, array());
 	$countries = get_db_values("SELECT country_id, country_name FROM " . $table_prefix . "countries ORDER BY country_order, country_name ", array(array("", "")));
+	$categories = get_db_values("SELECT category_id, category_name FROM " . $table_prefix . "categories ORDER BY category_order ", array(array("", "")));	//Customization by Vital
+	
+	
 	$states = get_db_values("SELECT state_id, state_name FROM " . $table_prefix . "states ORDER BY state_name ", array(array("", "")));
 	$cc_default_types = array(array("", ""), array("blank", WITHOUT_CARD_TYPE_MSG));
 	$credit_card_types = get_db_values("SELECT credit_card_id, credit_card_name FROM " . $table_prefix . "credit_cards ORDER BY credit_card_name", $cc_default_types);
@@ -191,6 +203,10 @@
 	$r->change_property("s_ne", TRIM, true);
 	$r->add_textbox("s_kw", TEXT);
 	$r->change_property("s_kw", TRIM, true);
+	$r->add_textbox("s_coupon", TEXT);
+	$r->change_property("s_coupon", TRIM, true);
+	$r->add_textbox("s_sku", TEXT);
+	$r->change_property("s_sku", TRIM, true);
 	$r->add_textbox("s_sd", DATE, FROM_DATE_MSG);
 	$r->change_property("s_sd", VALUE_MASK, $date_edit_format);
 	$r->change_property("s_sd", TRIM, true);
@@ -201,6 +217,7 @@
 	array_unshift($order_statuses, array("", ""));
 	$r->add_select("s_os", INTEGER, $order_statuses);
 	$r->add_select("s_ci", TEXT, $countries);
+	$r->add_select("s_category", TEXT, $categories);	//Customization by Vital
 	$r->add_select("s_si", TEXT, $states);
 	$r->add_select("s_cct", TEXT, $credit_card_types);
 	$r->add_select("s_ex", TEXT, $export_options);
@@ -255,6 +272,40 @@
 			$where .= " OR osa.activation_key=" . $db->tosql($r->get_value("s_kw"), TEXT);
 			$where .= " OR o.shipping_type_desc LIKE '%" . $db->tosql($r->get_value("s_kw"), TEXT, false) . "%')";
 		}
+		//Customization by Vital
+		if (!$r->is_empty("s_coupon")) {
+			//get coupon id
+			$sql_cc = "SELECT coupon_id FROM va_coupons WHERE coupon_code=".$db->tosql($r->get_value("s_coupon"), TEXT);
+			$dbp->query($sql_cc);
+			$coupon_id = ( $dbp->next_record() ) ? $dbp->f("coupon_id") : "00000000";
+			$product_search = true;
+			if (strlen($where)) { $where .= " AND "; }
+			$where .= " ( ( o.order_id IN (SELECT order_id FROM va_orders_coupons WHERE coupon_code=".$db->tosql($r->get_value("s_coupon"), TEXT). ") ) OR ( oi.order_id IN ( SELECT order_id FROM va_orders_items WHERE ".$coupon_id." IN (coupons_ids) ) ) )";
+			
+		}
+		$s_sku = "";
+		if (!$r->is_empty("s_sku")) {
+			$product_search = true;
+			$s_sku = str_replace(",", " ", $r->get_value("s_sku") );
+			$s_sku = str_replace("'", "", $s_sku );
+			$s_sku = preg_replace('!\s+!', ' ', $s_sku);
+			$SKUs = explode(" ", $s_sku);
+			$SKUsFinal = array();
+			foreach($SKUs as $SKU){
+				$SKUsFinal[] = "'".$SKU."'";
+			}
+			$s_sku = implode(",", $SKUsFinal);
+
+			if (strlen($where)) { $where .= " AND "; }
+			$where .= " ( oi.order_id IN ( SELECT order_id FROM va_orders_items WHERE item_code IN (".$s_sku.") ) )";	
+		}
+		
+		if (!$r->is_empty("s_category")) {
+			$product_search = true;
+			if (strlen($where)) { $where .= " AND "; }
+			$where .= " ( oi.order_id IN ( SELECT order_id FROM va_orders_items WHERE item_id IN ( SELECT item_id FROM va_items_categories WHERE category_id=".$db->tosql($r->get_value("s_category"), INTEGER).") ) )";
+		}
+		//END customization
 
 		if (!$r->is_empty("s_sd")) {
 			if (strlen($where)) { $where .= " AND "; }
@@ -347,7 +398,8 @@
 	// set up variables for navigator
 	if ($product_search) {
 		$total_records = 0;
-		$sql  = " SELECT COUNT(*) FROM ((((" . $table_prefix . "orders o ";
+		$total = 0;	//Customization by Vital
+		$sql  = " SELECT o.order_total FROM ((((" . $table_prefix . "orders o ";	//Customization by Vital
 		$sql .= " INNER JOIN " . $table_prefix . "orders_items oi ON o.order_id=oi.order_id)";
 		$sql .= " LEFT JOIN " . $table_prefix . "orders_items_serials ois ON o.order_id=ois.order_id)";
 		$sql .= " LEFT JOIN " . $table_prefix . "orders_serials_activations osa ON o.order_id=osa.order_id)";
@@ -357,16 +409,58 @@
 		$db->query($sql);
 		while ($db->next_record()) {
 			$total_records++;
+			$total += $db->f(0);	//Customization by Vital
 		}
 	} else {
-		$sql  = " SELECT COUNT(*) FROM (" . $table_prefix . "orders o ";
+		$sql  = " SELECT COUNT(*), SUM(o.order_total) FROM (" . $table_prefix . "orders o "; 	//Customization by Vital
 		$sql .= " LEFT JOIN " . $table_prefix . "order_statuses os ON o.order_status=os.status_id) ";
 		$sql .= $where_sql;
 		$db->query($sql);
 		$db->next_record();
 		$total_records = $db->f(0);
+		$total = $db->f(1);	//Customization by Vital
 	}
+	//Customization by Vital
+	$t->set_var("total", currency_format($total));
+	
+	$t->set_var("sku_totals", "");
+	if ( $total_records != 0 && $s_sku != "" ) {
+		$t->set_var("sku_totals_block", "test");
+		$sql  = "SELECT oi.item_name AS name, oi.item_code AS sku, SUM(oi.price*oi.quantity) AS no_discount_total,
+		SUM(oi.quantity) AS item_quantity,
+		SUM(CASE WHEN oc.discount_amount IS NOT NULL THEN oi.price*oi.quantity*(1 - oc.discount_amount/100) ELSE oi.price*oi.quantity END) AS item_total,
+		SUM(CASE WHEN oc.discount_amount IS NOT NULL THEN oi.price*oi.quantity*(oc.discount_amount/100) ELSE NULL END) AS total_order_discount
+		FROM (((((" . $table_prefix . "orders o ";
+		$sql .= " INNER JOIN " . $table_prefix . "orders_items oi ON o.order_id=oi.order_id)";
+		$sql .= " LEFT JOIN " . $table_prefix . "orders_items_serials ois ON o.order_id=ois.order_id)";
+		$sql .= " LEFT JOIN " . $table_prefix . "orders_serials_activations osa ON o.order_id=osa.order_id)";
+		$sql .= " LEFT JOIN " . $table_prefix . "order_statuses os ON o.order_status=os.status_id)";
+		$sql .= " LEFT JOIN " . $table_prefix . "coupons oc ON ( oc.coupon_id IN (o.coupons_ids) AND oc.discount_type=1 ) ) ";
+		$sql .= $where_sql;
+		$sql .= " GROUP BY oi.item_code HAVING oi.item_code IN (".$s_sku.")";
+		$db->query($sql);
+		while ($db->next_record()) {
+				$item_name = $db->f("name");
+				if (strlen($item_name) > 80) {
+					$item_name = substr($item_name, 0, 80) . "...";
+				}
+				$price = $db->f("price");
 
+				$t->set_var("item_name", $item_name);
+				$t->set_var("sku",  $db->f("sku"));
+				$t->set_var("item_quantity",  $db->f("item_quantity"));
+				$t->set_var("no_discount_total", currency_format($db->f("no_discount_total")));
+				$t->set_var("item_total", currency_format($db->f("item_total")));
+				$t->set_var("total_order_discount", currency_format($db->f("total_order_discount")));
+				$t->parse("sku_totals", true);
+			}
+	}else{
+		$t->set_var("sku_totals_block", "hide");
+	}
+	//END customization
+	
+	
+	
 	$records_per_page = 25;
 	$pages_number = 5;
 
@@ -412,10 +506,13 @@
 		$admin_order->add_parameter("s_on", REQUEST, "s_on");
 		$admin_order->add_parameter("s_ne", REQUEST, "s_ne");
 		$admin_order->add_parameter("s_kw", REQUEST, "s_kw");
+		$admin_order->add_parameter("s_coupon", REQUEST, "s_coupon");
+		$admin_order->add_parameter("s_sku", REQUEST, "s_sku");
 		$admin_order->add_parameter("s_sd", REQUEST, "s_sd");
 		$admin_order->add_parameter("s_ed", REQUEST, "s_ed");
 		$admin_order->add_parameter("s_os", REQUEST, "s_os");
 		$admin_order->add_parameter("s_ci", REQUEST, "s_ci");
+		$admin_order->add_parameter("s_category", REQUEST, "s_category");	//Customization by Vital
 		$admin_order->add_parameter("s_si", REQUEST, "s_si");
 		$admin_order->add_parameter("s_cct", REQUEST, "s_cct");
 		$admin_order->add_parameter("s_ex", REQUEST, "s_ex");
@@ -564,7 +661,7 @@
 			$t->set_var("total_price", currency_format($total_price, $order_currency));
 
 			$t->parse("records", true);
-		} 
+		}
 		$t->set_var("orders_number", $order_index);
 	}
 	else
@@ -578,6 +675,7 @@
 	$t->set_var("page", $page_number);
 	$t->set_var("s_os_search", $r->get_value("s_os"));
 	$t->set_var("s_ci_search", $r->get_value("s_ci"));
+	$t->set_var("s_category_search", $r->get_value("s_category"));	//Customization by Vital
 	$t->set_var("s_si_search", $r->get_value("s_si"));
 	$t->set_var("s_ex_search", $r->get_value("s_ex"));
 
