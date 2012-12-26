@@ -125,7 +125,8 @@
 
 
 
-	$list_template = ""; $current_category = "";   
+	$list_template = ""; $current_category = "";
+	set_session("category_id", $current_category); //Customization by Vital
 
 	$page_friendly_url = ""; $page_friendly_params = array();
 
