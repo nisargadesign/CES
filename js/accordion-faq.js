@@ -9,7 +9,7 @@ UPDATED: 3/25/2010
 DESCRIPTION: This is the JavaScript required to create the accordion style menu.  Requires jQuery library
 NOTE: Because of a bug in jQuery with IE8 we had to add an IE stylesheet hack to get the system to work in all browsers. I hate hacks but had no choice :(.
 ************************************************************************************************************************/
-$(document).ready(function() {
+function doAccordion() {
 	 
 	//ACCORDION BUTTON ACTION (ON CLICK DO THE FOLLOWING)
 	$('.accordionButton').click(function() {
@@ -28,6 +28,7 @@ $(document).ready(function() {
 			  
 			//OPEN THE SLIDE
 			$(this).next().slideDown('normal');
+			location.hash = $(this).attr('name');
 		 } 
 		  
 	 });
@@ -61,4 +62,12 @@ $('.accordionButton').mousedown(function() {
 	********************************************************************************************************************/	
 	$('.accordionContent').hide();
 
+}
+
+$(document).ready(function() {
+	doAccordion();
+	if( window.location.hash.length > 1 && $('div[name="' + window.location.hash.substr(1) + '"]').length){
+		$('html,body').animate({scrollTop: $('div[name="' + window.location.hash.substr(1) + '"]').offset().top},'slow');
+		$('div[name="' + window.location.hash.substr(1) + '"]').trigger('click');
+	}	
 });
