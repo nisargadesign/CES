@@ -3,9 +3,112 @@
 <script type="text/javascript" language="JavaScript">
 
 //<![CDATA[
+function progressDialog() {
+               showDialog('100', '10', '<b>Saving...</b>',
+                              function(){
+                              $("#dialogHeader").hide();
+                              $("#background, #dialogHeader a").unbind("click").removeAttr("href");
+                              $("#dialogContent .shipping").click(function(){jQuery("#background, #dialogWindow").fadeOut("normal"); return false});
+                         }
+                     );
+}
+
+function reloadForm() {
+          progressDialog();
+          document.order_info.operation.value = "refresh"; document.order_info.submit();
+}
 
 {ordering_js}
 
+//Customization by Vital
+
+//preload image for the next intermediate page
+var progressImg = new Image(); progressImg.src = "../images/progress-gray.gif";
+
+$(document).ready(function(){
+    var nonUSAText = '<b>Any import duties, taxes or fees are your responsibility. These fees are out of our control. We are not responsible for any fees or delivery delays created by customs. Shipments cannot be marked as a <em>gift</em>.<br />Thank you for your understanding.</b><br /><br /><b>You must click I AGREE in order to place your order.</b><hr /><a class="button shipping floatright" href=""> I AGREE </a><a href="/wall-mural-stencil-faq.html#5" target="_blank"><b>For more info click here</b></a>';
+    var nonUSAHeight = "260";
+    //disable "select country" and other non-selectable options
+    $("option[value='']").attr({'disabled': 'true'});
+     //Checkout Paypal address warning
+     if($('input[name$="dialog"]').val() == "1" && $('input[name$="dialog_url"]').val().length > 20 && $('select[name="payment_id"] option:selected').val() == "70") {
+          showDialog('690', '392', '<img id="paypal_warning" src="/images/paypal-address-warning.jpg" alt="PayPal Address Warning" /><div id="dialog_arrow">&nbsp;</div><div id="dialog_info">Once you reach the Paypal page, make sure that the Shipping address registered with PayPal is the one that you want your order shipped to. If it’s not correct, click on CHANGE and enter a correct shipping address. We can only ship to your registered PayPal address and will not be responsible for orders shipped to the incorrect address.</div><hr /><a class="cancel button floatleft " href="#">&nbsp;&#9668; &nbsp; Choose another Payment Method&nbsp;&nbsp;</a><a class="submit button" href="' + $('input[name$="dialog_url"]').val() + '">&nbsp;&nbsp;Proceed to PayPal &nbsp; &#9658;&nbsp;</a>', function(){$("#dialogContent .cancel").click(function(){jQuery("#background, #dialogWindow").fadeOut("normal"); $('html,body').animate({scrollTop: $('.middlebg').offset().top},'slow'); $('select[name="payment_id"]').css({"background" : "pink"});return false;});});
+    } else if( $('select[name$="delivery_country_id"] option:selected').val() != 228 && $('select[name$="delivery_country_id"] option:selected').val() != "") {
+          showDialog('500', nonUSAHeight, nonUSAText,
+                         function(){
+                              $("#dialogHeader").hide();
+                              $("#background, #dialogHeader a").unbind("click").removeAttr("href");
+                              $("#dialogContent .shipping").click(function(){jQuery("#background, #dialogWindow").fadeOut("normal"); return false});
+                         }
+                    );
+    }
+    
+     $('select[name$="canada_provinces"]').change(function (){
+          if($(this).attr("id") == "delivery_canada_provinces"){
+               $('input[name="delivery_province"]').val( $("option:selected", this).val() );
+          } else{
+               $('input[name="province"]').val( $("option:selected", this).val() );
+          }
+          uncheckSame();
+    });
+    
+     $('select[name$="country_id"]').change(function (){
+          $(this).closest("tr").nextAll(".state, .canada_provinces, .province").find("select, input").val("");
+          switch($("option:selected", this).val()){
+               case "228":
+                    $(this).closest("tr").nextAll(".province, .canada_provinces").hide();
+                    $(this).closest("tr").nextAll(".state").fadeIn("slow");
+                    break;
+               case "37":
+                    $(this).closest("tr").nextAll(".province, .state").hide();
+                    $(this).closest("tr").nextAll(".canada_provinces").fadeIn("slow");
+                    break;
+               default:
+                    $(this).closest("tr").nextAll(".state, .canada_provinces").hide();
+                    $(this).closest("tr").nextAll(".province").fadeIn("slow");
+          }
+     });
+     
+     $('select[name="delivery_country_id"], select[name="delivery_state_id"]').change(reloadForm);
+     
+     switch($('select[name="country_id"] option:selected').val()){
+          case "228":
+               $('select[name="country_id"]').closest("tr").nextAll(".province, .canada_provinces").find("select, input").val("");
+               $('select[name="country_id"]').closest("tr").nextAll(".state").fadeIn("slow");
+               break;
+          case "37":
+               $('select[name="country_id"]').closest("tr").nextAll(".state").find("select").val("");
+               $('select[name="country_id"]').closest("tr").nextAll(".canada_provinces").fadeIn("slow");
+               $('select[name="country_id"]').closest("tr").nextAll(".canada_provinces").find("select").val($('input[name="province"]').val());
+               break;
+          case "":
+               $('select[name="country_id"]').closest("tr").nextAll(".province, .canada_provinces, .state").find("select, input").val("");
+               break;
+          default:
+               $('select[name="country_id"]').closest("tr").nextAll(".state").find("select").val("");
+               $('select[name="country_id"]').closest("tr").nextAll(".province").fadeIn("slow");
+     }
+     
+     switch($('select[name="delivery_country_id"] option:selected').val()){
+          case "228":
+               $('select[name="delivery_country_id"]').closest("tr").nextAll(".province, .canada_provinces").find("select, input").val("");
+               $('select[name="delivery_country_id"]').closest("tr").nextAll(".state").fadeIn("slow");
+               break;
+          case "37":
+               $('select[name="delivery_country_id"]').closest("tr").nextAll(".state").find("select").val("");
+               $('select[name="delivery_country_id"]').closest("tr").nextAll(".canada_provinces").fadeIn("slow");
+               $('select[name="delivery_country_id"]').closest("tr").nextAll(".canada_provinces").find("select").val( $('input[name="delivery_province"]').val() );
+               break;
+          case "":
+               $('select[name="delivery_country_id"]').closest("tr").nextAll(".province, .canada_provinces, .state").find("select, input").val("");
+               break;
+          default:
+               $('select[name="delivery_country_id"]').closest("tr").nextAll(".state").find("select").val("");
+               $('select[name="delivery_country_id"]').closest("tr").nextAll(".province").fadeIn("slow");
+     }
+
+});
+//E N D customization
 //]]>
 
 </script>
@@ -85,7 +188,11 @@
 <input type="hidden" name="min_values_list" value="{min_values_list}" />
 
 <input type="hidden" name="max_values_list" value="{max_values_list}" />
+<!--Customization by Vital-->
+<input type="hidden" name="dialog" value="{dialog}" />
 
+<input type="hidden" name="dialog_url" value="{dialog_url}" />
+<!--E N D customization-->
 
 
 <!-- begin points_balance_block -->
@@ -102,32 +209,7 @@
 
 <br />
 
-
-
-<div class="BlockTop">
-
-	<div class="TopCenter">
-
-		<div class="TopLeftBgr">
-
-			<div class="TopRightBgr">
-
-				<div class="TopLeft"></div>
-
-				<div class="TopRight"></div>
-
-				<div class="TopTitle">
-
-					<div class="TopTitleBgr"><div>{CART_TITLE}</div></div>
-
-				</div>
-
-			</div>
-
-		</div>
-
-	</div>
-
+<h1 class="commonbg">{CART_TITLE}</h1>
 </div>
 
 <div class="BlockMiddle">
@@ -138,7 +220,7 @@
 
 <!-- begin basket -->
 
-		<table border="0" cellspacing="0" width="100%">
+		<table border="0" cellspacing="0" width="100%" class="basketTable">
 
 <tr>
 
@@ -476,7 +558,7 @@
 
 			<td align="right" class="totals1">{shipping_type_desc}</td>
 
-		<tr>
+		</tr>
 
 		</table-->
 
@@ -522,7 +604,7 @@
 
 			</td>
 
-		<tr>
+		</tr>
 
 		</table>
 
@@ -580,7 +662,7 @@
 
 			</td>
 
-		<tr>
+		</tr>
 
 		</table>
 
@@ -778,49 +860,7 @@
 
 </div>
 
-<div class="BlockBottom">
-
-	<div class="BottomCenter">
-
-		<div class="BottomLeft"></div>
-
-		<div class="BottomRight"></div>
-
-	</div>
-
-</div>
-
-
-
 <a name="user_details"></a>
-
-
-
-<!--div class="BlockTop">
-
-	<div class="TopCenter">
-
-		<div class="TopLeftBgr">
-
-			<div class="TopRightBgr">
-
-				<div class="TopLeft"></div>
-
-				<div class="TopRight"></div>
-
-				<div class="TopTitle">
-
-					<div class="TopTitleBgr"><div>{CHECKOUT_INFO_TITLE}</div></div>
-
-				</div>
-
-			</div>
-
-		</div>
-
-	</div>
-
-</div-->
 
 <div class="BlockMiddle">
 
@@ -828,7 +868,7 @@
 
 
 
-<table width="100%" border="0" cellspacing="1" class="padding6px"><!-- BEGIN errors -->
+<table width="100%" border="0" cellspacing="1" class="padding6px infoTable"><!-- BEGIN errors -->
 
 <tr class="usualbg">
 
@@ -1036,43 +1076,7 @@
 
 	</td>
 
-</tr><!-- end city_block --><!-- begin province_block -->
-
-<tr>
-
-	<td class="usualbg">
-
-		{PROVINCE_FIELD} <span class="required">{province_required}</span>
-
-	</td>
-
-	<td class="usualbg">
-
-		<input class="text" type="text" name="province" value="{province}" size="20" maxlength="128" onchange="uncheckSame();" />
-
-	</td>
-
-</tr><!-- end province_block --><!-- begin state_id_block -->
-
-<tr>
-
-	<td class="usualbg">
-
-		{STATE_FIELD} <span class="required">{state_id_required}</span>
-
-	</td>
-
-	<td class="usualbg">
-
-		<select class="text" name="state_id" onchange="uncheckSame(); changeState(document.order_info, 'personal');"><!-- begin state_id -->
-
-			<option {state_id_selected} value="{state_id_value}">{state_id_description}</option><!-- end state_id -->
-
-		</select>
-
-	</td>
-
-</tr><!-- end state_id_block --><!-- begin zip_block -->
+</tr><!-- end city_block --><!-- begin zip_block -->
 
 <tr>
 
@@ -1108,7 +1112,72 @@
 
 	</td>
 
-</tr><!-- end country_id_block --><!-- begin phone_block -->
+</tr><!-- end country_id_block --><!-- begin province_block -->
+
+<tr class="province" style="display: none;">
+
+	<td class="usualbg">
+
+		{PROVINCE_FIELD} <span class="required">{province_required}</span>
+
+	</td>
+
+	<td class="usualbg">
+
+		<input class="text" type="text" name="province" value="{province}" size="20" maxlength="128" onchange="uncheckSame();" />
+
+	</td>
+
+</tr><!-- end province_block -->
+<tr class="canada_provinces" style="display: none;">
+
+	<td class="usualbg">
+		Provinces and territories
+	</td>
+
+	<td class="usualbg">
+		<select class="text" style="width:180px;" name="canada_provinces">
+<option selected="selected" value="">Select province</option>
+<option value="Alberta">Alberta</option>
+<option value="British Columbia">British Columbia</option>
+<option value="Manitoba">Manitoba</option>
+<option value="New Brunswick">New Brunswick</option>
+<option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+<option value="Northwest Territories">Northwest Territories</option>
+<option value="Nova Scotia">Nova Scotia</option>
+<option value="Nunavut">Nunavut</option>
+<option value="Ontario">Ontario</option>
+<option value="Prince Edward Island">Prince Edward Island</option>
+<option value="Quebec">Quebec</option>
+<option value="Saskatchewan">Saskatchewan</option>
+<option value="Yukon">Yukon</option>
+		</select>
+
+
+	</td>
+
+</tr>
+<!-- begin state_id_block -->
+
+<tr class="state" style="display: none;">
+
+	<td class="usualbg">
+
+		{STATE_FIELD} <span class="required">{state_id_required}</span>
+
+	</td>
+
+	<td class="usualbg">
+
+		<select class="text" name="state_id" onchange="uncheckSame(); changeState(document.order_info, 'personal');"><!-- begin state_id -->
+
+			<option {state_id_selected} value="{state_id_value}">{state_id_description}</option><!-- end state_id -->
+
+		</select>
+
+	</td>
+
+</tr><!-- end state_id_block --><!-- begin phone_block -->
 
 <tr class="usualbg">
 
@@ -1411,43 +1480,7 @@
 
 	</td>
 
-</tr><!-- end delivery_city_block --><!-- begin delivery_province_block -->
-
-<tr>
-
-	<td class="usualbg">
-
-		{PROVINCE_FIELD} <span class="required">{delivery_province_required}</span>
-
-	</td>
-
-	<td class="usualbg">
-
-		<input class="text" type="text" name="delivery_province" value="{delivery_province}" size="20" maxlength="128" onchange="uncheckSame();" />
-
-	</td>
-
-</tr><!-- end delivery_province_block --><!-- begin delivery_state_id_block -->
-
-<tr>
-
-	<td class="usualbg">
-
-		{STATE_FIELD} <span class="required">{delivery_state_id_required}</span>
-
-	</td>
-
-	<td class="usualbg">
-
-		<select class="text" name="delivery_state_id" onchange="uncheckSame(); changeState(document.order_info, 'delivery');"><!-- begin delivery_state_id -->
-
-			<option {delivery_state_id_selected} value="{delivery_state_id_value}">{delivery_state_id_description}</option><!-- end delivery_state_id -->
-
-		</select>
-
-	</td>
-
-</tr><!-- end delivery_state_id_block --><!-- begin delivery_zip_block -->
+</tr><!-- end delivery_city_block --><!-- begin delivery_zip_block -->
 
 <tr>
 
@@ -1475,7 +1508,7 @@
 
 	<td class="usualbg">
 
-		<select class="text" name="delivery_country_id" style="width:180px;" onchange="uncheckSame(); changeCountry(document.order_info, 'delivery');"><!-- begin delivery_country_id -->
+		<select class="text" name="delivery_country_id" style="width:180px;" onchange="uncheckSame();"><!-- begin delivery_country_id -->
 
 			<option {delivery_country_id_selected} value="{delivery_country_id_value}">{delivery_country_id_description}</option><!-- end delivery_country_id -->
 
@@ -1483,7 +1516,74 @@
 
 	</td>
 
-</tr><!-- end delivery_country_id_block --><!-- begin delivery_phone_block -->
+</tr><!-- end delivery_country_id_block --><!-- begin delivery_province_block -->
+
+<tr  class="province" style="display: none;">
+
+	<td class="usualbg">
+
+		{PROVINCE_FIELD} <span class="required">{delivery_province_required}</span>
+
+	</td>
+
+	<td class="usualbg">
+
+		<input class="text" type="text" name="delivery_province" value="{delivery_province}" size="20" maxlength="128" onchange="uncheckSame();" />
+
+	</td>
+
+</tr><!-- end delivery_province_block -->
+<tr class="canada_provinces" style="display: none;">
+
+	<td class="usualbg">
+		Provinces and territories
+	</td>
+
+	<td class="usualbg">
+		<select class="text" style="width:180px;" name="delivery_canada_provinces" id="delivery_canada_provinces" onchange="uncheckSame();">
+<option selected="selected" value="">Select province</option>
+<option value="Alberta">Alberta</option>
+<option value="British Columbia">British Columbia</option>
+<option value="Manitoba">Manitoba</option>
+<option value="New Brunswick">New Brunswick</option>
+<option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+<option value="Northwest Territories">Northwest Territories</option>
+<option value="Nova Scotia">Nova Scotia</option>
+<option value="Nunavut">Nunavut</option>
+<option value="Ontario">Ontario</option>
+<option value="Prince Edward Island">Prince Edward Island</option>
+<option value="Quebec">Quebec</option>
+<option value="Saskatchewan">Saskatchewan</option>
+<option value="Yukon">Yukon</option>
+		</select>
+
+
+	</td>
+
+</tr>
+
+
+<!-- begin delivery_state_id_block -->
+
+<tr class="state" style="display: none;">
+
+	<td class="usualbg">
+
+		{STATE_FIELD} <span class="required">{delivery_state_id_required}</span>
+
+	</td>
+
+	<td class="usualbg">
+
+		<select class="text" name="delivery_state_id" onchange="uncheckSame(); changeState(document.order_info, 'delivery');"><!-- begin delivery_state_id -->
+
+			<option {delivery_state_id_selected} value="{delivery_state_id_value}">{delivery_state_id_description}</option><!-- end delivery_state_id -->
+
+		</select>
+
+	</td>
+
+</tr><!-- end delivery_state_id_block --><!-- begin delivery_phone_block -->
 
 <tr class="usualbg">
 
@@ -1647,7 +1747,7 @@
 	<td colspan="2" align="right" class="middlebg">
 
 		<!--span class=""><input class="submit" id="continue" type="submit" value="{CONTINUE_BUTTON}" onclick="return checkOrder(document.order_info);" /></span-->
-		<span class="" style="margin-right:47px"><input class="submit" id="continue" type="submit" value="Proceed to secure payment >>" onclick="return checkOrder(document.order_info);" /></span>
+		<span class="" style="margin-right:47px"><button class="submit button rightArrow" id="continue" type="submit" value="Proceed to secure payment" onclick="return checkOrder(document.order_info);">Proceed to secure payment</button></span>
 
 	</td>
 
