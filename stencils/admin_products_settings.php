@@ -1,15 +1,4 @@
 <?php
-/*
-  ****************************************************************************
-  ***                                                                      ***
-  ***      ViArt Shop 4.0.5                                                ***
-  ***      File:  admin_products_settings.php                              ***
-  ***      Built: Fri Jan 28 01:45:24 2011                                 ***
-  ***      http://www.viart.com                                            ***
-  ***                                                                      ***
-  ****************************************************************************
-*/
-
 
 	include_once("./admin_config.php");
 	include_once($root_folder_path . "includes/common.php");
@@ -220,7 +209,16 @@
 			array(0, MANUALLY_DOWNLOAD_XML_FILE_MSG),
 			array(1, USE_FTP_TO_UPLOAD_TO_GOOGLE_MSG)
 		);
-
+// Google tmp data
+	$google_base_country =
+		array(
+			array(0, NOT_SPECIFIED_GB),
+			array(1, US_MSG_GB),
+			array(2, UK_DE_FR_MSG_GB),
+			array(3, JP_MSG_GB),
+			array(4, GOOGLE_RECOMEND_GB)
+		);
+//
 	$prod_image_types =
 		array(
 			array(0, DONT_SHOW_IMAGE_MSG),
@@ -492,6 +490,11 @@
 	$r->add_textbox("google_base_save_path", TEXT);
 	$r->add_checkbox("google_base_tax", INTEGER);
 	$r->add_textbox("google_base_days_expiry", INTEGER);
+//new fields
+	$r->add_select("google_base_country", TEXT, $google_base_country);
+	$r->add_checkbox("google_base_show_stats", INTEGER);
+//end	
+	$r->add_select("google_base_export_type", TEXT, $google_base_export_types );
 	
 	$google_base_product_conditions = 
 		array(
@@ -514,6 +517,43 @@
 	$r->add_checkbox("fast_checkout_state_required", INTEGER);
 	$r->add_checkbox("fast_checkout_postcode_show", INTEGER);
 	$r->add_checkbox("fast_checkout_postcode_required", INTEGER);
+
+	// keywords settings
+	$keywords_types = array(array("1", PER_KEYWORD_MSG), array("2", PER_FIELD_MSG));
+	$r->add_radio("keywords_search", INTEGER, $yes_no);
+	$r->add_checkbox("item_name_index", INTEGER);
+	$r->add_textbox("item_name_rank", INTEGER);
+	$r->add_select("item_name_type", INTEGER, $keywords_types);
+	$r->add_checkbox("item_code_index", INTEGER);
+	$r->add_textbox("item_code_rank", INTEGER);
+	$r->add_select("item_code_type", INTEGER, $keywords_types);
+	$r->add_checkbox("manufacturer_code_index", INTEGER);
+	$r->add_textbox("manufacturer_code_rank", INTEGER);
+	$r->add_select("manufacturer_code_type", INTEGER, $keywords_types);
+	$r->add_checkbox("short_description_index", INTEGER);
+	$r->add_textbox("short_description_rank", INTEGER);
+	$r->add_select("short_description_type", INTEGER, $keywords_types);
+	$r->add_checkbox("full_description_index", INTEGER);
+	$r->add_textbox("full_description_rank", INTEGER);
+	$r->add_select("full_description_type", INTEGER, $keywords_types);
+	$r->add_checkbox("features_index", INTEGER);
+	$r->add_textbox("features_rank", INTEGER);
+	$r->add_select("features_type", INTEGER, $keywords_types);
+	$r->add_checkbox("special_offer_index", INTEGER);
+	$r->add_textbox("special_offer_rank", INTEGER);
+	$r->add_select("special_offer_type", INTEGER, $keywords_types);
+	$r->add_checkbox("notes_index", INTEGER);
+	$r->add_textbox("notes_rank", INTEGER);
+	$r->add_select("notes_type", INTEGER, $keywords_types);
+	$r->add_checkbox("meta_title_index", INTEGER);
+	$r->add_textbox("meta_title_rank", INTEGER);
+	$r->add_select("meta_title_type", INTEGER, $keywords_types);
+	$r->add_checkbox("meta_description_index", INTEGER);
+	$r->add_textbox("meta_description_rank", INTEGER);
+	$r->add_select("meta_description_type", INTEGER, $keywords_types);
+	$r->add_checkbox("meta_keywords_index", INTEGER);
+	$r->add_textbox("meta_keywords_rank", INTEGER);
+	$r->add_select("meta_keywords_type", INTEGER, $keywords_types);
 	
 	$r->get_form_values();
 
@@ -601,7 +641,6 @@
 				}
 
 				set_session("session_settings", "");
-				session_unregister("session_settings");
 	  
 				// show success message
 				$t->parse("success_block", false);			
@@ -652,9 +691,10 @@
 		"import_export" => array("title" => IMPORT_EXPORT_MSG),
 		"fast_checkout" => array("title" => FAST_CHECKOUT_MSG),
 		"table_view" => array("title" => TABLE_VIEW_MSG),
+		"keywords" => array("title" => KEYWORDS_SEARCH_MSG),
 	);
 
-	parse_admin_tabs($tabs, $tab, 5);
+	parse_admin_tabs($tabs, $tab, 6);
 
 	// multisites
 	if ($sitelist) {

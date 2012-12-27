@@ -1,32 +1,27 @@
 <?php
-/*
-  ****************************************************************************
-  ***                                                                      ***
-  ***      ViArt Shop 4.0.5                                                ***
-  ***      File:  admin_common.php                                         ***
-  ***      Built: Fri Jan 28 01:45:24 2011                                 ***
-  ***      http://www.viart.com                                            ***
-  ***                                                                      ***
-  ****************************************************************************
-*/
-
+/*tmp constants definition*/
+//google base temporary const
+	define('NOT_SPECIFIED_GB', 'Other countries');
+	define('US_MSG_GB', 'USA');
+	define('UK_DE_FR_MSG_GB', 'UK,DE,FR');
+	define('JP_MSG_GB', 'Japan');
+	define('GOOGLE_RECOMEND_GB', 'All countries');
+	define('GB_COUNTRY_MSG', 'Data Feed Country');
+	define('GOOGLE_MERCHANT_FEED_STATS_MSG', 'Google Merchant Center feed statistics');
+	define('COUNTRY_REQ_GB', 'Country requirements');
+	define('TIME_TAKE_GB', 'Feed generated in');
+	define('SUCCESS_GB', 'No problems found feed generated successful');
+	define('ISBN_WARN_GB', 'ISBN is required for "media > books" category in USA, UK, DE, FR and Japan');
+	define('CODE_WARN_GB', 'Brand, gtin, mpc 2 of 3 are required in US, UK, DE, FR');
+	define('IMG_WARN_GB', 'Item has no image and can\'t appear in google base');
+	define('APPAREL_BRAND_WARN_GB', 'Item in apparel group should have brand and can\'t appear in google base');
+	define('SHOW_STATS_GB', 'Show Statistics and Errors report when generating a feed');
+	define('HINT_GB', 'Google Merchant Center has different required fields per country:<br />- Select "USA", "UK, DE, FR" or "Japan" depending on where you are going to promote your products.<br />- Select "All countries" if you sell products to different countries, for example USA and Europe (this value includes requirements from all countries) or generate separate feeds under two different names.<br />- Select "Other Countries" if you sell products to other not-specified countries (this value excludes all other countries requirements).<br />');
+//end
 	
 	// include admin messages
 	$root_folder_path = "../";
 	include_once($root_folder_path."messages/".$language_code."/admin_messages.php");
-
-	// new resize functionality
-	define("RESIZE_IMAGES_MSG", "Resize Images");
-	define("SOURCE_FOLDER_MSG", "Source Folder");
-	define("DESTINATION_FOLDER_MSG", "Destination Folder");
-	define("FILES_MASK_MSG", "Files Mask");
-
-	define("OVERWRITE_FILES_MSG", "Overwrite existing files");
-	define("IGNORE_FILES_MSG", "Ignore existing files");
-	define("GENERATE_NEW_FILES_MSG", "Generate new filename if file exists");
-
-	define("RESIZED_SUCCESSFULLY_MSG", "{resized_number} images were resized successfully.");
-	define("RESIZED_ERRORS_MSG", "{errors_number} errors occurred during resize images.");
 
 	// Admin Site URL settings
 	$admin_folder = get_admin_dir();
