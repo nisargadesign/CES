@@ -17,8 +17,9 @@
   reproduced without written
   permission. Cutting Edge Stencils is a trademark of Innovative Art Concepts,
   LLC<br />
-  Site designed by <a href="http://nisarga.net" target="_blank">Nisarga Design - MT</a>
-
+  Site designed by <a href="http://nisarga.net" target="_blank">Nisarga Design</a>
+<br /><br />
+  Background design by <a href="/diane-paparo.html" target="_blank">Diane Paparo</a>
 </div>
 
 <div class="footerContact">
@@ -27,3 +28,25 @@
 </div>
 
 </div>
+
+<script type="text/javascript">
+var pinDomain = encodeURIComponent("http://www.cuttingedgestencils.com/");
+var pinURL = encodeURIComponent(window.location);
+var pinMedia = "images%2Fcustom%2Fpintrest-default-image.jpg";
+if( $("div.pixBigProduct img") && $("div.pixBigProduct img").length != 0 ){
+	pinMedia = encodeURIComponent($("div.pixBigProduct img").attr("src"));
+} else if( $("div.block-category-description img.pixHome") && $("div.block-category-description img.pixHome").length != 0 ){
+	pinMedia = encodeURIComponent($("div.block-category-description img.pixHome").attr("src"));
+}
+pinMedia = (pinMedia.search("http") != -1) ? pinMedia : pinDomain + pinMedia;
+var pinDescription = "";
+if( $("div.contentStyle h1") && $("div.contentStyle h1").length != 0 && $("div.contentStyle h1").html() != null ){
+	pinDescription = " - " + encodeURIComponent($("div.contentStyle h1").html());
+}
+if($("a.pin-it-button")){
+$("a.pin-it-button").attr("href", "http://pinterest.com/pin/create/button/?url=" + pinURL +"&media=" + pinMedia + "&description=Cutting%20Edge%20Stencils" + pinDescription);
+}
+//alert("http://pinterest.com/pin/create/button/?url=" + pinURL +"&media=" + pinDomain + pinMedia + "&description=Cutting%20Edge%20Stencils");
+//document.write("<script src='http://assets.pinterest.com/js/pinit.js'><\/script>");
+</script>
+<script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
