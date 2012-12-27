@@ -80,7 +80,7 @@
 
 	$db->PageNumber = $page_number;
 
-	$sql  = " SELECT o.order_id, o.order_placed_date, os.status_name, o.goods_total, o.order_total, o.is_placed, os.paid_status, ";
+	$sql  = " SELECT o.order_id, o.order_placed_date, o.shipping_type_desc, o.shipping_tracking_id, os.status_name, o.goods_total, o.order_total, o.is_placed, os.paid_status, ";
 
 	$sql .= " o.currency_code, o.currency_rate, c.symbol_right, c.symbol_left, c.decimals_number, c.decimal_point, c.thousands_separator, ";
 
@@ -183,6 +183,15 @@
 
 
 			$t->set_var("order_status", get_translation($db->f("status_name")));
+			
+			$tracking_number = $db->f("shipping_tracking_id");
+			if(strlen($tracking_number) > 3 && strpos($db->f("shipping_type_desc"),"USPS") !== false){
+				$tracking = '<a class="tracking" href="https://tools.usps.com/go/TrackConfirmAction.action?tLabels='.$tracking_number.'" target="_blank">'.$tracking_number.'</a>';
+			}else {
+				$tracking = $tracking_number;
+			}
+			
+			$t->set_var("tracking", $tracking);
 
 			$t->set_var("order_total", currency_format($order_total, $order_currency));
 
