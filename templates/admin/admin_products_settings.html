@@ -1,0 +1,1516 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={CHARSET}">
+<title>{PRODUCTS_SETTINGS_MSG}</title>
+<link rel="stylesheet" href="styles/admin.css" type="text/css">
+<script type="text/javascript" src="../js/calendar.js"></script>
+<script language="JavaScript">
+<!--
+	function openWindow(pagename, filetype)
+	{
+		var uploadWin = window.open (pagename + '?filetype=' + filetype, 'uploadWin', 'toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=600,height=500');
+		uploadWin.focus();
+	}
+	function setFileName(filename, filetype)
+	{
+		var siteUrl = '{site_url}';
+		if(filename != "")
+		{
+			if(filetype == "logo")
+			{
+				document.record.watermark_image.value = siteUrl + "images/" + filename;
+				document.record.watermark_image.focus();
+			}
+		}
+	}
+	function rangeSelected() {
+		sel = document.record.new_product_range.selectedIndex;
+		if (sel == 3) {
+			document.getElementById("new_product_from_date_block").style.display = "block";
+		} else {
+			document.getElementById("new_product_from_date_block").style.display = "none";		
+		}
+		
+		if (sel == 2) {
+			document.getElementById("new_product_x_days_block").style.display = "block";
+		} else {
+			document.getElementById("new_product_x_days_block").style.display = "none";
+		}
+	}
+
+	function setCode(column, code)
+	{
+		var fieldName = "column_code_" + column;
+		var fieldObj = document.record.elements[fieldName];
+		if (fieldObj && code && code != "") {
+			var fieldValue = fieldObj.value;
+			if (fieldValue && fieldValue != "") {
+				fieldValue += ",";
+			}
+			fieldValue += code;
+			fieldObj.value = fieldValue;
+		}
+	}
+//-->
+</script>
+</head>
+<body class="mainbg">
+{admin_header}
+<form action="{admin_products_settings_href}" name="record" method="POST">
+<input type="hidden" name="operation" value="save">
+<input type="hidden" name="rp" value="{rp}">
+<input type="hidden" name="tab" value="{tab}">
+
+<!-- begin sitelist -->
+<div class="sitelist">
+	{SELECT_SITE_MSG}&nbsp;
+	<select name="param_site_id" onchange="reloadSite(this.form)"><!-- begin param_site_id -->
+		<option {param_site_id_selected} value="{param_site_id_value}">{param_site_id_description}<!-- end param_site_id -->
+	</select>		
+</div><!-- end sitelist -->
+{block_leftside_breadcrumbs}
+
+<div id="tabs"><!-- BEGIN tabs_rows -->
+	<ul id="{row_id}" class="tabRow"><!-- BEGIN tabs -->
+		<li id="{tab_id}" class="{tab_class}"><a class="tabA" href="#" onClick="changeTab('{tab_name}'); return false;">{tab_title}</a></li><!-- END tabs -->
+	</ul><!-- END tabs_rows -->
+</div>
+
+<div class="Block clearBoth">
+<div class="BlockContent">
+
+
+<div id="data_general" style="{general_style}">
+<!-- BEGIN success_block --><div class="messagebg">{CHANGES_SAVED_MSG}</div><!-- END success_block -->
+<!-- BEGIN errors --><div class="error">{errors_list}</div><!-- END errors -->
+<table border="0" cellpadding="6" cellspacing="1" width="100%">
+<tr class="middle">
+	<td colspan="2">{GLOBAL_SETTINGS_MSG}</td>
+</tr>
+<tr class="usual">
+	<td>{WHEN_ADDING_PRODUCT_MSG}</td>
+	<td><!-- begin confirm_add -->
+		<input type="radio" name="confirm_add" id="confirm_add{confirm_add_value}" {confirm_add_checked} value="{confirm_add_value}">
+		<label for="confirm_add{confirm_add_value}">{confirm_add_description}</label><!-- end confirm_add -->
+	</td>
+</tr>
+<tr class="usual">
+	<td>{AFTER_ADDING_PRODUCT_MSG}</td>
+	<td><!-- begin redirect_to_cart -->
+		<input type="radio" name="redirect_to_cart" id="redirect_to_cart{redirect_to_cart_value}" {redirect_to_cart_checked} value="{redirect_to_cart_value}">
+		<label for="redirect_to_cart{redirect_to_cart_value}">{redirect_to_cart_description}</label><!-- end redirect_to_cart -->
+	</td>
+</tr>
+<tr class="usual">
+	<td><label for="coupons_enable">{ENABLE_COUPONS_MSG}</label></td>
+	<td><input type="checkbox" name="coupons_enable" id="coupons_enable" {coupons_enable} value="1"></td>
+</tr>
+<tr class="usual">
+	<td>{CUSTOMER_REGISTRATION_MSG}</td>
+	<td><!-- begin user_registration -->
+		<input type="radio" name="user_registration" id="user_registration{user_registration_value}" {user_registration_checked} value="{user_registration_value}">
+		<label for="user_registration{user_registration_value}">{user_registration_description}</label><br><!-- end user_registration -->
+	</td>
+</tr>
+<tr class="usual">
+	<td>{SUBSCRIPTION_PAGE_MSG}</td>
+	<td><!-- begin subscription_page -->
+		<input type="radio" name="subscription_page" id="subscription_page{subscription_page_value}" {subscription_page_checked} value="{subscription_page_value}">
+		<label for="subscription_page{subscription_page_value}">{subscription_page_description}</label><br><!-- end subscription_page -->
+	</td>
+</tr>
+<tr class="usual">
+	<td>{DISPLAY_PRODUCTS_MSG}</td>
+	<td><!-- begin display_products -->
+		<input type="radio" name="display_products" id="display_products{display_products_value}" {display_products_checked} value="{display_products_value}">
+		<label for="display_products{display_products_value}">{display_products_description}</label><!-- end display_products -->
+	</td>
+</tr>
+<tr class="usual">
+	<td><label for="logout_cart_clear">{ON_LOGOUT_MSG}</label></td>
+	<td><input type="checkbox" name="logout_cart_clear" id="logout_cart_clear" {logout_cart_clear} value="1"> <label for="logout_cart_clear">{CLEARING_SHOPPING_CART_MSG}</label></td>
+</tr>
+<tr class="usual">
+	<td>{ORDERS_CURRENCY_MSG}</td>
+	<td><!-- begin orders_currency -->
+		<input type="radio" name="orders_currency" id="orders_currency{orders_currency_value}" {orders_currency_checked} value="{orders_currency_value}">
+		<label for="orders_currency{orders_currency_value}">{orders_currency_description}</label><!-- end orders_currency -->
+	</td>
+</tr>
+<tr class="usual">
+	<td>{ALLOW_RUN_PHP_CODE_MSG}</td>
+	<td>
+		<div class="floatLeft half30"><input type="checkbox" name="php_in_products_short_desc" id="php_in_products_short_desc" {php_in_products_short_desc} value="1">
+		<label for="php_in_products_short_desc">{SHORT_DESCRIPTION_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" name="php_in_products_full_desc" id="php_in_products_full_desc" {php_in_products_full_desc} value="1">
+		<label for="php_in_products_full_desc">{FULL_DESCRIPTION_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" name="php_in_products_features" id="php_in_products_features" {php_in_products_features} value="1">
+		<label for="php_in_products_features">{HIGHLIGHTS_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" name="php_in_products_hot_desc" id="php_in_products_hot_desc" {php_in_products_hot_desc} value="1">
+		<label for="php_in_products_hot_desc">{SPECIAL_OFFER_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" name="php_in_products_notes" id="php_in_products_notes" {php_in_products_notes} value="1">
+		<label for="php_in_products_notes">{NOTES_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" name="php_in_products_download_terms" id="php_in_products_download_terms" {php_in_products_download_terms} value="1">
+		<label for="php_in_products_download_terms">{DOWNLOAD_TERMS_MSG}</label></div>
+	</td>
+</tr>
+<tr class="middle">
+	<td colspan="2">{RSS_SETTINGS_MSG}</td>
+</tr>
+<tr class="usual">
+	<td><label for="is_rss">{ACTIVATE_RSS_MSG}</label></td>
+	<td><input type="checkbox" name="is_rss" id="is_rss" {is_rss} value="1"></td>
+</tr>
+<tr class="middle">
+	<td>&nbsp;</td>
+	<td>
+		<span class="button"><input class="submit" type="submit" value="{UPDATE_BUTTON}" onCLick="document.record.operation.value='save'"></span>
+		<span class="button"><input class="submit" type="reset" value="{RESET_BUTTON}" onCLick="document.record.operation.value='cancel'"></span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div id="data_tax" style="{tax_style}">
+<table border="0" cellpadding="6" cellspacing="1" width="100%">
+<tr class="middle">
+	<td colspan="2">{TAX_SETTINGS_MSG}</td>
+</tr>
+<tr class="usual">
+	<td>{PRICES_TYPE_MSG}</td>
+	<td>
+		<select name="tax_prices_type"><!-- begin tax_prices_type -->
+			<option {tax_prices_type_selected} value="{tax_prices_type_value}">{tax_prices_type_description}<!-- end tax_prices_type -->
+		</select>
+		<img onmouseover="showHint(this, 'pricesTypeHint');" onmouseout="hideHint('pricesTypeHint');" src="images/question.gif" border="0" align="top" alt="" title="">
+		<div id="pricesTypeHint" class="hintPopup">{PRICES_TYPE_DESC}</div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{DISPLAY_PRICES_MSG}</td>
+	<td>
+		<select name="tax_prices"><!-- begin tax_prices -->
+			<option {tax_prices_selected} value="{tax_prices_value}">{tax_prices_description}<!-- end tax_prices -->
+		</select>
+		<span class="small">(<a href="{admin_tax_rates_href}">{TAX_PRICES_BASED_ON_MSG}</a>)</span>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{TAX_INCL_MSG}</td>
+	<td><input class="field" type="text" size="40" name="tax_note" value="{tax_note}"></td>
+</tr>
+<tr class="usual">
+	<td>{TAX_EXCL_MSG}</td>
+	<td><input class="field" type="text" size="40" name="tax_note_excl" value="{tax_note_excl}"></td>
+</tr>
+<tr class="middle">
+	<td>&nbsp;</td>
+	<td>
+		<span class="button"><input class="submit" type="submit" value="{UPDATE_BUTTON}" onCLick="document.record.operation.value='save'"></span>
+		<span class="button"><input class="submit" type="reset" value="{RESET_BUTTON}" onCLick="document.record.operation.value='cancel'"></span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div id="data_merchants_affiliates" style="{merchants_affiliates_style}">
+<table border="0" cellpadding="6" cellspacing="1" width="100%">
+<tr class="middle">
+	<td colspan="2">{MERCHANTS_AFFILIATES_MSG}</td>
+</tr>
+<tr class="usual">
+	<td>{MERCHANT_FEE_MSG}</td>
+	<td>
+		<select name="merchant_fee_type"><!-- begin merchant_fee_type -->
+			<option {merchant_fee_type_selected} value="{merchant_fee_type_value}">{merchant_fee_type_description}<!-- end merchant_fee_type -->
+		</select>
+		&nbsp; {AMOUNT_MSG} <input class="field"  type="text" name="merchant_fee_amount" size="20" value="{merchant_fee_amount}">
+	</td>
+</tr>
+<tr class="usual">
+	<td>{AFFILIATE_COMMISSION_MSG}</td>
+	<td>
+		<select name="affiliate_commission_type"><!-- begin affiliate_commission_type -->
+			<option {affiliate_commission_type_selected} value="{affiliate_commission_type_value}">{affiliate_commission_type_description}<!-- end affiliate_commission_type -->
+		</select>
+		&nbsp; {AMOUNT_MSG} <input class="field"  type="text" name="affiliate_commission_amount" size="20" value="{affiliate_commission_amount}">
+	</td>
+</tr>
+<tr class="usual">
+	<td><label for="affiliate_commission_deduct">{AFFILIATE_COMMISSIONS_DEDUCTION_MSG}</label></td>
+	<td>
+		<input type="checkbox" name="affiliate_commission_deduct" id="affiliate_commission_deduct" {affiliate_commission_deduct} value="1">
+		<img onmouseover="showHint(this, 'affCommHint');" onmouseout="hideHint('affCommHint');" src="images/question.gif" border="0" align="top" alt="" title="">
+		<div id="affCommHint" class="hintPopup">{AFFILIATE_COMMISSIONS_DEDUCTION_NOTE}</div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{AFFILIATE_COOKIE_EXPIRES_MSG}</td>
+	<td>
+		<input class="field"  type="text" name="affiliate_cookie_expire" size="20" value="{affiliate_cookie_expire}">
+		<span class="small">({DAYS_MSG})</span>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{MINIMUM_PAYMENT_AMOUNT_MSG}</td>
+	<td>
+		<input class="field"  type="text" name="min_payment_amount" size="20" value="{min_payment_amount}" maxlength="12"> 
+		<span class="small">({MINIMUM_PAYMENT_AMOUNT_NOTE})</span>
+	</td>
+</tr>
+<tr class="usual">
+	<td><label for="tell_friend_param">{TELL_FRIEND_PARAM_MSG}</label></td>
+	<td>
+		<input type="checkbox" name="tell_friend_param" id="tell_friend_param" {tell_friend_param} value="1">
+		<img onmouseover="showHint(this, 'tellFriendHint');" onmouseout="hideHint('tellFriendHint');" src="images/question.gif" border="0" align="top" alt="" title="">
+		<div id="tellFriendHint" class="hintPopup">{TELL_FRIEND_PARAM_DESC}</div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{FRIEND_COOKIE_EXPIRES_MSG}</td>
+	<td>
+		<input class="field"  type="text" name="friend_cookie_expire" size="20" value="{friend_cookie_expire}">
+		<span class="small">({DAYS_MSG})</span>
+	</td>
+</tr>
+<tr class="middle">
+	<td>&nbsp;</td>
+	<td>
+		<span class="button"><input class="submit" type="submit" value="{UPDATE_BUTTON}" onCLick="document.record.operation.value='save'"></span>
+		<span class="button"><input class="submit" type="reset" value="{RESET_BUTTON}" onCLick="document.record.operation.value='cancel'"></span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div id="data_appearance" style="{appearance_style}">
+<table border="0" cellpadding="6" cellspacing="1" width="100%">
+<tr class="middle">
+	<td colspan="2">{QUANTITY_CONTROL_MSG}</td>
+</tr>
+<tr class="usual">
+	<td width="30%">
+		{QUANTITY_CONTROL_MSG}
+	</td>
+	<td>
+		<select name="quantity_control_list"><!-- begin quantity_control_list -->
+			<option {quantity_control_list_selected} value="{quantity_control_list_value}">{quantity_control_list_description}<!-- end quantity_control_list -->
+		</select>
+		<img onmouseover="showHint(this, 'qtyListHint');" onmouseout="hideHint('qtyListHint');" src="images/question.gif" border="0" align="top" alt="" title="">
+		<div id="qtyListHint" class="hintPopup">{PRODUCTS_QUANTITY_CONTROL_NOTE}</div>
+		({ON_PROD_LIST_MSG})
+
+		<br>
+		<select name="quantity_control_table"><!-- begin quantity_control_table -->
+			<option {quantity_control_table_selected} value="{quantity_control_table_value}">{quantity_control_table_description}<!-- end quantity_control_table -->
+		</select>
+		<img onmouseover="showHint(this, 'qtyListHint');" onmouseout="hideHint('qtyListHint');" src="images/question.gif" border="0" align="top" alt="" title="">
+		({ON_TABLE_VIEW_MSG})
+		
+		<br>
+		<select name="quantity_control_grid"><!-- begin quantity_control_grid -->
+			<option {quantity_control_grid_selected} value="{quantity_control_grid_value}">{quantity_control_grid_description}<!-- end quantity_control_grid -->
+		</select>
+		<img onmouseover="showHint(this, 'qtyListHint');" onmouseout="hideHint('qtyListHint');" src="images/question.gif" border="0" align="top" alt="" title="">
+		({ON_GRID_VIEW_MSG})
+
+		<br>
+		<select name="quantity_control_details"><!-- begin quantity_control_details -->
+			<option {quantity_control_details_selected} value="{quantity_control_details_value}">{quantity_control_details_description}<!-- end quantity_control_details -->
+		</select>
+		<img onmouseover="showHint(this, 'qtyListHint');" onmouseout="hideHint('qtyListHint');" src="images/question.gif" border="0" align="top" alt="" title="">
+		({ON_PROD_DETAILS_MSG})
+
+		<br>
+		<select name="quantity_control_basket"><!-- begin quantity_control_basket -->
+			<option {quantity_control_basket_selected} value="{quantity_control_basket_value}">{quantity_control_basket_description}<!-- end quantity_control_basket -->
+		</select>
+		<img onmouseover="showHint(this, 'qtyBasketHint');" onmouseout="hideHint('qtyBasketHint');" src="images/question.gif" border="0" align="top" alt="" title="">
+		<div id="qtyBasketHint" class="hintPopup">{BASKET_QUANTITY_CONTROL_NOTE}</div>
+		({ON_BASKET_PAGE_MSG})
+
+	</td>
+</tr>
+<tr class="middle">
+	<td colspan="2">{NEW_PRODUCTS_SETTINGS_MSG}</td>
+</tr>
+<tr class="usual">
+	<td><label for="new_product_enable">{ENABLE_NEW_PRODUCT_MARK_MSG}</label></td>
+	<td><input type="checkbox" {new_product_enable} name="new_product_enable" id="new_product_enable" value="1"></td>
+</tr>
+<tr class="usual">
+	<td>{SORT_ORDER_MSG}</td>
+	<td>
+		<select name="new_product_order"><!-- begin new_product_order -->
+			<option {new_product_order_selected} value="{new_product_order_value}">{new_product_order_description}<!-- end new_product_order -->
+		</select> 
+	</td>
+</tr>
+<tr class="usual">
+	<td>{NEW_MARK_NOTE}</td>
+	<td>
+		<div class="floatLeft">
+			<select name="new_product_range" onChange="rangeSelected()"><!-- begin new_product_range -->
+				<option {new_product_range_selected} value="{new_product_range_value}">{new_product_range_description}<!-- end new_product_range -->
+			</select> 
+		</div>
+		<div class="floatLeft" id="new_product_from_date_block" style="display: none;">
+			&nbsp;&nbsp;{FROM_DATE_MSG} ({date_edit_format}):			
+			<input type="text" name="new_product_from_date" value="{new_product_from_date}" class="search">
+			<a href="#"
+				onClick="setDateField(document.record.new_product_from_date, '{date_edit_format}');
+				top.newWin = window.open('../js/calendar.html','cal','dependent=yes,width=210,height=230,screenX=200,screenY=300,titlebar=yes'); top.newWin.focus(); return false;">
+			<img src="images/calendar.gif" border="0" align="top" alt="{CALENDAR_MSG}" title="{CALENDAR_MSG}"></a>
+		</div>
+		<div class="floatLeft" id="new_product_x_days_block" style="display:none;">
+			&nbsp;&nbsp;{DAYS_MSG}:			
+			<input type="text" name="new_product_x_days" value="{new_product_x_days}" class="search">				
+		</div>			
+	</td>
+</tr>
+<tr class="middle">
+	<td colspan="2">{ZERO_PRICE_MSG}</td>
+</tr>
+<tr class="usual">
+	<td>{ZERO_PRICE_TYPE_MSG}</td>
+	<td><!-- begin zero_price_type -->
+		<input type="radio" name="zero_price_type" id="zero_price_type{zero_price_type_value}" {zero_price_type_checked} value="{zero_price_type_value}">
+		<label for="zero_price_type{zero_price_type_value}">{zero_price_type_description}</label><!-- end zero_price_type -->
+	</td>
+</tr>
+<tr class="usual">
+	<td>{ZERO_PRICE_MESSAGE_MSG}</td>
+	<td><input class="field"  type="text" name="zero_price_message" size="80" value="{zero_price_message}"></td>
+</tr>
+<tr class="usual">
+	<td>{ZERO_PRODUCT_ACTION_MSG}</td>
+	<td><!-- begin zero_product_action -->
+		<input type="radio" name="zero_product_action" id="zero_product_action{zero_product_action_value}" {zero_product_action_checked} value="{zero_product_action_value}">
+		<label for="zero_product_action{zero_product_action_value}">{zero_product_action_description}</label><br><!-- end zero_product_action -->
+	</td>
+</tr>
+<tr class="usual">
+	<td>{ZERO_PEODUCT_WARNING_MSG}</td>
+	<td><input class="field"  type="text" name="zero_product_warn" size="80" value="{zero_product_warn}"></td>
+</tr>
+<tr class="middle">
+	<td colspan="2">{PROD_APPEARANCE_MSG}</td>
+</tr>
+<tr class="usual">
+	<td>{DISPLAY_COMPONENTS_AND_OPTIONS_LIST_MSG}</td>
+	<td><!-- begin components_list_style -->
+		<input type="radio" name="components_list_style" id="components_list_style{components_list_style_value}" {components_list_style_checked} value="{components_list_style_value}">
+		<label for="components_list_style{components_list_style_value}">{components_list_style_description}</label><!-- end components_list_style -->
+	</td>
+</tr>
+<tr class="usual">
+	<td>{PRICE_MATRIX_MSG}</td>
+	<td >
+		<div class="floatLeft half30"><input type="checkbox" {price_matrix_list} name="price_matrix_list" id="price_matrix_list" value="1">
+		<label for="price_matrix_list">{ON_PROD_LIST_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {price_matrix_details} name="price_matrix_details" id="price_matrix_details" value="1">
+		<label for="price_matrix_details">{ON_PROD_DETAILS_MSG}</label></div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{SHOW_PRODUCT_CODE_MSG}</td>
+	<td>
+
+		<div class="floatLeft half30"><input type="checkbox" {item_code_list} name="item_code_list" id="item_code_list" value="1">
+		<label for="item_code_list">{ON_PROD_LIST_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {item_code_table} name="item_code_table" id="item_code_table" value="1">
+		<label for="item_code_table">{ON_TABLE_VIEW_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {item_code_grid} name="item_code_grid" id="item_code_grid" value="1">
+		<label for="item_code_grid">{ON_GRID_VIEW_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {item_code_details} name="item_code_details" id="item_code_details" value="1">
+		<label for="item_code_details">{ON_PROD_DETAILS_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {item_code_basket} name="item_code_basket" id="item_code_basket" value="1">
+		<label for="item_code_basket">{ON_BASKET_PAGE_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {item_code_checkout} name="item_code_checkout" id="item_code_checkout" value="1">
+		<label for="item_code_checkout">{ON_ORDERS_CHECKOUT_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {item_code_invoice} name="item_code_invoice" id="item_code_invoice" value="1">
+		<label for="item_code_invoice">{ON_INVOICE_MSG}</label></div>
+		<!--
+		<div class="floatLeft half30"><input type="checkbox" {item_code_reports} name="item_code_reports" value="1"> <label for=""><span class="small">{ON_REPORTS_MSG}</label></div>
+		-->
+	</td>
+</tr>
+<tr class="usual">
+	<td>{SHOW_MANUFACTURER_CODE_MSG}</td>
+	<td>
+		<div class="floatLeft half30"><input type="checkbox" {manufacturer_code_list} name="manufacturer_code_list" id="manufacturer_code_list" value="1">
+		<label for="manufacturer_code_list">{ON_PROD_LIST_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {manufacturer_code_table} name="manufacturer_code_table" id="manufacturer_code_table" value="1">
+		<label for="manufacturer_code_table">{ON_TABLE_VIEW_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {manufacturer_code_grid} name="manufacturer_code_grid" id="manufacturer_code_grid" value="1">
+		<label for="manufacturer_code_grid">{ON_GRID_VIEW_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {manufacturer_code_details} name="manufacturer_code_details" id="manufacturer_code_details" value="1">
+		<label for="manufacturer_code_details">{ON_PROD_DETAILS_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {manufacturer_code_basket} name="manufacturer_code_basket" id="manufacturer_code_basket" value="1">
+		<label for="manufacturer_code_basket">{ON_BASKET_PAGE_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {manufacturer_code_checkout} name="manufacturer_code_checkout" id="manufacturer_code_checkout" value="1">
+		<label for="manufacturer_code_checkout">{ON_ORDERS_CHECKOUT_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {manufacturer_code_invoice} name="manufacturer_code_invoice" id="manufacturer_code_invoice" value="1">
+		<label for="manufacturer_code_invoice">{ON_INVOICE_MSG}</label></div>
+		<!--
+		<div class="floatLeft half30"><input type="checkbox" {manufacturer_code_reports} name="manufacturer_code_reports" value="1"> <label for="">{ON_REPORTS_MSG}</label></div>
+		-->
+	</td>
+</tr>
+<tr class="usual">
+	<td>{SHOW_STOCK_LEVEL_MSG}</td>
+	<td >
+		<div class="floatLeft half30"><input type="checkbox" {stock_level_list} name="stock_level_list" id="stock_level_list" value="1">
+		<label for="stock_level_list">{ON_PROD_LIST_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {stock_level_table} name="stock_level_table" id="stock_level_table" value="1">
+		<label for="stock_level_table">{ON_TABLE_VIEW_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {stock_level_grid} name="stock_level_grid" id="stock_level_grid" value="1">
+		<label for="stock_level_grid">{ON_GRID_VIEW_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {stock_level_details} name="stock_level_details" id="stock_level_details" value="1">
+		<label for="stock_level_details">{ON_PROD_DETAILS_MSG}</label></div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{hide_add_message}</td>
+	<td>
+		<div class="floatLeft half30"><input type="checkbox" {hide_add_list} name="hide_add_list" id="hide_add_list" value="1">
+		<label for="hide_add_list">{ON_PROD_LIST_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {hide_add_table} name="hide_add_table" id="hide_add_table" value="1">
+		<label for="hide_add_table">{ON_TABLE_VIEW_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {hide_add_grid} name="hide_add_grid" id="hide_add_grid" value="1">
+		<label for="hide_add_grid">{ON_GRID_VIEW_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {hide_add_details} name="hide_add_details" id="hide_add_details" value="1">
+		<label for="hide_add_details">{ON_PROD_DETAILS_MSG}</label></div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{hide_view_message}</td>
+	<td>
+		<div class="floatLeft half30"><input type="checkbox" {hide_view_list} name="hide_view_list" id="hide_view_list" value="1">
+		<label for="hide_view_list">{ON_PROD_LIST_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {hide_view_table} name="hide_view_table" id="hide_view_table" value="1">
+		<label for="hide_view_table">{ON_TABLE_VIEW_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {hide_view_grid} name="hide_view_grid" id="hide_view_grid" value="1">
+		<label for="hide_view_grid">{ON_GRID_VIEW_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {hide_view_details} name="hide_view_details" id="hide_view_details" value="1">
+		<label for="hide_view_details">{ON_PROD_DETAILS_MSG}</label></div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{hide_goto_message}</td>
+	<td>
+		<div class="floatLeft half30"><input type="checkbox" {hide_checkout_list} name="hide_checkout_list" id="hide_checkout_list" value="1">
+		<label for="hide_checkout_list">{ON_PROD_LIST_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {hide_checkout_table} name="hide_checkout_table" id="hide_checkout_table" value="1">
+		<label for="hide_checkout_table">{ON_TABLE_VIEW_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {hide_checkout_grid} name="hide_checkout_grid" id="hide_checkout_grid" value="1">
+		<label for="hide_checkout_grid">{ON_GRID_VIEW_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {hide_checkout_details} name="hide_checkout_details" id="hide_checkout_details" value="1">
+		<label for="hide_checkout_details">{ON_PROD_DETAILS_MSG}</label></div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{hide_wish_message}</td>
+	<td>
+		<div class="floatLeft half30"><input type="checkbox" {hide_wishlist_list} name="hide_wishlist_list" id="hide_wishlist_list" value="1">
+		<label for="hide_wishlist_list">{ON_PROD_LIST_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {hide_wishlist_table} name="hide_wishlist_table" id="hide_wishlist_table" value="1">
+		<label for="hide_wishlist_table">{ON_TABLE_VIEW_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {hide_wishlist_grid} name="hide_wishlist_grid" id="hide_wishlist_grid" value="1">
+		<label for="hide_wishlist_grid">{ON_GRID_VIEW_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {hide_wishlist_details} name="hide_wishlist_details" id="hide_wishlist_details" value="1">
+		<label for="hide_wishlist_details">{ON_PROD_DETAILS_MSG}</label></div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{hide_shipping_message}</td>
+	<td>
+		<div class="floatLeft half30"><input type="checkbox" {hide_shipping_details} name="hide_shipping_details" id="hide_shipping_details" value="1">
+		<label for="hide_shipping_details">{ON_PROD_DETAILS_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {hide_shipping_basket} name="hide_shipping_basket" id="hide_shipping_basket" value="1">
+		<label for="hide_shipping_basket">{ON_BASKET_PAGE_MSG}</label></div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{HIDE_WEIGHT_INFO_MSG}</td>
+	<td>
+		<div class="floatLeft half30"><input type="checkbox" {hide_weight_details} name="hide_weight_details" id="hide_weight_details" value="1">
+		<label for="hide_weight_details">{ON_PROD_DETAILS_MSG}</label></div>
+	</td>
+</tr>
+<tr class="middle">
+	<td colspan="2">{OPTIONS_COMPONENTS_PRICE_MSG}</td>
+</tr>
+<tr class="usual">
+	<td>{POSITIVE_PRICE_RIGHT_MSG}</td>
+	<td><input class="field" type="text" size="20" name="option_positive_price_right" value="{option_positive_price_right}"></td>
+</tr>
+<tr class="usual">
+	<td>{POSITIVE_PRICE_LEFT_MSG}</td>
+	<td><input class="field" type="text" size="20" name="option_positive_price_left" value="{option_positive_price_left}"></td>
+</tr>
+<tr class="usual">
+	<td>{NEGATIVE_PRICE_RIGHT_MSG}</td>
+	<td><input class="field" type="text" size="20" name="option_negative_price_right" value="{option_negative_price_right}"></td>
+</tr>
+<tr class="usual">
+	<td>{NEGATIVE_PRICE_LEFT_MSG}</td>
+	<td><input class="field" type="text" size="20" name="option_negative_price_left" value="{option_negative_price_left}"></td>
+</tr>
+<tr class="middle">
+	<td colspan="2">{CART_COLUMNS_MSG}</td>
+</tr>
+<tr class="middle">
+	<td colspan="2">&mdash; {ON_BASKET_PAGE_MSG}</td>
+</tr>
+<tr class="usual">
+	<td colspan="2">
+		<div class="floatLeft half25"><input type="checkbox" {basket_item_name} name="basket_item_name" id="basket_item_name" value="1">
+		<label for="basket_item_name">{PROD_NAME_MSG}</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {basket_item_price} name="basket_item_price" id="basket_item_price" value="1"> 
+		<label for="basket_item_price">{PRICE_EXCL_TAX_MSG}</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {basket_item_tax_percent} name="basket_item_tax_percent" id="basket_item_tax_percent" value="1"> 
+		<label for="basket_item_tax_percent">{TAX_PERCENTAGE_MSG}</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {basket_item_tax} name="basket_item_tax" id="basket_item_tax" value="1"> 
+		<label for="basket_item_tax">{TAX_MSG}</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {basket_item_price_incl_tax} name="basket_item_price_incl_tax" id="basket_item_price_incl_tax" value="1"> 
+		<label for="basket_item_price_incl_tax">{PRICE_INCL_EXCL_TAX_MSG}</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {basket_item_quantity} name="basket_item_quantity" id="basket_item_quantity" value="1"> 
+		<label for="basket_item_quantity">{QUANTITY_MSG}</label></div>
+		<div class="floatLeft half50"><input type="checkbox" {basket_item_price_total} name="basket_item_price_total" id="basket_item_price_total" value="1"> 
+		<label for="basket_item_price_total">{TOTAL_PRICE_EXCL_TAX_MSG} ({PRICE_MSG} x {QUANTITY_MSG})</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {basket_item_tax_total} name="basket_item_tax_total" id="basket_item_tax_total" value="1"> 
+		<label for="basket_item_tax_total">{TOTAL_TAX_MSG} ({TAX_MSG} x {QUANTITY_MSG})</label></div>
+		<div class="floatLeft half50"><input type="checkbox" {basket_item_price_incl_tax_total} name="basket_item_price_incl_tax_total" id="basket_item_price_incl_tax_total" value="1"> 
+		<label for="basket_item_price_incl_tax_total">{TOTAL_PRICE_INCL_TAX_MSG} ({PRICE_INCL_TAX_MSG} x {QUANTITY_MSG})</label></div>		
+	</td>
+</tr>
+<tr class="middle">
+	<td colspan="2">&mdash; {ON_ORDERS_CHECKOUT_MSG}</td>
+</tr>
+<tr class="usual">
+	<td colspan="2">
+		<div class="floatLeft half25"><input type="checkbox" {checkout_item_name} name="checkout_item_name" id="checkout_item_name" value="1"> 
+		<label for="checkout_item_name">{PROD_NAME_MSG}</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {checkout_item_price} name="checkout_item_price" id="checkout_item_price" value="1"> 
+		<label for="checkout_item_price">{PRICE_EXCL_TAX_MSG}</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {checkout_item_tax_percent} name="checkout_item_tax_percent" id="checkout_item_tax_percent" value="1"> 
+		<label for="checkout_item_tax_percent">{TAX_PERCENTAGE_MSG}</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {checkout_item_tax} name="checkout_item_tax" id="checkout_item_tax" value="1"> 
+		<label for="checkout_item_tax">{TAX_MSG}</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {checkout_item_price_incl_tax} name="checkout_item_price_incl_tax" id="checkout_item_price_incl_tax" value="1"> 
+		<label for="checkout_item_price_incl_tax">{PRICE_INCL_EXCL_TAX_MSG}</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {checkout_item_quantity} name="checkout_item_quantity" id="checkout_item_quantity" value="1"> 
+		<label for="checkout_item_quantity">{QUANTITY_MSG}</label></div>
+		<div class="floatLeft half50"><input type="checkbox" {checkout_item_price_total} name="checkout_item_price_total" id="checkout_item_price_total" value="1"> 
+		<label for="checkout_item_price_total">{TOTAL_PRICE_EXCL_TAX_MSG} ({PRICE_MSG} x {QUANTITY_MSG})</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {checkout_item_tax_total} name="checkout_item_tax_total" id="checkout_item_tax_total" value="1"> 
+		<label for="checkout_item_tax_total">{TOTAL_TAX_MSG} ({TAX_MSG} x {QUANTITY_MSG})</label></div>
+		<div class="floatLeft half50"><input type="checkbox" {checkout_item_price_incl_tax_total} name="checkout_item_price_incl_tax_total" id="checkout_item_price_incl_tax_total" value="1"> 
+		<label for="checkout_item_price_incl_tax_total">{TOTAL_PRICE_INCL_TAX_MSG} ({PRICE_INCL_TAX_MSG} x {QUANTITY_MSG})</label></div>
+		<div class="floatLeft half25"><select name="checkout_item_image"><!-- begin checkout_item_image -->
+			<option {checkout_item_image_selected} value="{checkout_item_image_value}">{checkout_item_image_description}<!-- end checkout_item_image -->
+		</select></div>
+	</td>
+</tr>
+<tr class="middle">
+	<td colspan="2">&mdash; {ON_INVOICE_MSG}</td>
+</tr>
+<tr class="usual">
+	<td colspan="2">
+		<div class="floatLeft half25"><input type="checkbox" {invoice_item_name} name="invoice_item_name" id="invoice_item_name" value="1"> 
+		<label for="invoice_item_name">{PROD_NAME_MSG}</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {invoice_item_price} name="invoice_item_price" id="invoice_item_price" value="1"> 
+		<label for="invoice_item_price">{PRICE_EXCL_TAX_MSG}</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {invoice_item_tax_percent} name="invoice_item_tax_percent" id="invoice_item_tax_percent" value="1"> 
+		<label for="invoice_item_tax_percent">{TAX_PERCENTAGE_MSG}</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {invoice_item_tax} name="invoice_item_tax" id="invoice_item_tax" value="1"> 
+		<label for="invoice_item_tax">{TAX_MSG}</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {invoice_item_price_incl_tax} name="invoice_item_price_incl_tax" id="invoice_item_price_incl_tax" value="1"> 
+		<label for="invoice_item_price_incl_tax">{PRICE_INCL_TAX_MSG}</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {invoice_item_quantity} name="invoice_item_quantity" id="invoice_item_quantity" value="1"> 
+		<label for="invoice_item_quantity">{QUANTITY_MSG}</label></div>
+		<div class="floatLeft half50"><input type="checkbox" {invoice_item_price_total} name="invoice_item_price_total" id="invoice_item_price_total" value="1"> 
+		<label for="invoice_item_price_total">{TOTAL_PRICE_EXCL_TAX_MSG} ({PRICE_MSG} x {QUANTITY_MSG})</label></div>
+		<div class="floatLeft half25"><input type="checkbox" {invoice_item_tax_total} name="invoice_item_tax_total" id="invoice_item_tax_total" value="1"> 
+		<label for="invoice_item_tax_total">{TOTAL_TAX_MSG} ({TAX_MSG} x {QUANTITY_MSG})</label></div>
+		<div class="floatLeft half50"><input type="checkbox" {invoice_item_price_incl_tax_total} name="invoice_item_price_incl_tax_total" id="invoice_item_price_incl_tax_total" value="1"> 
+		<label for="invoice_item_price_incl_tax_total">{TOTAL_PRICE_INCL_TAX_MSG} ({PRICE_INCL_TAX_MSG} x {QUANTITY_MSG})</label></div>
+		<div class="floatLeft half25"><select name="invoice_item_image"><!-- begin invoice_item_image -->
+			<option {invoice_item_image_selected} value="{invoice_item_image_value}">{invoice_item_image_description}<!-- end invoice_item_image -->
+		</select></div>
+	</td>
+</tr>
+<tr class="middle">
+	<td>&nbsp;</td>
+	<td>
+		<span class="button"><input class="submit" type="submit" value="{UPDATE_BUTTON}" onCLick="document.record.operation.value='save'"></span>
+		<span class="button"><input class="submit" type="reset" value="{RESET_BUTTON}" onCLick="document.record.operation.value='cancel'"></span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div id="data_points" style="{points_style}">
+<table border="0" cellpadding="6" cellspacing="1" width="100%">
+<tr class="middle">
+	<td colspan="2">{POINTS_MSG}</td>
+</tr>
+<tr class="usual">
+	<td>{PAY_WITH_POINTS_SYSTEM_MSG}</td>
+	<td><!-- begin points_system -->
+		<input type="radio" name="points_system" id="points_system{points_system_value}" {points_system_checked} value="{points_system_value}">
+		<label for="points_system{points_system_value}">{points_system_description}</label><!-- end points_system -->
+	</td>
+</tr>
+<tr class="usual">
+	<td>{POINTS_CONVERSION_RATE_MSG}</td>
+	<td><input class="field" type="text" name="points_conversion_rate" value="{points_conversion_rate}" size="10" maxlength="10"></td>
+</tr>
+<tr class="usual">
+	<td>{POINTS_DECIMALS_MSG}</td>
+	<td><input class="field" type="text" name="points_decimals" value="{points_decimals}" size="10" maxlength="10"></td>
+</tr>
+<tr class="usual">
+	<td>{SHOW_POINTS_PRICE_MSG}</td>
+	<td>
+		<div class="floatLeft half30"><input type="checkbox" {points_price_list} name="points_price_list" id="points_price_list" value="1"> 
+		<label for="points_price_list">{ON_PROD_LIST_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {points_price_details} name="points_price_details" id="points_price_details" value="1"> 
+		<label for="points_price_details">{ON_PROD_DETAILS_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {points_price_basket} name="points_price_basket" id="points_price_basket" value="1"> 
+		<label for="points_price_basket">{ON_BASKET_PAGE_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {points_price_checkout} name="points_price_checkout" id="points_price_checkout" value="1"> 
+		<label for="points_price_checkout">{ON_ORDERS_CHECKOUT_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {points_price_invoice} name="points_price_invoice" id="points_price_invoice" value="1"> 
+		<label for="points_price_invoice">{ON_INVOICE_MSG}</label></div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{PROD_PAY_POINTS_MSG}</td>
+	<td>
+		<select name="points_prices"><!-- begin points_prices -->
+			<option {points_prices_selected} value="{points_prices_value}">{points_prices_description}<!-- end points_prices -->
+		</select>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{SHIPPING_PAY_POINTS_MSG}</td>
+	<td>
+		<select name="points_shipping"><!-- begin points_shipping -->
+			<option {points_shipping_selected} value="{points_shipping_value}">{points_shipping_description}<!-- end points_shipping -->
+		</select>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{ORDER_OPTIONS_PAY_POINTS_MSG}</td>
+	<td>
+		<select name="points_orders_options"><!-- begin points_orders_options -->
+			<option {points_orders_options_selected} value="{points_orders_options_value}">{points_orders_options_description}<!-- end points_orders_options -->
+		</select>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{REWARD_POINTS_MSG}</td>
+	<td>
+		<select name="reward_type"><!-- begin reward_type -->
+			<option {reward_type_selected} value="{reward_type_value}">{reward_type_description}<!-- end reward_type -->
+		</select>
+		&nbsp;{AMOUNT_MSG}
+		<input class="field" type="text" name="reward_amount" value="{reward_amount}" size="10" maxlength="10">
+	</td>
+</tr>
+<tr class="usual">
+	<td>{SHOW_REWARD_POINTS_MSG}</td>
+	<td>
+		<div class="floatLeft half30"><input type="checkbox" {reward_points_list} name="reward_points_list" id="reward_points_list" value="1"> 
+		<label for="reward_points_list">{ON_PROD_LIST_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {reward_points_details} name="reward_points_details" id="reward_points_details" value="1"> 
+		<label for="reward_points_details">{ON_PROD_DETAILS_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {reward_points_basket} name="reward_points_basket" id="reward_points_basket" value="1"> 
+		<label for="reward_points_basket">{ON_BASKET_PAGE_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {reward_points_checkout} name="reward_points_checkout" id="reward_points_checkout" value="1"> 
+		<label for="reward_points_checkout">{ON_ORDERS_CHECKOUT_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {reward_points_invoice} name="reward_points_invoice" id="reward_points_invoice" value="1"> 
+		<label for="reward_points_invoice">{ON_INVOICE_MSG}</label></div>
+	</td>
+</tr>
+<tr class="usual">
+	<td><label for="points_for_points">{ACCUMULATE_POINTS_MSG}</label></td>
+	<td>
+		<input type="checkbox" name="points_for_points" id="points_for_points" {points_for_points} value="1">
+		<label for="points_for_points">{ACCUMULATE_POINTS_FOR_POINTS_MSG}</label>
+	</td>
+</tr>
+<tr class="usual">
+	<td><label for="credits_for_points">{ACCUMULATE_CREDITS_MSG}</label></td>
+	<td>
+		<input type="checkbox" name="credits_for_points" id="credits_for_points" {credits_for_points} value="1">
+		<label for="credits_for_points">{ACCUMULATE_CREDITS_DESC}</label>
+	</td>
+</tr>
+<tr class="middle">
+	<td colspan="2">{CREDITS_MSG}</td>
+</tr>
+<tr class="usual">
+	<td>{CREDITS_SYSTEM_MSG}</td>
+	<td><!-- begin credit_system -->
+		<input type="radio" name="credit_system" id="credit_system{credit_system_value}" {credit_system_checked} value="{credit_system_value}">
+		<label for="credit_system{credit_system_value}">{credit_system_description}</label><!-- end credit_system -->
+	</td>
+</tr>
+<tr class="usual">
+	<td>{REWARD_CREDITS_MSG}</td>
+	<td>
+		<select name="credit_reward_type"><!-- begin credit_reward_type -->
+			<option {credit_reward_type_selected} value="{credit_reward_type_value}">{credit_reward_type_description}<!-- end credit_reward_type -->
+		</select>
+		&nbsp;{AMOUNT_MSG}
+		<input class="field" type="text" name="credit_reward_amount" value="{credit_reward_amount}" size="10" maxlength="10">
+	</td>
+</tr>
+<tr class="usual">
+	<td>{SHOW_CREDITS_BALANCE_MSG}</td>
+	<td>
+		<div class="floatLeft half30"><input type="checkbox" {credits_balance_user_home} name="credits_balance_user_home" id="credits_balance_user_home" value="1"> 
+		<label for="credits_balance_user_home">{ON_USER_HOME_BLOCK_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {credits_balance_order_profile} name="credits_balance_order_profile" id="credits_balance_order_profile" value="1"> 
+		<label for="credits_balance_order_profile">{ON_ORDER_PROFILE_BLOCK_MSG}</label></div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{SHOW_REWARD_CREDITS_MSG}</td>
+	<td><!-- begin reward_credits_users -->
+		<input type="radio" name="reward_credits_users" id="reward_credits_users{reward_credits_users_value}" {reward_credits_users_checked} value="{reward_credits_users_value}">
+		<label for="reward_credits_users{reward_credits_users_value}">{reward_credits_users_description}</label><!-- end reward_credits_users -->
+	</td>
+</tr>
+<tr class="usual">
+	<td>{SHOW_REWARD_CREDITS_MSG}</td>
+	<td>
+		<div class="floatLeft half30"><input type="checkbox" {reward_credits_list} name="reward_credits_list" id="reward_credits_list" value="1"> 
+		<label for="reward_credits_list">{ON_PROD_LIST_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {reward_credits_details} name="reward_credits_details" id="reward_credits_details" value="1"> 
+		<label for="reward_credits_details">{ON_PROD_DETAILS_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {reward_credits_basket} name="reward_credits_basket" id="reward_credits_basket" value="1"> 
+		<label for="reward_credits_basket">{ON_BASKET_PAGE_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {reward_credits_checkout} name="reward_credits_checkout" id="reward_credits_checkout" value="1"> 
+		<label for="reward_credits_checkout">{ON_ORDERS_CHECKOUT_MSG}</label></div>
+		<div class="floatLeft half30"><input type="checkbox" {reward_credits_invoice} name="reward_credits_invoice" id="reward_credits_invoice" value="1"> 
+		<label for="reward_credits_invoice">{ON_INVOICE_MSG}</label></div>
+	</td>
+</tr>
+<tr class="middle">
+	<td>&nbsp;</td>
+	<td>
+		<span class="button"><input class="submit" type="submit" value="{UPDATE_BUTTON}" onCLick="document.record.operation.value='save'"></span>
+		<span class="button"><input class="submit" type="reset" value="{RESET_BUTTON}" onCLick="document.record.operation.value='cancel'"></span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div id="data_images" style="{images_style}">
+<table border="0" cellpadding="6" cellspacing="1" width="100%">
+<tr class="middle">
+	<td colspan="2">{IMAGE_SETTINGS_MSG}</td>
+</tr>
+<tr class="usual">
+	<td width="20%">{DEFAULT_LARGE_IMAGE_MSG}</td>
+	<td>
+		<input onfocus="showHint(this, 'defLargeHint');" onblur="hideHint('defLargeHint');" class="field" type="text" name="product_no_image_large" value="{product_no_image_large}" size="60" maxlength="255">
+		<img onmouseover="showHint(this, 'defLargeHint');" onmouseout="hideHint('defLargeHint');" src="images/question.gif" border="0" align="top" alt="" title="">
+		<div id="defLargeHint" class="hintPopup">{DEFAULT_LARGE_IMAGE_DESC}</div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{DEFAULT_SMALL_IMAGE_MSG}</td>
+	<td>
+		<input onfocus="showHint(this, 'defSmallHint');" onblur="hideHint('defSmallHint');" class="field" type="text" name="product_no_image" value="{product_no_image}" size="60" maxlength="255">
+		<img onmouseover="showHint(this, 'defSmallHint');" onmouseout="hideHint('defSmallHint');" src="images/question.gif" border="0" align="top" alt="" title="">
+		<div id="defSmallHint" class="hintPopup">{DEFAULT_SMALL_IMAGE_DESC}</div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{DEFAULT_TINY_IMAGE_MSG}</td>
+	<td>
+		<input onfocus="showHint(this, 'defTinyHint');" onblur="hideHint('defTinyHint');" class="field" type="text" name="product_no_image_tiny" value="{product_no_image_tiny}" size="60" maxlength="255">
+		<img onmouseover="showHint(this, 'defTinyHint');" onmouseout="hideHint('defTinyHint');" src="images/question.gif" border="0" align="top" alt="" title="">
+		<div id="defTinyHint" class="hintPopup">{DEFAULT_TINY_IMAGE_DESC}</div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{OPEN_LARGE_IMAGE_MSG}</td>
+	<td>
+		<!-- begin open_large_image -->
+		<input type="radio" name="open_large_image" id="open_large_image{open_large_image_value}" {open_large_image_checked} value="{open_large_image_value}">
+		<label for="open_large_image{open_large_image_value}">{open_large_image_description}</label><!-- end open_large_image -->
+	</td>
+</tr>
+<tr class="usual">
+	<td>{JPEG_QUALITY_MSG}</td>
+	<td>
+		<input onfocus="showHint(this, 'jpegQualityHint');" onblur="hideHint('jpegQualityHint');" class="field" type="text" name="jpeg_quality" value="{jpeg_quality}" size="10" maxlength="3">
+		<img onmouseover="showHint(this, 'jpegQualityHint');" onmouseout="hideHint('jpegQualityHint');" src="images/question.gif" border="0" align="top" alt="" title="">
+		<div id="jpegQualityHint" class="hintPopup">{JPEG_QUALITY_NOTE}</div>
+	</td>
+</tr>
+<tr class="middle">
+	<td colspan="2">{ADMIN_IMAGES_RESTRICTION_MSG}</td>
+</tr>
+<tr class="usual">
+	<td>&nbsp;</td>
+	<td class="small">({WIDTH_MSG} x {HEIGHT_MSG})</td>
+</tr>
+<tr class="usual">
+	<td>{IMAGE_TINY_MSG}</td>
+	<td>
+		<input class="field" type="text" size="5" name="tiny_image_max_width" value="{tiny_image_max_width}">
+		x
+		<input class="field" type="text" size="5" name="tiny_image_max_height" value="{tiny_image_max_height}">
+		&nbsp;&nbsp;
+		<input type="checkbox" name="resize_tiny_image" id="resize_tiny_image" {resize_tiny_image} value="1">
+		<label for="resize_tiny_image">{IMAGE_TINY_RESIZE_NOTE}</label>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{IMAGE_SMALL_MSG}</td>
+	<td>
+		<input class="field" type="text" size="5" name="small_image_max_width" value="{small_image_max_width}">
+		x
+		<input class="field" type="text" size="5" name="small_image_max_height" value="{small_image_max_height}">
+		&nbsp;&nbsp;
+		<input type="checkbox" name="resize_small_image" id="resize_small_image" {resize_small_image} value="1">
+		<label for="resize_small_image">{IMAGE_SMALL_RESIZE_NOTE}</label>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{IMAGE_LARGE_MSG}</td>
+	<td>
+		<input class="field" type="text" size="5" name="big_image_max_width" value="{big_image_max_width}">
+		x
+		<input class="field" type="text" size="5" name="big_image_max_height" value="{big_image_max_height}">
+		&nbsp;&nbsp;
+		<input type="checkbox" name="resize_big_image" id="resize_big_image" {resize_big_image} value="1">
+		<label for="resize_big_image">{IMAGE_LARGE_RESIZE_NOTE}</label>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{IMAGE_SUPER_MSG}</td>
+	<td>
+		<input class="field" type="text" size="5" name="super_image_max_width" value="{super_image_max_width}">
+		x
+		<input class="field" type="text" size="5" name="super_image_max_height" value="{super_image_max_height}">
+		&nbsp;&nbsp;
+		<input type="checkbox" name="resize_super_image" id="resize_super_image" {resize_super_image} value="1">
+		<label for="resize_super_image">{IMAGE_SUPER_RESIZE_NOTE}</label>
+	</td>
+</tr>
+<tr class="middle">
+	<td colspan="2">{CUSTOMERS_IMAGES_RESTRICTIONS_MSG}</td>
+</tr>
+<tr class="usual">
+	<td>&nbsp;</td>
+	<td class="small">({WIDTH_MSG} x {HEIGHT_MSG}, {MAXIMUM_FILESIZE_IN_BYTES_MSG})</td>
+</tr>
+<tr class="usual">
+	<td>{IMAGE_TINY_MSG}</td>
+	<td>
+		<div class="floatLeft half30 pt10">
+			<input class="field" type="text" size="5" name="user_tiny_image_width" value="{user_tiny_image_width}">
+			x
+			<input class="field" type="text" size="5" name="user_tiny_image_height" value="{user_tiny_image_height}">
+			,&nbsp;
+			<input class="field" type="text" size="8" name="user_tiny_image_size" value="{user_tiny_image_size}">
+		</div>
+		<div class="floatLeft half70"><input type="checkbox" name="user_resize_tiny_image" id="user_resize_tiny_image" {user_resize_tiny_image} value="1"> 
+		<label for="user_resize_tiny_image">{ALWAYS_RESIZE_IMAGE_NOTE}</label></div>
+		<div class="floatLeft half70"><input type="checkbox" name="user_generate_tiny_image" id="user_generate_tiny_image" {user_generate_tiny_image} value="1"> 
+		<label for="user_generate_tiny_image">{GENERATE_FROM_LARGE_MSG}</label></div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{IMAGE_SMALL_MSG}</td>
+	<td>
+		<div class="floatLeft half30 pt10">
+			<input class="field" type="text" size="5" name="user_small_image_width" value="{user_small_image_width}">
+			x
+			<input class="field" type="text" size="5" name="user_small_image_height" value="{user_small_image_height}">
+			,&nbsp;
+			<input class="field" type="text" size="8" name="user_small_image_size" value="{user_small_image_size}">
+		</div>
+		<div class="floatLeft half70"><input type="checkbox" name="user_resize_small_image" id="user_resize_small_image" {user_resize_small_image} value="1"> 
+		<label for="user_resize_small_image">{ALWAYS_RESIZE_IMAGE_NOTE}</label></div>
+		<div class="floatLeft half70"><input type="checkbox" name="user_generate_small_image" id="user_generate_small_image" {user_generate_small_image} value="1"> 
+		<label for="user_generate_small_image">{GENERATE_FROM_LARGE_MSG}</label></div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{IMAGE_LARGE_MSG}</td>
+	<td>
+		<div class="floatLeft half30 pt10">
+			<input class="field" type="text" size="5" name="user_large_image_width" value="{user_large_image_width}">
+			x
+			<input class="field" type="text" size="5" name="user_large_image_height" value="{user_large_image_height}">
+			,&nbsp;
+			<input class="field" type="text" size="8" name="user_large_image_size" value="{user_large_image_size}">
+		</div>
+		<div class="floatLeft half70"><input type="checkbox" name="user_resize_large_image" id="user_resize_large_image" {user_resize_large_image} value="1"> 
+		<label for="user_resize_large_image">{ALWAYS_RESIZE_IMAGE_NOTE}</label></div>
+		<div class="floatLeft half70"><input type="checkbox" name="user_generate_large_image" id="user_generate_large_image" {user_generate_large_image} value="1"> 
+		<label for="user_generate_large_image">{GENERATE_FROM_SUPER_MSG}</label></div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{IMAGE_SUPER_MSG}</td>
+	<td>
+		<div class="floatLeft half30">
+			<input class="field" type="text" size="5" name="user_super_image_width" value="{user_super_image_width}">
+			x
+			<input class="field" type="text" size="5" name="user_super_image_height" value="{user_super_image_height}">
+			,&nbsp;
+			<input class="field" type="text" size="8" name="user_super_image_size" value="{user_super_image_size}">
+		</div>
+		<div class="floatLeft half70"><input type="checkbox" name="user_resize_super_image" id="user_resize_super_image" {user_resize_super_image} value="1"> 
+		<label for="user_resize_super_image">{ALWAYS_RESIZE_IMAGE_NOTE}</label></div>
+	</td>
+</tr>
+<tr class="middle">
+	<td colspan="2">{WATERMARK_SETTINGS_MSG}</td>
+</tr>
+<tr class="usual">
+	<td>{WATERMARK_IMAGE_MSG}</td>
+	<td>
+		<input class="field" type="text" name="watermark_image" value="{watermark_image}" size="60" maxlength="255">
+		&nbsp;<a href="javascript:openWindow('{admin_upload_href}', 'logo')"><b>{UPLOAD_IMAGE_MSG}</b></a>
+		&nbsp;|&nbsp; <a href="javascript:openWindow('{admin_select_href}', 'logo')"><b>{SELECT_IMAGE_MSG}</b></a>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{IMAGE_POSITION_MSG}</td>
+	<td>
+		<select name="watermark_image_pos"><!-- begin watermark_image_pos -->
+			<option {watermark_image_pos_selected} value="{watermark_image_pos_value}">{watermark_image_pos_description}<!-- end watermark_image_pos -->
+		</select>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{IMAGE_TRANSPARENCY_MSG}</td>
+	<td>
+		<input onfocus="showHint(this, 'imageTrHint');" onblur="hideHint('imageTrHint');" class="field" type="text" name="watermark_image_pct" value="{watermark_image_pct}" size="10" maxlength="10">
+		<img onmouseover="showHint(this, 'imageTrHint');" onmouseout="hideHint('imageTrHint');" src="images/question.gif" border="0" align="top" alt="" title="">
+		<div id="imageTrHint" class="hintPopup">{IMAGE_TRANSPARENCY_DESC}</div>
+
+		{OR_MSG}		
+		<input type="checkbox" name="watermark_is_transparent" id="watermark_is_transparent" {watermark_is_transparent} value="1">
+		<label for="watermark_is_transparent">{IMAGE_IS_TRANSPARENT_ITSELF_MSG}</label>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{WATERMARK_TEXT_MSG}</td>
+	<td><input class="field" type="text" name="watermark_text" value="{watermark_text}" size="60" maxlength="255"></td>
+</tr>
+<tr class="usual">
+	<td>{TEXT_SIZE_MSG}</td>
+	<td>
+		<input onfocus="showHint(this, 'textSizeHint');" onblur="hideHint('textSizeHint');" class="field" type="text" name="watermark_text_size" value="{watermark_text_size}" size="10" maxlength="10">
+		<img onmouseover="showHint(this, 'textSizeHint');" onmouseout="hideHint('textSizeHint');" src="images/question.gif" border="0" align="top" alt="" title="">
+		<div id="textSizeHint" class="hintPopup">{TEXT_SIZE_DESC}</div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{TEXT_COLOR_MSG}</td>
+	<td>
+		<input onfocus="showHint(this, 'textColorHint'); " onblur="hideHint('textColorHint');" class="field" type="text" name="watermark_text_color" value="{watermark_text_color}" size="10" maxlength="20"/>
+		<img onmouseover="showHint(this, 'textColorHint');" onmouseout="hideHint('textColorHint');" src="images/question.gif" border="0" align="top" alt="" title="">
+		<div id="textColorHint" class="hintPopup">{TEXT_COLOR_DESC}</div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{TEXT_ANGLE_MSG}</td>
+	<td>
+		<input onfocus="showHint(this, 'textAngleHint'); " onblur="hideHint('textAngleHint');" class="field" type="text" name="watermark_text_angle" value="{watermark_text_angle}" size="10" maxlength="20">
+		<img onmouseover="showHint(this, 'textAngleHint');" onmouseout="hideHint('textAngleHint');" src="images/question.gif" border="0" align="top" alt="" title="">
+		<div id="textAngleHint" class="hintPopup">{TEXT_ANGLE_DESC}</div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{TEXT_POSITION_MSG}</td>
+	<td>
+		<select name="watermark_text_pos"><!-- begin watermark_text_pos -->
+			<option {watermark_text_pos_selected} value="{watermark_text_pos_value}">{watermark_text_pos_description}<!-- end watermark_text_pos -->
+		</select>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{TEXT_TRANSPARENCY_MSG}</td>
+	<td>
+		<input onfocus="showHint(this, 'textTrHint'); " onblur="hideHint('textTrHint');" class="field" type="text" name="watermark_text_pct" value="{watermark_text_pct}" size="10" maxlength="10">
+		<img onmouseover="showHint(this, 'textTrHint');" onmouseout="hideHint('textTrHint');" src="images/question.gif" border="0" align="top" alt="" title="">
+		<div id="textTrHint" class="hintPopup">{TEXT_TRANSPARENCY_DESC}</div>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{APPLY_WATERMARKS_TO_MSG}</td>
+	<td>
+		<div class="floatLeft mr10"><input type="checkbox" name="watermark_tiny_image" id="watermark_tiny_image" {watermark_tiny_image} value="1"> 
+		<label for="watermark_tiny_image">{IMAGE_TINY_MSG}</label></div>
+		<div class="floatLeft mr10"><input type="checkbox" name="watermark_small_image" id="watermark_small_image" {watermark_small_image} value="1"> 
+		<label for="watermark_small_image">{IMAGE_SMALL_MSG}</label></div>
+		<div class="floatLeft mr10"><input type="checkbox" name="watermark_big_image" id="watermark_big_image" {watermark_big_image} value="1"> 
+		<label for="watermark_big_image">{IMAGE_LARGE_MSG}</label></div>
+		<div class="floatLeft mr10"><input type="checkbox" name="watermark_super_image" id="watermark_super_image" {watermark_super_image} value="1"> 
+		<label for="watermark_super_image">{IMAGE_SUPER_MSG}</label></div>
+	</td>
+</tr>
+<tr class="middle">
+	<td>&nbsp;</td>
+	<td>
+		<span class="button"><input class="submit" type="submit" value="{UPDATE_BUTTON}" onCLick="document.record.operation.value='save'"></span>
+		<span class="button"><input class="submit" type="reset" value="{RESET_BUTTON}" onCLick="document.record.operation.value='cancel'"></span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div id="data_google_base" style="{google_base_style}">
+<table border="0" cellpadding="6" cellspacing="1" width="100%">
+<tr class="middle">
+	<td colspan="2">{EXPORT_SETTINGS_MSG}</td>
+</tr>
+<tr class="usual">
+	<td>{DATE_FEED_FILENAME_MSG} *</td>
+	<td>
+		<input class="field" type="text" size="40" name="google_base_filename" value="{google_base_filename}">
+		<span class="small">(<a href="http://www.google.com/base/newfeed">{CREATE_NEW_DATA_FEED_MSG}</a>)</span>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{DATE_FEED_TITLE_MSG}</td>
+	<td><input class="field" type="text" size="40" name="google_base_title" value="{google_base_title}"></td>
+</tr>
+<tr class="usual">
+	<td>{DATE_FEED_DESC_MSG}</td>
+	<td><textarea name="google_base_description" cols="80" rows="3">{google_base_description}</textarea></td>
+</tr>
+<tr class="usual">
+	<td>{DATE_FEED_ENCODING_MSG}</td>
+	<td>
+		<select name="google_base_encoding"><!-- begin google_base_encoding -->
+			<option {google_base_encoding_selected} value="{google_base_encoding_value}">{google_base_encoding_description}<!-- end google_base_encoding -->
+		</select>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{SAVE_FOLDER_PATH_MSG}</td>
+	<td><input class="field" type="text" size="40" name="google_base_save_path" value="{google_base_save_path}"></td>
+</tr>
+<tr class="usual">
+	<td>{EXPORT_TYPE_MSG}</td>
+	<td>
+		<select name="google_base_export_type"><!-- begin google_base_export_type -->
+			<option {google_base_export_type_selected} value="{google_base_export_type_value}">{google_base_export_type_description}<!-- end google_base_export_type -->
+		</select>
+	</td>
+</tr>
+<tr class="usual">
+	<td><label for="google_base_tax">{GENERATE_PRICES_TAXES_MSG}</label></td>
+	<td>
+		<input type="checkbox" name="google_base_tax" id="google_base_tax" {google_base_tax} value="1">
+		<span class="small">(<a href="{admin_tax_rates_href}">{TAX_PRICES_BASED_ON_MSG}</a>)</span>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{PRODUCTS_EXPIRE_MSG}</td>
+	<td>
+		<input class="field" type="text" size="20" name="google_base_days_expiry" value="{google_base_days_expiry}">
+		<span class="small">{DAYS_MSG}</span>
+	</td>
+</tr>
+<tr class="middle">
+	<td colspan="2">{GOOGLE_FTP_DETAILS_MSG}</td>
+</tr>
+<tr class="usual">
+	<td>{FTP_LOGIN_MSG}</td>
+	<td>
+		<input class="field" type="text" size="40" name="google_base_ftp_login" value="{google_base_ftp_login}">
+		<span class="small">(<a href="http://www.google.com/base/updateftp">{UPDATE_FTP_SETTING_MSG}</a>)</span>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{FTP_PASSWORD_MSG}</td>
+	<td><input class="field" type="text" size="40" name="google_base_ftp_password" value="{google_base_ftp_password}"></td>
+</tr>
+<tr class="middle">
+	<td colspan="2">{DEFAULT_SETTINGS_MSG}</td>
+</tr>
+<tr class="usual">
+	<td>{PROD_TYPE_MSG}</td>
+	<td>
+		<select name="google_base_product_type_id"><!-- begin google_base_product_type_id -->
+			<option {google_base_product_type_id_selected} value="{google_base_product_type_id_value}">{google_base_product_type_id_description}<!-- end google_base_product_type_id -->
+		</select>
+	</td>
+</tr>
+<tr class="usual">
+	<td>{CONDITION_MSG}</td>
+	<td>
+		<select name="google_base_product_condition"><!-- begin google_base_product_condition -->
+			<option {google_base_product_condition_selected} value="{google_base_product_condition_value}">{google_base_product_condition_description}<!-- end google_base_product_condition -->
+		</select>
+	</td>
+</tr>
+<tr class="middle">
+	<td>&nbsp;</td>
+	<td>
+		<span class="button"><input class="submit" type="submit" value="{UPDATE_BUTTON}" onCLick="document.record.operation.value='save'"></span>
+		<span class="button"><input class="submit" type="reset" value="{RESET_BUTTON}" onCLick="document.record.operation.value='cancel'"></span>
+	</td>
+</tr>
+</table>
+</div>
+
+
+<div id="data_import_export" style="{import_export_style}">
+<table border="0" cellpadding="6" cellspacing="1" width="100%">
+<tr class="middle">
+	<td colspan="2">{IMPORT_PRODUCTS_MSG}</td>
+</tr>
+<tr class="usual">
+	<td>{MATCH_EXISTED_PRODUCTS_MSG}</td>
+	<td>
+		<input type="checkbox" name="match_item_code" id="match_item_code" {match_item_code} value="1"> <label for="match_item_code">{MATCH_BY_ITEM_CODE_MSG}</label>
+		<input type="checkbox" name="match_manufacturer_code" id="match_manufacturer_code" {match_manufacturer_code} value="1"> <label for="match_manufacturer_code">{MATCH_BY_MANUFACTURER_CODE_MSG}</label>
+	</td>
+</tr>
+<tr class="middle">
+	<td>&nbsp;</td>
+	<td>
+		<span class="button"><input class="submit" type="submit" value="{UPDATE_BUTTON}" onCLick="document.record.operation.value='save'"></span>
+		<span class="button"><input class="submit" type="reset" value="{RESET_BUTTON}" onCLick="document.record.operation.value='cancel'"></span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div id="data_fast_checkout" style="{fast_checkout_style}">
+<table border="0" cellpadding="6" cellspacing="1" width="100%">
+<tr class="middle">
+	<td colspan="2">{FAST_CHECKOUT_MSG}</td>
+</tr>
+<tr class="usual">
+	<td width="20%">&nbsp;</td>
+	<td>
+		<table>
+		<tr>
+			<td colspan="2">{SELECT_FIELDS_TO_SHOW_MSG}</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="checkbox" name="fast_checkout_country_show" id="fast_checkout_country_show" {fast_checkout_country_show} value="1"> <label for="fast_checkout_country_show">{COUNTRY_FIELD}</label>
+			</td>
+			<td>
+				<input type="checkbox" name="fast_checkout_country_required" id="fast_checkout_country_required" {fast_checkout_country_required} value="1"> <label for="fast_checkout_country_required">{REQUIRED_MSG}</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="checkbox" name="fast_checkout_state_show" id="fast_checkout_state_show" {fast_checkout_state_show} value="1"> <label for="fast_checkout_state_show">{STATE_FIELD}</label>
+			</td>
+			<td>
+				<input type="checkbox" name="fast_checkout_state_required" id="fast_checkout_state_required" {fast_checkout_state_required} value="1"> <label for="fast_checkout_state_required">{REQUIRED_MSG}</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="checkbox" name="fast_checkout_postcode_show" id="fast_checkout_postcode_show" {fast_checkout_postcode_show} value="1"> <label for="fast_checkout_postcode_show">{ZIP_FIELD}</label>
+			</td>
+			<td>
+				<input type="checkbox" name="fast_checkout_postcode_required" id="fast_checkout_postcode_required" {fast_checkout_postcode_required} value="1"> <label for="fast_checkout_postcode_required">{REQUIRED_MSG}</label>
+			</td>
+		</tr>
+		</table>
+
+	</td>
+</tr>
+<tr class="middle">
+	<td>&nbsp;</td>
+	<td>
+		<span class="button"><input class="submit" type="submit" value="{UPDATE_BUTTON}" onCLick="document.record.operation.value='save'"></span>
+		<span class="button"><input class="submit" type="reset" value="{RESET_BUTTON}" onCLick="document.record.operation.value='cancel'"></span>
+	</td>
+</tr>
+</table>
+</div>
+
+
+<div id="data_keywords" style="{keywords_style}">
+<table border="0" cellpadding="6" cellspacing="1" width="100%">
+<tr class="usual">
+	<td width="20%"><b>{KEYWORDS_SEARCH_MSG}</b></td>
+	<td>
+		<!-- begin keywords_search -->
+		<input type="radio" name="keywords_search" id="keywords_search{keywords_search_value}" {keywords_search_checked} value="{keywords_search_value}">{keywords_search_description}<!-- end keywords_search -->
+	</td>
+</tr>
+<tr class="usual">
+	<td width="20%"><b>{FIELDS_SETTINGS_MSG}</b></td>
+	<td>
+		<table>
+		<tr>
+			<th>{FIELD_NAME_MSG}</th>
+			<th>{INDEX_MSG}</th>
+			<th>{RANK_MSG}</th>
+		</tr>
+		<tr>
+			<td>
+				<label for="item_name_index">{PROD_NAME_MSG}</label>
+			</td>
+			<td>
+				<input type="checkbox" name="item_name_index" id="item_name_index" {item_name_index} value="1"> 
+			</td>
+			<td>
+				<input type="textbox" name="item_name_rank" value="{item_name_rank}" size="10" maxlength="10"> 
+			</td>
+			<td>
+				<select name="item_name_type"><!-- begin item_name_type -->
+					<option {item_name_type_selected} value="{item_name_type_value}">{item_name_type_description}<!-- end item_name_type -->
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="item_code_index">{PROD_CODE_MSG}</label>
+			</td>
+			<td>
+				<input type="checkbox" name="item_code_index" id="item_code_index" {item_code_index} value="1"> 
+			</td>
+			<td>
+				<input type="textbox" name="item_code_rank" value="{item_code_rank}" size="10" maxlength="10"> 
+			</td>
+			<td>
+				<select name="item_code_type"><!-- begin item_code_type -->
+					<option {item_code_type_selected} value="{item_code_type_value}">{item_code_type_description}<!-- end item_code_type -->
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="manufacturer_code_index">{MANUFACTURER_CODE_MSG}</label>
+			</td>
+			<td>
+				<input type="checkbox" name="manufacturer_code_index" id="manufacturer_code_index" {manufacturer_code_index} value="1"> 
+			</td>
+			<td>
+				<input type="textbox" name="manufacturer_code_rank" value="{manufacturer_code_rank}" size="10" maxlength="10"> 
+			</td>
+			<td>
+				<select name="manufacturer_code_type"><!-- begin manufacturer_code_type -->
+					<option {manufacturer_code_type_selected} value="{manufacturer_code_type_value}">{manufacturer_code_type_description}<!-- end manufacturer_code_type -->
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="short_description_index">{SHORT_DESCRIPTION_MSG}</label>
+			</td>
+			<td>
+				<input type="checkbox" name="short_description_index" id="short_description_index" {short_description_index} value="1"> 
+			</td>
+			<td>
+				<input type="textbox" name="short_description_rank" value="{short_description_rank}" size="10" maxlength="10"> 
+			</td>
+			<td>
+				<select name="short_description_type"><!-- begin short_description_type -->
+					<option {short_description_type_selected} value="{short_description_type_value}">{short_description_type_description}<!-- end short_description_type -->
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="full_description_index">{FULL_DESCRIPTION_MSG}</label>
+			</td>
+			<td>
+				<input type="checkbox" name="full_description_index" id="full_description_index" {full_description_index} value="1"> 
+			</td>
+			<td>
+				<input type="textbox" name="full_description_rank" value="{full_description_rank}" size="10" maxlength="10"> 
+			</td>
+			<td>
+				<select name="full_description_type"><!-- begin full_description_type -->
+					<option {full_description_type_selected} value="{full_description_type_value}">{full_description_type_description}<!-- end full_description_type -->
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="features_index">{HIGHLIGHTS_MSG}</label>
+			</td>
+			<td>
+				<input type="checkbox" name="features_index" id="features_index" {features_index} value="1"> 
+			</td>
+			<td>
+				<input type="textbox" name="features_rank" value="{features_rank}" size="10" maxlength="10"> 
+			</td>
+			<td>
+				<select name="features_type"><!-- begin features_type -->
+					<option {features_type_selected} value="{features_type_value}">{features_type_description}<!-- end features_type -->
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="special_offer_index">{SPECIAL_OFFER_MSG}</label>
+			</td>
+			<td>
+				<input type="checkbox" name="special_offer_index" id="special_offer_index" {special_offer_index} value="1"> 
+			</td>
+			<td>
+				<input type="textbox" name="special_offer_rank" value="{special_offer_rank}" size="10" maxlength="10"> 
+			</td>
+			<td>
+				<select name="special_offer_type"><!-- begin special_offer_type -->
+					<option {special_offer_type_selected} value="{special_offer_type_value}">{special_offer_type_description}<!-- end special_offer_type -->
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="notes_index">{NOTES_MSG}</label>
+			</td>
+			<td>
+				<input type="checkbox" name="notes_index" id="notes_index" {notes_index} value="1"> 
+			</td>
+			<td>
+				<input type="textbox" name="notes_rank" value="{notes_rank}" size="10" maxlength="10"> 
+			</td>
+			<td>
+				<select name="notes_type"><!-- begin notes_type -->
+					<option {notes_type_selected} value="{notes_type_value}">{notes_type_description}<!-- end notes_type -->
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="meta_title_index">{META_TITLE_MSG}</label>
+			</td>
+			<td>
+				<input type="checkbox" name="meta_title_index" id="meta_title_index" {meta_title_index} value="1"> 
+			</td>
+			<td>
+				<input type="textbox" name="meta_title_rank" value="{meta_title_rank}" size="10" maxlength="10"> 
+			</td>
+			<td>
+				<select name="meta_title_type"><!-- begin meta_title_type -->
+					<option {meta_title_type_selected} value="{meta_title_type_value}">{meta_title_type_description}<!-- end meta_title_type -->
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="meta_keywords_index">{META_KEYWORDS_MSG}</label>
+			</td>
+			<td>
+				<input type="checkbox" name="meta_keywords_index" id="meta_keywords_index" {meta_keywords_index} value="1"> 
+			</td>
+			<td>
+				<input type="textbox" name="meta_keywords_rank" value="{meta_keywords_rank}" size="10" maxlength="10"> 
+			</td>
+			<td>
+				<select name="meta_keywords_type"><!-- begin meta_keywords_type -->
+					<option {meta_keywords_type_selected} value="{meta_keywords_type_value}">{meta_keywords_type_description}<!-- end meta_keywords_type -->
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="meta_description_index">{META_DESCRIPTION_MSG}</label>
+			</td>
+			<td>
+				<input type="checkbox" name="meta_description_index" id="meta_description_index" {meta_description_index} value="1"> 
+			</td>
+			<td>
+				<input type="textbox" name="meta_description_rank" value="{meta_description_rank}" size="10" maxlength="10"> 
+			</td>
+			<td>
+				<select name="meta_description_type"><!-- begin meta_description_type -->
+					<option {meta_description_type_selected} value="{meta_description_type_value}">{meta_description_type_description}<!-- end meta_description_type -->
+				</select>
+			</td>
+		</tr>
+		</table>
+
+	</td>
+</tr>
+<tr class="middle">
+	<td>&nbsp;</td>
+	<td>
+		<span class="button"><input class="submit" type="submit" value="{UPDATE_BUTTON}" onCLick="document.record.operation.value='save'"></span>
+		<span class="button"><input class="submit" type="reset" value="{RESET_BUTTON}" onCLick="document.record.operation.value='cancel'"></span>
+	</td>
+</tr>
+</table>
+</div>
+
+
+<!-- table view settings block -->
+<div id="data_table_view" style="{table_view_style}">
+<!-- BEGIN quantity_prices_errors --><div class="errorbg">{errors_list}</div><!-- END quantity_prices_errors -->
+<input type="hidden" name="cc_number" value="{cc_number}">
+<table border="0" cellpadding="6" cellspacing="1" align="center" width="100%">
+<tr class="middle" align="center">
+	<td>#</td>
+	<td>{ADMIN_ORDER_MSG}</td>
+	<td>{TITLE_MSG}</td>
+	<td>{CODE_MSG}</td>
+	<td>{HTML_MSG}</td>
+	<td>{DELETE_BUTTON}</td>
+</tr>
+<!-- begin categories_columns --><!-- begin categories_columns_errors -->
+<tr class="usual" align="center">
+	<td>&nbsp;</td>
+	<td colspan="4" class="errorbg">{errors_list}</td>
+	<td>&nbsp;</td>	
+</tr><!-- end categories_columns_errors -->
+<tr class="usual" align="center" valign="top">
+	<td>
+		{row_number} 
+		<input type="hidden" name="column_id_{categories_columns_number}" value="{column_id}">
+	</td>
+	<td><input class="field" size="3" type="text" name="column_order_{categories_columns_number}" value="{column_order}"></td>
+	<td><input class="field" size="24" type="text" name="column_title_{categories_columns_number}" value="{column_title}"></td>
+	<td>
+		<input class="field" size="36" type="text" name="column_code_{categories_columns_number}" value="{column_code}">
+		&nbsp;<a href="#" onClick="optionsWindow('{admin_column_code_href}?column={categories_columns_number}');">{SELECT_MSG}</a>&nbsp;
+	</td>
+	<td><textarea name="column_html_{categories_columns_number}" cols="40" rows="2">{column_html}</textarea></td>
+	<td><input type="checkbox" name="categories_columns_delete_{categories_columns_number}" {categories_columns_delete} value="1"></td>
+</tr><!-- END categories_columns -->
+<tr class="usual">
+	<td colspan="6" align="right">{ADD_MORE_COLUMNS_QST} <span class="button"><input class="submit" type="submit" value=" {ADD_BUTTON} " onClick="document.record.operation.value='more_categories_columns';"></span></td>
+</tr>
+<tr class="middle">
+	<td>&nbsp;</td>
+	<td colspan="5">
+		<span class="button"><input class="submit" type="submit" value="{UPDATE_BUTTON}" onCLick="document.record.operation.value='save'"></span>
+		<span class="button"><input class="submit" type="reset" value="{RESET_BUTTON}" onCLick="document.record.operation.value='cancel'"></span>
+	</td>
+</tr>
+</table>	
+</div>
+<!-- table view settings end -->
+
+</div>
+</div>
+
+</form>
+
+{admin_footer}
+<script language="JavaScript">
+<!--
+	rangeSelected();
+//-->
+</script>
+</body>
+</html>

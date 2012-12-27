@@ -1,0 +1,57 @@
+<html>
+<head>
+	<link rel="stylesheet" href="styles/admin.css" type="text/css">
+	<title>{GOOGLE_MERCHANT_FEED_STATS_MSG}</title>
+</head>
+<body>
+	<div class="Block">
+		<div class="BlockTitle">
+			{GOOGLE_MERCHANT_FEED_STATS_MSG}
+		</div>
+		<div class="BlockContent">
+			<table width="99%" cellspacing="1" cellpadding="6" border="0">
+				<tbody><!-- begin block_error -->
+					<div class="errorbg">
+						{error_msg}
+					</div><!-- end block_error -->
+					<!-- begin block_stats -->
+					<tr class="middle" align="center">
+						<td>{SUMMARY_STATS_MSG}:</td>
+						<td align="left">
+							<span style="font-weight:300">{TIME_TAKE_GB}: </span>{work_time} sec.<br />
+							<span style="font-weight:300">{COUNTRY_REQ_GB}: </span>{country}<br />
+							<span style="font-weight:300">{FILE_SAVED_MSG} </span>{path}
+						</td>
+						<td nowrap=""></td>
+					</tr>
+					<tr class="row2" valign="top" align="center">
+						<td colspan="3">
+							<h2 style="{mess_style}">{mess_text}</h1>
+						</td>
+					</tr>
+					<!-- begin warnings_block -->
+					<tr class="middle" align="left">
+						<td>{ITEM_ID_MSG}</td>
+						<td colspan="2" align="left">{ERRORS_MSG}:</td>
+					</tr>
+					<!-- begin warning_item_block -->
+					<tr class="usual" valign="top" align="left">
+						<td> {id} </td>
+						<td colspan="2" align="left"><!-- begin warning_mess_block -->
+							{warning_mess}<br /><!-- end warning_mess_block -->
+						</td>
+					</tr><!-- end warning_item_block --><!-- end warnings_block --><!-- end block_stats -->
+					<tr>
+						<td>
+							<!-- begin feed_button -->
+							<input type="button" onclick="window.location = '{gb_file_name}'" value="{MANUALLY_DOWNLOAD_XML_FILE_MSG}" /> | <!-- end feed_button -->
+							<input type="button" onclick="history.back();return false;" value="{CLOSE_WINDOW_MSG}" /> | 
+							<input type="button" onclick="window.location = './admin_products_settings.php'" value="{PRODUCTS_SETTINGS_MSG}" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>	
