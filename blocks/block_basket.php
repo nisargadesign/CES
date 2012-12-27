@@ -1407,11 +1407,12 @@
 			$t->parse("discount", false);
 		}
 
-
-		$discounted_amount_excl_tax = $goods_total_excl_tax - $total_discount_excl_tax;
+		//Customization by Vital - shipping calculator intgration
+		$discounted_amount_excl_tax = $goods_total_excl_tax - $total_discount_excl_tax + $row_shipping_cost;
 		$discounted_tax_amount = ($goods_tax_total - $total_tax_discount);
-		$discounted_amount_incl_tax = ($goods_total_incl_tax - $total_discount_incl_tax);
-
+		$discounted_amount_incl_tax = ($goods_total_incl_tax - $total_discount_incl_tax) + $row_shipping_cost;
+		//END customization
+		
 		// redeem vouchers
 		$vouchers_number = 0;
 		foreach ($vouchers as $voucher_id => $voucher_info) {
