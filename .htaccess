@@ -3,49 +3,38 @@ ErrorDocument 404 /friendly_url.php
 Options +FollowSymLinks
 RewriteEngine on
 
+#remove index.php from URLs; needed for disqus and social media counts of "likes"
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^/]+/)*index\.php\ HTTP/
 RewriteRule ^(([^/]+/)*)index\.php$ http://www.cuttingedgestencils.com/$1 [R=301,L]
-
-RewriteRule ^flower-stencils-alliums-wall-stencils.html(.*)$ /large-flower-stencil.html [R=301,L]
-RewriteRule ^stencil-wall-decal-tree-branch-stencils.html(.*)$ /wall-art-stencil-decal.html [R=301,L]
-RewriteRule ^flower-stencils-large-wall-stencils.html(.*)$ /flower-stencil-wall-stencils.html [R=301,L]
-RewriteRule ^stenciling-ideas.html(.*)$ /stenciling-instructions.html [R=301,L] 
-RewriteRule ^\/stencils-for-walls\/?(.*)$ "http\:\/\/blog\.cuttingedgestencils\.com\/$1" [R=301,L]
-RewriteRule ^damaskallover-stenciling-tips.html(.*)$ "http\:\/\/blog\.cuttingedgestencils\.com\/damaskallover-stenciling-tips.html" [R=301,L]
-RewriteRule ^nursery-stencils.html(.*)$ /nursery-stencils-walls.html [R=301,L] 
-
 
 #AddHandler cgi-script .cgi .pl
 AuthName "CES"
 AuthUserFile "/home/cuttinge/.htpasswds/public_html/passwd"
 
-RewriteCond %{HTTP_HOST} ^.*$
-RewriteCond %{HTTP_HOST} ^cuttingedgestencils\.com$ [OR]
-RewriteCond %{HTTP_HOST} ^www\.cuttingedgestencils\.com$
-RewriteRule ^stencils\-for\-walls\/?(.*)$ "http\:\/\/blog\.cuttingedgestencils\.com\/$1" [R=301,L]
-
+#redirect to www; needed for SEO, disqus and social media counts of "likes"
 RewriteCond %{HTTP_HOST} ^cuttingedgestencils.com$  [OR]
 RewriteCond %{HTTP_HOST} ^216.70.85.26$ 
 RewriteRule ^(.*)$ "http\:\/\/www\.cuttingedgestencils\.com\/$1" [R=301,L]
 
-#if not a php file HTM -> HTML
+#if not a php file HTM -> HTML; needed for disqus and social media counts of "likes"
 RewriteCond {REQUEST_URI} !=.*\.php
 RewriteRule ^(.*)\.htm$ http://%{HTTP_HOST}/$1.html? [NC,R=301,L]
 
-#if no extention add .html
+#if no extention add .html; needed for disqus and social media counts of "likes"
 RewriteCond {REQUEST_URI} !=.*\.html
 RewriteRule ^([^.]+[^/])$ http://%{HTTP_HOST}/$1.html? [NC,R=301,L]
 
-#if .HTML with category_id parameter - remove it
+#if .HTML with category_id parameter - remove it; needed for disqus and social media counts of "likes"
 RewriteCond %{QUERY_STRING} ^category_id=[0-9]*&*(tab=[a-z]*)*$
 RewriteRule ^(.*\.htm[l]*)$ http://%{HTTP_HOST}/$1?%1 [NE,R=301,L]
 
-#if .HTML with tab parameter - redirect to correct anchor (?tab=spec -> #spec)
+#if .HTML with tab parameter - redirect to correct anchor (?tab=spec -> #spec); needed for disqus and social media counts of "likes"
 RewriteCond %{QUERY_STRING} ^tab=([a-z]*)$
 RewriteRule ^(.*\.htm[l]*)$ http://%{HTTP_HOST}/$1#%1? [NE,R=301,L]
 
-#if not .php and https redirect to http
-RewriteCond %{REQUEST_URI} !.*\.php.*
+#if .html and https redirect to http; needed for disqus and social media counts of "likes"
+RewriteCond %{REQUEST_URI} .*\.html.* [OR]
+RewriteCond %{REQUEST_URI} "^/$"
 RewriteCond %{HTTPS} on
 RewriteRule ^(.*)$ http://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
@@ -53,3 +42,12 @@ RedirectMatch 301 (?i)/HDTV$ http://www.cuttingedgestencils.com/?referrer=HDTV
 RedirectMatch 301 (?i)/DIY$ http://www.cuttingedgestencils.com/?referrer=DIY
 Redirect 301 /wall-mural-stencil-faq-2.html http://www.cuttingedgestencils.com/wall-mural-stencil-faq.html
 Redirect 301 /wall-stencils-damask-stencils.html http://www.cuttingedgestencils.com/wall-stencils-geometric-stencils.html
+Redirect 301 /stencils-for-walls.html http://blog.cuttingedgestencils.com/
+
+#old rewrites changed into redirects
+Redirect 301 /flower-stencils-alliums-wall-stencils.html http://www.cuttingedgestencils.com/large-flower-stencil.html
+Redirect 301 /stencil-wall-decal-tree-branch-stencils.html http://www.cuttingedgestencils.com/wall-art-stencil-decal.html
+Redirect 301 /flower-stencils-large-wall-stencils.html http://www.cuttingedgestencils.com/flower-stencil-wall-stencils.html
+Redirect 301 /stenciling-ideas.html http://www.cuttingedgestencils.com/stenciling-instructions.html
+Redirect 301 /damaskallover-stenciling-tips.html http://blog.cuttingedgestencils.com/damaskallover-stenciling-tips.html
+Redirect 301 /nursery-stencils.html http://www.cuttingedgestencils.com/nursery-stencils-walls.html
