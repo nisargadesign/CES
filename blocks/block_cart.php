@@ -1,12 +1,7 @@
 <?php
-
-
-
 	include_once("./includes/shopping_cart.php");
-
 	include_once("./messages/" . $language_code . "/cart_messages.php");
-
-
+	include_once("./includes/db_$db_lib.php");
 
 	$html_template = get_setting_value($block, "html_template", "block_cart.html"); 
 
@@ -69,6 +64,17 @@
 		$discount_type = get_session("session_discount_type");
 
 		$discount_amount = get_session("session_discount_amount");
+		
+		//Customization by Vital
+		$db = new VA_SQL();
+		$db->DBType      = $db_type;
+		$db->DBDatabase  = $db_name;
+		$db->DBHost      = $db_host;
+		$db->DBPort      = $db_port;
+		$db->DBUser      = $db_user;
+		$db->DBPassword  = $db_password;
+		$db->DBPersistent= $db_persistent;
+		//END customization
 
 
 
@@ -84,7 +90,17 @@
 
 			$item_id = $item["ITEM_ID"];
 
-			
+			//Customization by Vital
+			$small_image = "";
+			$sql  = " SELECT small_image, friendly_url FROM " . $table_prefix . "items WHERE item_id=".$item_id;
+			$db->query($sql);
+			if ($db->next_record()) {
+				$small_image = $db->f("small_image");
+			}
+			$small_image = ( $small_image == "" ) ? "images/no-image.jpg" : $small_image;
+			$t->set_var("small_image", $small_image);
+			$t->set_var("item_URL", $db->f("friendly_url").".html");
+			//END customization
 
 			$properties_more = $item["PROPERTIES_MORE"];
 
@@ -159,11 +175,8 @@
 					} else if ($discount_type == 4) {
 
 						$price -= round((($price - $buying_price) * $discount_amount) / 100, 2);
-
 					}
-
 				}
-
 			} 
 
 			if ($properties_percentage && $price) {
@@ -357,50 +370,28 @@
 							$price_excl_tax += ($component_price_excl_tax * $sub_quantity); 
 
 							$price_incl_tax += ($component_price_incl_tax * $sub_quantity);
-
 						}
-
 					}
-
 				}
-
 			}
-
-
 
 			if ($tax_prices > 0) {
-
 				$price = $price_incl_tax;
-
 			} else {
-
 				$price = $price_excl_tax;
-
 			}
-
-
 
 			$total_quantity += $quantity;
 
 			//$total_price += ($quantity * $price);
 
-
-
 			$t->set_var("short_name", $short_name);
-
 			$t->set_var("quantity", $quantity);
-
 			$t->set_var("price", currency_format($price));
 
-
-
 			$t->sparse("small_cart_items", true);
-
 		}
-
 	}
-
-
 
 	if ($total_quantity > 0) {
 
