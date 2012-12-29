@@ -404,10 +404,10 @@ function process_batch($data){
         $sql .= $case1."ELSE shipping_tracking_id END, ".$case2."ELSE order_status END, ".$case3."ELSE delivery_address1 END, ".$case4."ELSE delivery_address2 END, ".$case5."ELSE delivery_city END, ".$case6."ELSE delivery_province END, ".$case7."ELSE delivery_state_code END, ".$case8."ELSE delivery_state_id END, ".$case9."ELSE delivery_zip END, ".$case10."ELSE delivery_country_code END, ".$case11."ELSE delivery_country_id END ".substr($where, 0, -4).") AND order_status=4";
         //echo $sql;
         $db->query($sql);
-        mail('vital@fineonly.com', 'Shipstation data processed', $sql);
+        //mail('vital@fineonly.com', 'Shipstation data processed', $sql);
     }
     else{
-        mail('vital@fineonly.com', 'Shipstation data not processed', 'no data to process');
+        //mail('vital@fineonly.com', 'Shipstation data not processed', 'no data to process');
     }
     
 }
