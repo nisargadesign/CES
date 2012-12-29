@@ -18,8 +18,12 @@
 		
 	if ($user_type_id != '') {
 		$t->parse("logout_button", false);
-		}
-			
+		$t->set_var("loginClass", "");
+		$t->set_var("logoutClass", "hide");
+	}else{
+		$t->set_var("loginClass", "hide");
+		$t->set_var("logoutClass", "");
+	}
 	
 	$t->set_var("menu", "");
 
