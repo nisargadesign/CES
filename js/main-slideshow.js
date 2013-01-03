@@ -19,8 +19,13 @@ function resumeAnimation(id){
 }
 
 function play(id){
-    lastSlides[id] = $('#' + id + ' div:last');
-    lastSlides[id].animate({opacity: 0.0}, transitionTime, function (){$('#' + id + ' div:first').before(lastSlides[id]);lastSlides[id].css({opacity: 1});});
+    if ( $('#' + id + ' div').length > 1 ){
+        lastSlides[id] = $('#' + id + ' div:last');
+        lastSlides[id].stop().animate({opacity: 0.0}, transitionTime, function (){$('#' + id + ' div:first').before(lastSlides[id]);lastSlides[id].css({opacity: 1});});
+    }
+    else{
+        stopAnimation(id);
+    }
 }
 
 function playAll() {
