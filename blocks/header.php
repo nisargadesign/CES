@@ -1,19 +1,7 @@
-<?php
-
-
-			
+<?php		
 	$t->set_file("block_body", "header.html");
-
-
-	// HEADER HOME
 	
-	if ($current_page == "index.php") 
-				{
-				$t->set_file("block_body", "header_home.html");
-				}	
-
-	// LOGOUT BUTTON
-		
+	// LOGOUT BUTTON	
 	$user_type_id = get_session("session_user_type_id");
 		
 	if ($user_type_id != '') {

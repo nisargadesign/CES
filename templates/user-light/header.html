@@ -1,3 +1,4 @@
+<script type="text/javascript" src="js/main-slideshow.js"></script>
 <script type="text/javascript">    
 	
 	var viewPortSize = 205;
@@ -48,31 +49,7 @@ function playSlideshow(){
     }
 }
 	
-	var timerIDs = new Array();
-	var lastImage = new Array();
-	var newsTimerID;
-
-        function stopAnimation(id){
-            if (typeof timerIDs[id] !== 'undefined'){
-                window.clearInterval(timerIDs[id]);
-                timerIDs[id] = 0;
-            } 
-        }
-        
-        function resumeAnimation(id){
-            if (!timerIDs[id]){
-                play(id);
-                timerIDs[id] = window.setInterval(function(){play(id)}, 6000);
-            } 
-        }
-	
-	function play(id){
-		//var lastImage = $('#slideshow a:last');
-		//lastImage.clone().prependTo("#slideshow");
-		//lastImage.animate({opacity: 0.0}, 4000, function (){$(this).remove();});
-		lastImage[id] = $(id + ' a:last');
-        lastImage[id].animate({opacity: 0.0}, 3500, function (){$(id + ' a:first').before(lastImage[id]);lastImage[id].css({opacity: 1});});
-	}
+var newsTimerID;
 	
 function loadWishlist() {
      var wishlistUserID = "new";
@@ -104,17 +81,6 @@ $(document).ready( function(){
      }
 
 });
-	
-     function startSlideshow(id){
-	  $(id + ' a').fadeIn("slow");
-          if($(id + ' a').length > 1){
-                resumeAnimation(id);
-                $(window).focus(function (id){resumeAnimation(id);});
-                $("#slideshow").mouseout(function (id){resumeAnimation(id);});
-                $(window).blur(function (id){stopAnimation(id);});
-                $("#slideshow").mouseover(function (id){stopAnimation(id);});
-          }  
-     }
 	
 	$(function() {
 		$.getFeed({

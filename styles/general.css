@@ -405,13 +405,15 @@ div.block-cart .cartAccountItems .button {display: block; margin: 10px 0 0 0;}
 .slideshow a {border: none; display: block;}
 .slideshow img {border: none !important;}
 .slideshow div {position: absolute;}
+.slideshow {position: relative;}
 #slideshow2, #slideshow3, #slideshow4, #slideshow5 {border: 1px solid #656565; height: 225px; width: 250px; position:relative; overflow: hidden; margin: 8px;}
+#category-slideshow {height: 263px; margin: -85px 0 8px 0;}
 
 .contentStyle {border-top: 6px solid #666; overflow: hidden; position: relative; z-index: 1; background:#ffffff; box-shadow: 0 7px 12px #656565; -moz-box-shadow: 0 7px 12px #656565; -webkit-box-shadow: 0 7px 12px #656565;}
 
 .twoFrames .leftStyle {float: left; width: 20.49%; min-width: 204px; clear: left; padding: 0 0 15px 15px;}
 
-.twoFrames .centerStyle, .centerStyleHome {float: left;	width: 74%; min-width: 740px; clear: right; padding: 20px;}
+.twoFrames .centerStyle, .centerStyleHome {float: left;	width: 74%; min-width: 740px; clear: right; padding: 20px 19px 20px 21px;}
 
 /*-------------- SIDE MENU --------------*/
 .block-categories-list {margin-left: -15px;}
@@ -439,7 +441,7 @@ div.block-cart .cartAccountItems .button {display: block; margin: 10px 0 0 0;}
 .button-view:hover, .block-basket .small-button:hover, .wishlistItem .small-button:hover, #dialogContent .cancel {color: #8b8b8b !important; text-shadow: none !important;}
 .boxProductTop div.smallText {padding: 0 8px 4px; line-height: }
 .block-products-list {margin-top: 20px;}
-.block-category-description .MiddleCenter {overflow: auto; margin: 20px 0px 0px 0px;}
+.block-category-description .MiddleCenter {margin: 20px 0px 0px 0px;}
 .block-category-description .MiddleCenter .pixHome {margin: 0 0 8px 8px; border: 1px solid #656565;}
 .productsCategory {font-size: 16pt;}
 
