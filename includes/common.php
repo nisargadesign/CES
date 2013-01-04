@@ -44,7 +44,7 @@
 
 	//Customization by Vital
 	@ini_set('session.cookie_lifetime', 604800);	// 7 days
-	@ini_set('session.gc_maxlifetime', 86400);	// 1 day
+	@ini_set('session.gc_maxlifetime', 259200);	// 3 days
 	//END customization
 	
 	// start session
