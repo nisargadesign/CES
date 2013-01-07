@@ -1,6 +1,6 @@
 ///// --- Slideshow script; denepnds on IE-specific polyfill for setInterval arguments, and hidden property and visibility change event variables/code, both defined in layout_two_columns.html template file for CES
 var slideUpTime = 6000;
-var transitionTime = 3500;
+var transitionTime = 2400;
 var timerIDs = new Array();
 var lastSlides = new Array();
 
@@ -21,7 +21,7 @@ function resumeAnimation(id){
 function play(id){
     if ( $('#' + id + ' div').length > 1 ){
         lastSlides[id] = $('#' + id + ' div:last');
-        lastSlides[id].stop().animate({opacity: 0.0}, transitionTime, function (){$('#' + id + ' div:first').before(lastSlides[id]);lastSlides[id].css({opacity: 1});});
+        lastSlides[id].stop().animate({opacity: 0}, transitionTime, "swing", function (){$('#' + id + ' div:first').before(lastSlides[id]);lastSlides[id].css({opacity: 1});});
     }
     else{
         stopAnimation(id);
@@ -39,6 +39,8 @@ function stopAll(){
             stopAnimation($(this).attr("id"));
     });
 }
+
+$(document).ready(function(){slideUpTime = $("#category-slideshow").length ? 5000 : slideUpTime});
 
 $(window).load(function(){
     $('.slideshow div:hidden').fadeIn(transitionTime);
