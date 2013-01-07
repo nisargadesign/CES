@@ -7,10 +7,6 @@ RewriteEngine on
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^/]+/)*index\.php\ HTTP/
 RewriteRule ^(([^/]+/)*)index\.php$ http://www.cuttingedgestencils.com/$1 [R=301,L]
 
-#AddHandler cgi-script .cgi .pl
-AuthName "CES"
-AuthUserFile "/home/cuttinge/.htpasswds/public_html/passwd"
-
 #redirect to www; needed for SEO, disqus and social media counts of "likes"
 RewriteCond %{HTTP_HOST} ^cuttingedgestencils.com$  [OR]
 RewriteCond %{HTTP_HOST} ^216.70.85.26$ 
@@ -49,5 +45,4 @@ Redirect 301 /flower-stencils-alliums-wall-stencils.html http://www.cuttingedges
 Redirect 301 /stencil-wall-decal-tree-branch-stencils.html http://www.cuttingedgestencils.com/wall-art-stencil-decal.html
 Redirect 301 /flower-stencils-large-wall-stencils.html http://www.cuttingedgestencils.com/flower-stencil-wall-stencils.html
 Redirect 301 /stenciling-ideas.html http://www.cuttingedgestencils.com/stenciling-instructions.html
-Redirect 301 /damaskallover-stenciling-tips.html http://blog.cuttingedgestencils.com/damaskallover-stenciling-tips.html
-Redirect 301 /nursery-stencils.html http://www.cuttingedgestencils.com/nursery-stencils-walls.html
+#Redirect 301 /nursery-stencils.html http://www.cuttingedgestencils.com/nursery-stencils-walls.html
