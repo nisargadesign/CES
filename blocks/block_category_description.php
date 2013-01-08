@@ -28,7 +28,7 @@
 
 			$description = get_translation($db->f("full_description"));
 
-//-----ADDED SHORT DESCRIPTION TO TEMPLATE
+//----ADDED SHORT DESCRIPTION TO TEMPLATE
 			$description2 = get_translation($db->f("short_description"));
 
 		} elseif ($desc_type == 1) {
