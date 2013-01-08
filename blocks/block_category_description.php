@@ -28,6 +28,9 @@
 
 			$description = get_translation($db->f("full_description"));
 
+//-----ADDED SHORT DESCRIPTION TO TEMPLATE
+			$description2 = get_translation($db->f("short_description"));
+
 		} elseif ($desc_type == 1) {
 
 			$description = get_translation($db->f("short_description"));
@@ -125,6 +128,9 @@
 			$t->set_var("category_name", $category_name);
 
 			$t->set_var("full_description", $description);
+			
+//-----ADDED SHORT DESCRIPTION TO TEMPLATE
+			$t->set_var("short_description", $description2);
 
 
 
