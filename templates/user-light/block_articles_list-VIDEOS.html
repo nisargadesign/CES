@@ -1,4 +1,36 @@
-<script type="text/javascript" src="js/video.js"></script>
+<script type="text/javascript">
+	
+	function showVideo(elem){
+		var viewPortWidth = window.innerWidth //$(window).width(); //window.innerWidth
+		var dialogWidth = ( viewPortWidth > 200 ) ? viewPortWidth*0.9 : 160;
+		var dialogHeight = (dialogWidth + 40*0.7777)/1.7777;
+		if(jQuery.browser.mobile && viewPortWidth - $(window).width() < -40 ){
+			dialogWidth += 30;
+			dialogHeight += 30;
+		}
+		showDialog(dialogWidth, dialogHeight,
+				     '<iframe width="' + (dialogWidth - 40) + '" height="' + (dialogHeight - 40) + '" src="' + $(elem).attr("href").replace("/v/", "/embed/").replace("&rel=", "?rel=") + '" frameborder="0" allowfullscreen></iframe>',
+				     function(){
+					$("#background, #dialogHeader a").click(function(){
+						$("#dialogContent").html("");
+						});
+					});
+	}
+	
+	$(document).ready(function(){
+		if( window.location.hash.length > 2){
+			if($("a.youtube img[src*='" + window.location.hash.substr(1) + "']").length){
+				showVideo($("a.youtube img[src*='" + window.location.hash.substr(1) + "']").parent("a.youtube"));
+			}
+		}
+		$("a.youtube").removeAttr("rel").click(function(){
+			showVideo(this);
+			newHash = $("img" ,this).attr("src");
+			location.hash = newHash.substring( newHash.lastIndexOf("/") + 1, newHash.lastIndexOf(".") ).replace("video-","");
+			return false;
+			})
+	});
+</script>
 
 <div class="block-articles-list {block_class}" style="{block_style}">
 
@@ -119,7 +151,7 @@
 
 <div class="pix">
 <!-- begin image_small_block -->
-<a rel="shadowbox;height=540;width=960" href="{alt}"><img src="{src}" border="0" /></a>
+<a class="youtube" href="{alt}"><img src="{src}" border="0" /></a>
 <!-- end image_small_block -->
 </div>
 
