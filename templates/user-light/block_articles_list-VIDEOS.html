@@ -1,8 +1,10 @@
 <script type="text/javascript">
-	
+	var minDialogWidth = 160;
+	var maxDialogWidth = 1000;
 	function showVideo(elem){
-		var viewPortWidth = window.innerWidth //$(window).width(); //window.innerWidth
-		var dialogWidth = ( viewPortWidth > 200 ) ? viewPortWidth*0.9 : 160;
+		var viewPortWidth = window.innerWidth; //$(window).width(); //window.innerWidth
+		var dialogWidth = ( viewPortWidth > minDialogWidth + 40 ) ? viewPortWidth*0.9 : minDialogWidth;
+		dialogWidth = ( dialogWidth > maxDialogWidth ) ? maxDialogWidth : dialogWidth;
 		var dialogHeight = (dialogWidth + 40*0.7777)/1.7777;
 		if(jQuery.browser.mobile && viewPortWidth - $(window).width() < -40 ){
 			dialogWidth += 30;
