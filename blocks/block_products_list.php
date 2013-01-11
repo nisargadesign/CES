@@ -1104,11 +1104,10 @@
 						set_tax_price($item_id, $item_type_id, $price + $selected_price, 1, 0, $tax_id, $tax_free, "price", "", "tax_price", true, $components_price, $components_tax_price);
 
 						$t->sparse("price_block", false);
-						$t->set_var("old_price", ""); //Customization by Vital
 						$t->set_var("sales", "");
 						$t->set_var("save", "");
 					}
-
+					$t->set_var("old_price", ""); //Customization by Vital
 
 					$buy_link = $db->f("buy_link");
 					if ($buy_link) {
