@@ -416,7 +416,8 @@
 					$availability = 'available for order';
 				}
 				else if ($disable_out_of_stock == 0 && $hide_out_of_stock == 0 && $use_stock_level == 0) {
-					$availability = 'preorder';
+					//$availability = 'preorder';
+					$availability = 'in stock';	//Custimization by Vital
 				}
 				else {
 					$availability = 'out of stock';
