@@ -13,8 +13,8 @@
 	
 	
 
-	check_admin_security("import_export");
-	check_admin_security("products_export_google_base");
+	//check_admin_security("import_export");
+	//check_admin_security("products_export_google_base");
 	$startTime = microtime(true);
 	// settings
 	$tax_rates       = get_tax_rates(true);	
@@ -309,20 +309,34 @@
 				write_to("\t\t<title><![CDATA[" . charset_conv($item_name) . "]]></title>" . $eol);
 				write_to("\t\t<link>". $product_details_url ."</link>" . $eol);
 						
-				$item_code    = $db->f("item_code");
-				if ($item_code) {			
-					if (preg_match('/.*books.*/i', $item_google_type)) {
-						write_to("\t\t<" . $schema_type . ":isbn>" . $item_code . "</" . $schema_type . ":isbn>" . $eol);
-					}
-					else if (preg_match('/.*media.*/i', $item_google_type) || preg_match('/.*software.*/i', $item_google_type)) {
-						write_to("\t\t<" . $schema_type . ":upc>" . $item_code . "</" . $schema_type . ":upc>" . $eol);
-					}
-					else {
-						write_to("\t\t<" . $schema_type . ":gtin>" . $item_code . "</" . $schema_type . ":gtin>" . $eol);
+				$item_code = $db->f("item_code");
+				if ($item_code) {
+					write_to( "\t\t<" . $schema_type . ":mpn><![CDATA[" . charset_conv($item_code) . "]]></" . $schema_type . ":mpn>" . $eol);
+					//if (preg_match('/.*books.*/i', $item_google_type)) {
+					//	write_to("\t\t<" . $schema_type . ":isbn>" . $item_code . "</" . $schema_type . ":isbn>" . $eol);
+					//}
+					//else if (preg_match('/.*media.*/i', $item_google_type) || preg_match('/.*software.*/i', $item_google_type)) {
+					//	write_to("\t\t<" . $schema_type . ":upc>" . $item_code . "</" . $schema_type . ":upc>" . $eol);
+					//}
+					//else {
+					//	write_to("\t\t<" . $schema_type . ":gtin>" . $item_code . "</" . $schema_type . ":gtin>" . $eol);
+					//}
+				}
+				
+				//Customization by Vital - adding product category description
+				
+				$specific_item_type = "Wall Stencils";
+				$sql  = "SELECT c.category_name FROM ( ".$table_prefix."items_categories ic  LEFT JOIN ".$table_prefix."categories c ON ic.category_id=c.category_id) WHERE ic.item_id=" . $dbd->tosql($item_id, INTEGER). " ORDER BY ic.item_order";
+				$dbd->query($sql);
+				if($dbd->next_record()){
+					if ($dbd->f("category_name") ) {
+						$specific_item_type = $dbd->f("category_name");
 					}
 				}
+	
+				//END customization
 						
-				write_to("\t\t<" . $schema_type . ":product_type>" . htmlspecialchars($item_google_type) . "</" . $schema_type . ":product_type>" . $eol);
+				write_to("\t\t<" . $schema_type . ":product_type>" . htmlspecialchars($item_google_type) . " &gt; " . $specific_item_type . "</" . $schema_type . ":product_type>" . $eol);
 				write_to("\t\t<" . $schema_type . ":google_product_category>" . htmlspecialchars($item_google_type) . "</" . $schema_type . ":google_product_category>" . $eol);
 				write_to("\t\t<" . $schema_type . ":expiration_date>" . $expiration_date_formatted . "</" . $schema_type . ":expiration_date>" . $eol);
 				write_to("\t\t<" . $schema_type . ":condition>" . $google_base_product_condition . "</" . $schema_type . ":condition>" . $eol);
@@ -360,7 +374,7 @@
 				}
 				
 				if (strlen($manufacturer_code)) {
-					write_to( "\t\t<" . $schema_type . ":mpn><![CDATA[" . charset_conv($manufacturer_code) . "]]></" . $schema_type . ":mpn>" . $eol);
+					//write_to( "\t\t<" . $schema_type . ":mpn><![CDATA[" . charset_conv($manufacturer_code) . "]]></" . $schema_type . ":mpn>" . $eol);
 				}
 				if ($image_url && !preg_match("/^http\:\/\//", $image_url)) {
 					$image_url = $settings["site_url"] . $image_url;
@@ -368,6 +382,24 @@
 				if (strlen($image_url)) {
 					write_to( "\t\t<" . $schema_type . ":image_link>" . $image_url . "</" . $schema_type . ":image_link>" . $eol);
 				}
+				
+				//Customization by Vital - adding all images
+				
+				$sql  = " SELECT image_large FROM ".$table_prefix."items_images WHERE item_id=" . $db->tosql($item_id, INTEGER);
+				$dbd->query($sql);
+				$image_number = 0;
+				while($dbd->next_record() && $image_number++ < 10){
+					$image_url = $dbd->f("image_large");
+					if ($image_url && !preg_match("/^http\:\/\//", $image_url)) {
+						$image_url = $settings["site_url"] . $image_url;
+					}
+					if (strlen($image_url)) {
+						write_to( "\t\t<" . $schema_type . ":additional_image_link>" . $image_url . "</" . $schema_type . ":additional_image_link>" . $eol);
+					}
+					
+				}
+	
+				//END customization 
 			
 				$price            = $db->f("price");
 				$sales_price      = $db->f("sales_price");
