@@ -268,6 +268,16 @@
 		$table_columns = array();
 
 		$allowed_items_ids = VA_Products::find_all_ids("i.item_id IN (" . $db->tosql($items_ids, INTEGERS_LIST) . ")", VIEW_ITEMS_PERM);
+		
+		//Customization by Vital - second image mouseover
+		$mouseover_images = array();
+		$sql  = " SELECT item_id, image_small FROM ".$table_prefix."items_images WHERE item_id IN (" . $db->tosql($allowed_items_ids, INTEGERS_LIST).") ORDER BY item_id, image_title ";
+		$db->query($sql);
+		while ($db->next_record()) {
+			$mouseover_images[$db->f("item_id")][] = $db->f("image_small");
+		}
+		
+		//END customization
 
 		$items_categories = array();
 				
@@ -564,6 +574,12 @@
 					}
 					$t->set_var("alt", htmlspecialchars($small_image_alt));
 					$t->set_var("src", htmlspecialchars($small_image));
+					//Customization by Vital - second image mouseover
+					$images = $mouseover_images[$item_id];
+					$mouseover_image = ( isset($images[0]) && $images[0] != $small_image ) ? $images[0] : ( isset($images[1]) ? $images[1] : $small_image );
+					
+					$t->set_var("src2", htmlspecialchars($mouseover_image));
+					//END customization
 					if (is_array($image_size)) {
 						$t->set_var("width", "width=\"" . $image_size[0] . "\"");
 						$t->set_var("height", "height=\"" . $image_size[1] . "\"");
@@ -691,11 +707,10 @@
 						set_tax_price($item_id, $item_type_id, $price + $selected_price, 1, 0, $tax_id, $tax_free, "price", "", "tax_price", true, $components_price, $components_tax_price);
 
 						$t->sparse("price_block", false);
-						$t->set_var("old_price", ""); //Customization by Vital
 						$t->set_var("sales", "");
 						$t->set_var("save", "");
 					}
-
+					$t->set_var("old_price", ""); //Customization by Vital
 
 					$buy_link = $db->f("buy_link");
 					if ($buy_link) {

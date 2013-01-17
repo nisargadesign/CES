@@ -122,7 +122,7 @@ span.nobr      {white-space: nowrap !important;}
 	padding: 8px 8px 8px 8px;
 	text-align: center;		
 }
-.boxProductPix, .block-related-products .pixRelated {text-align: center;}
+.boxProductPix, .block-related-products .pixRelated {text-align: center; position: relative; height: 235px;}
 .otherLabel {
 	color: #656565;
 	font-weight: bold;
@@ -307,7 +307,7 @@ span.nobr      {white-space: nowrap !important;}
 
 .topCategory .category_img, .subCategory .category_img, .selectedtopCategory .category_img, .selectedsubCategory .category_img {margin: 0}
 
-.commonbg, .boxProductTop, .boxHeader, #smallCartTotal, .thumbBoxBottom, .GALLERY-LIST .articlesBox h2, .BLOCK-HOW-TO-LIST .articlesBox h2, .productGridBoxRound h2.listing, .NEWSLETTER, .boxConfidence h2, .shipping_calculator .boxHeaderResult {background: transparent url(/images/custom/bg3.png) repeat top left;}
+.commonbg, .boxProductTop, .boxHeader, #smallCartTotal, .thumbBoxBottom, .GALLERY-LIST .articlesBox h2, .BLOCK-HOW-TO-LIST .articlesBox h2, .productGridBoxRound h2.listing, .NEWSLETTER, .boxConfidence h2, .shipping_calculator .boxHeaderResult, .leftStyle .homeSubscribe {background: transparent url(/images/custom/bg3.png) repeat top left;}
 .commonbgPlain {background: none repeat scroll 0 0 #F3F1E9;}
 
 .featureName {color:#791F04; font-weight: bold; font-size: 24px; line-height: 1;}
@@ -349,18 +349,22 @@ div.frameBlocks {margin: auto; width: 1000px;}
 div.Header {padding: 27px 0 0  27px; position: relative; height: 140px; z-index: 99;}
 div.Header a img {border: none !important}
 
-div.boxSearch {margin: 20px 40px; width: 260px; position: relative;}
+div.boxSearch {margin: 36px 40px; width: 260px; position: relative;}
 
-.boxSearch .searchField, #email, .block-basket .boxCoupon input.field {margin: 0px -3px 0px 0px; padding: 6px 10px; background: #f3f1e9; border: 1px solid #cc6d01; border-radius: 4px 0 0 4px;  width:200px; color: #656565; font-style: italic; font-size: 14px; box-shadow: 5px 5px 5px rgba(55, 55, 55, 0.2) inset; display: block; height: 20px; border-collapse: collapse;}
+.boxSearch .searchField, #subscription-email, .block-basket .boxCoupon input.field {margin: 0px -3px 0px 0px; padding: 6px 10px; background: #f3f1e9; border: 1px solid #cc6d01; border-radius: 4px 0 0 4px;  width:200px; color: #656565; font-style: italic; font-size: 14px; box-shadow: 5px 5px 5px rgba(55, 55, 55, 0.2) inset; display: block; height: 20px; border-collapse: collapse;}
 .boxSearch .button, .homeSubscribe .button, .block-basket .boxCoupon .submit {border-radius: 0 4px 4px 0 !important; height: 34px; position: absolute !important; right: 8px;}
-#email {width: 150px !important; float: left; font-weight: bold !important; margin:0px -3px 8px 0px;}
+#subscription-email {width: 150px !important; float: left; font-weight: bold !important; margin:0px -3px 8px 0px;}
 .homeSubscribe {padding:6px; text-align:center; position: relative; overflow: auto;}
+.leftStyle .homeSubscribe {margin: 8px 0;}
+.leftStyle .signUp {font-weight: bold; font-size: 13px;}
+.leftStyle #subscription-button {position: relative !important; float: none !important; border-radius: 5px !important; right: 0; height: auto;}
+.leftStyle #subscription-email {width: 171px !important; border-radius: 4px;}
 .homeSubscribe .signUp {color: #ab5600; text-transform: uppercase; padding:0px 0px 8px;}
 .share {padding: 6px 6px 2px 6px; width: 265px; margin: 0 0 7px 7px;}
 .subscribe {padding: 6px 6px 2px 6px; width: 265px; margin: 0 0 33px 7px; clear: right;}
 
 /*-------------- HEADER CART --------------*/
-div.cartContainer, .boxAccount {color: #656565; margin: 18px 0; border-radius: 5px 5px 0 0; -moz-border-radius: 5px 5px 0 0; -webkit-border-radius: 5px 5px 0 0;}
+div.cartContainer, .boxAccount {color: #656565; margin: 36px 0; border-radius: 5px 5px 0 0; -moz-border-radius: 5px 5px 0 0; -webkit-border-radius: 5px 5px 0 0;}
 
 div.block-cart {overflow: visible; width: 117px; height: 32px; margin: 5px 5px 0 5px; background: transparent url(/images/custom/icon-cart-gray.png) 3px 1px no-repeat; position: relative; color: #656565; font-size: 17px; font-weight: bold;}
 div.block-cart:hover {background: transparent url(/images/custom/icon-cart-white.png) 3px 1px no-repeat; position: relative; color: white;}
@@ -427,12 +431,12 @@ div.block-cart .cartAccountItems .button {display: block; margin: 10px 0 0 0;}
 .CategoryList .selectedtopCategory a:after, .CategoryList .selectedsubCategory a:after, .CategoryList li a.title:hover:after {border-left-color: #d6ba39 !important;}
 
 /*-------------- PRODUCT LIST --------------*/
-.boxProductPix {width: 238px; height: 238px; padding: 0px;}
+.boxProductPix {width: 238px; height: 238px; padding: 0px; position: relative; display: block;}
 .boxProductTop a:link, .boxProductTop h2 a:visited, .wishlist .wishlistTitle a, .wishlist .wishlistTitle a:visited {color: #656565;}
 
 .block-products-list h2, .block-related-products h2, .block-offers h2{ width: 226px; font-size: 14px; font-weight: bold; padding: 6px; text-transform: uppercase; text-align: center; min-height: 38px; height: 38px; display: table-cell; vertical-align: middle; min-width: 203px; line-height: 16px; }
 
-.block-products-list img, .block-related-products img { width: 238px; height: 238px; margin: 0px; border-top: 1px solid #ffffff; border-bottom: 1px solid #ffffff;}
+.block-products-list img, .block-related-products img { width: 238px; height: 238px; margin: 0px; border-top: 1px solid #ffffff; border-bottom: 1px solid #ffffff; position: absolute; left: 0;}
 
 .boxProductMiddle  {background-color: #f3f1e9; padding: 6px 8px 8px 8px; text-align: center;}
 
@@ -459,8 +463,8 @@ div#dialog_arrow {height:241px; float: left; background: #656565 url(/images/pay
 #dialogContent .submit {float: right;}
 #dialogContent div.popup-note {margin: 15px 0 7px; background-color: #e8e8ae; font-size: 11px; line-height: 14px; padding: 7px; border-radius: 7px; -moz-border-radius: 7px; -webkit-border-radius: 7px;}
 
-#dialogContent div.popup-img-container img {width: 112px; height: auto;}
-#dialogContent div.popup-img-container {border: solid 1px #656565; clear: both; margin: 10px 20px 0 0 !important;}
+#dialogContent div.popup-img-container img {width: 112px; height: 112px; position: absolute;}
+#dialogContent div.popup-img-container {border: solid 1px #656565; clear: both; margin: 10px 20px 0 0 !important; width: 112px; height: 112px; position: relative;}
 
 /*-------------- WISHLIST SIDEBAR --------------*/
 div.wishlistContainer {background: #F3F1E9; padding: 8px; font-size: 12px;}
@@ -503,7 +507,8 @@ div.sharePIN {margin-right: 51px;}
 .navigator, .navigatorDetail { float:right; clear: none !important;}
 .navigator3 {float:left;}
 .navigator2, .navigator, .navigator3, .navigatorDetail, .navigator-row, .block-offers .padding10px {margin: 8px 0; padding: 0px; font-weight: bold; clear: both; text-transform: uppercase; font-size:13px;}
-.navigator2 {position: absolute; right: 20px; top: 5px; border: none; padding: 0;}
+.navigator2 {border: none; padding: 0;}
+.TopTitle .navigator2 {position: absolute; right: 20px; top: 5px; }
 .navigator-row {border: none !important;}
 .navigator-row td {background: transparent !important; padding: 8px;}
 
@@ -635,7 +640,7 @@ div.block-categories-catalog a:hover:before {box-shadow: 0px 0px 6px rgba(55, 55
 
 
 /* --- SOCIAL BUTTONS --- */
-.NEWSLETTER {margin: 8px 0; overflow: auto; padding: 6px 6px 2px;}
+.NEWSLETTER {margin: 8px 0; padding: 6px 6px 2px; height: 73px;}
 
 
 /* --- LINKS --- */
