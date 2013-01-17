@@ -4,17 +4,13 @@
 *	RSS 2.0 Formatted (Example http://base.google.com/base/products2.xml)
 */
 	@set_time_limit (900);
-	include_once ("./admin_config.php");
-	include_once ($root_folder_path . "includes/common.php");
-	include_once ($root_folder_path . "includes/record.php");
-	include_once ($root_folder_path . "includes/shopping_cart.php");
-	include_once ($root_folder_path . "messages/".$language_code."/cart_messages.php");
-	include_once("./admin_common.php");
+	include_once ("../stencils/admin_config.php");
+	include_once ("../includes/common.php");
+	include_once ("../includes/record.php");
+	include_once ("../includes/shopping_cart.php");
+	include_once ("../messages/".$language_code."/cart_messages.php");
+	include_once ("../stencils/admin_common.php");
 	
-	
-
-	check_admin_security("import_export");
-	check_admin_security("products_export_google_base");
 	$startTime = microtime(true);
 	// settings
 	$tax_rates       = get_tax_rates(true);	
@@ -96,10 +92,10 @@
 
 	// search items
 	$s  = trim(get_param("s"));
-	$sc = get_param("sc");
-	$sl = get_param("sl");
-	$ss = get_param("ss");
-	$ap = get_param("ap");
+	$sc = 0;
+	$sl = 1;
+	$ss = 1;
+	$ap = 1;
 	
 	$search = (strlen($sc) || strlen($s) || strlen($sl) || strlen($ss) || strlen($ap)) ? true : false;
 
