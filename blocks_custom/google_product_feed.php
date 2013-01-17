@@ -546,7 +546,8 @@
 		} else {
 			echo FTP_UPLOAD_SUCCEED_MSG;
 		}	
-		ftp_close($conn_id);	
+		ftp_close($conn_id);
+		mail("vital@fineonly.com", "Google Merchang Center Upload", "Feed uploaded via /blocks_custom/google_product_feed.php");
 	}
 	
 	$endTime = microtime(true);
