@@ -562,12 +562,10 @@
 	set_session("session_cc_number_last", "");
 	set_session("session_cc_code", "");
 
-	//Begin google analytics
+	// Begin google analytics ecommerce
 	$google_analytics = get_setting_value($settings, "google_analytics", 0);
 	$google_tracking_code = get_setting_value($settings, "google_tracking_code", "");
 	if ($paid_status && $google_analytics && $google_tracking_code) {
-		$t->set_file("hidden_block", "google_analytics_order.html");
-
 		$t->set_var("google_order_id", $order_id);
 		$t->set_var("google_affiliation", str_replace("\"", "\\\"", htmlspecialchars($affiliate_code)));
 		$t->set_var("google_total", $order_total);
@@ -620,8 +618,7 @@
 			$t->sparse("google_items", true);
 
 		}
-
-		$t->parse_to("hidden_block", "hidden_blocks", true);
+		$t->sparse("google_trans", true);
 	}
 	//End google analytics
 
