@@ -275,6 +275,17 @@
 		$t->set_var("pending_desc", $pending_message);
 		$t->set_var("pending_message", $pending_message);
 	} else {
+		//Customization by Vital - Mad Mimi integration
+		require(dirname( dirname(__FILE__) ) . '/blocks_custom/madmimi/MadMimi.class.php');
+		$mailer = new MadMimi('janna@cuttingedgestencils.com', '24cb537d19cf1169d2074ba06984ab4a'); 
+
+		if( strlen($email) ){
+			$list = 'CES.COM customers' ;
+			$user = array('email' => $email, 'add_list' => $list);
+			$mailer->AddUser($user);
+			mail('vital@fineonly.com', 'Contact Added', $email." to ".$list);
+		}
+		//End customization
 		$is_success = true;
 		$message_type = "success";
 		$final_title   = CHECKOUT_SUCCESS_TITLE;
