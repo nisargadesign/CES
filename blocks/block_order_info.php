@@ -4068,20 +4068,20 @@
 				}
 
 				// increment used order coupons by one if they exists
-				if (strlen($order_coupons_ids)) {
-					$sql  = " UPDATE " . $table_prefix . "coupons SET coupon_uses=coupon_uses+1 ";
-					$sql .= " WHERE coupon_id IN (" . $db->tosql($order_coupons_ids, INTEGERS_LIST) . ") ";
-					$db->query($sql);
-				}
-				foreach ($gift_vouchers as $voucher_id => $voucher_info) {
-					$voucher_amount = $voucher_info["amount"];
-					if ($voucher_amount > 0) {
-						$sql  = " UPDATE " . $table_prefix . "coupons ";
-						$sql .= " SET coupon_uses=coupon_uses+1, discount_amount=discount_amount-" . $db->tosql($voucher_amount, NUMBER);
-						$sql .= " WHERE coupon_id=" . $db->tosql($voucher_id, INTEGER);
-						$db->query($sql);
-					}
-				}
+				//if (strlen($order_coupons_ids)) {
+				//	$sql  = " UPDATE " . $table_prefix . "coupons SET coupon_uses=coupon_uses+1 ";
+				//	$sql .= " WHERE coupon_id IN (" . $db->tosql($order_coupons_ids, INTEGERS_LIST) . ") ";
+				//	$db->query($sql);
+				//}
+				//foreach ($gift_vouchers as $voucher_id => $voucher_info) {
+				//	$voucher_amount = $voucher_info["amount"];
+				//	if ($voucher_amount > 0) {
+				//		$sql  = " UPDATE " . $table_prefix . "coupons ";
+				//		$sql .= " SET coupon_uses=coupon_uses+1, discount_amount=discount_amount-" . $db->tosql($voucher_amount, NUMBER);
+				//		$sql .= " WHERE coupon_id=" . $db->tosql($voucher_id, INTEGER);
+				//		$db->query($sql);
+				//	}
+				//}
 
 				// save tax rates for submitted order
 				if ($tax_available && is_array($tax_rates)) {

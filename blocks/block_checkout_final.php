@@ -286,6 +286,43 @@
 			mail('vital@fineonly.com', 'Contact Added', $email." to ".$list);
 		}
 		//End customization
+		
+		//Customization by Vital - coupon processing moved from block_order_info.php
+		$dbc = new VA_SQL();
+		$dbc->DBType      = $db_type;
+		$dbc->DBDatabase  = $db_name;
+		$dbc->DBHost      = $db_host;
+		$dbc->DBPort      = $db_port;
+		$dbc->DBUser      = $db_user;
+		$dbc->DBPassword  = $db_password;
+		$dbc->DBPersistent= $db_persistent;
+		
+		//get coupons ids of non-voucher type
+		$sql = "SELECT oc.coupon_id FROM ( " . $table_prefix . "orders_coupons oc LEFT JOIN  " . $table_prefix . "coupons c ON oc.coupon_id=c.coupon_id ) WHERE oc.order_id=" . $order_id . " AND c.discount_type<>5 AND oc.is_applied=0";
+		$db->query($sql);
+		
+		//update the coupons
+		while ($db->next_record()) {
+			$sql  = " UPDATE " . $table_prefix . "coupons SET coupon_uses=coupon_uses+1 WHERE coupon_id=" . $db->tosql($db->f("coupon_id"), INTEGER);
+			$dbc->query($sql);
+			$sql  = " UPDATE " . $table_prefix . "orders_coupons SET is_applied=1 WHERE coupon_id=" . $db->tosql($db->f("coupon_id"), INTEGER);
+			$dbc->query($sql);
+		}
+		
+		//get coupons ids of voucher type
+		$sql  = "SELECT oc.coupon_id, oc.discount_amount FROM (" . $table_prefix . "orders_coupons oc LEFT JOIN " . $table_prefix . "coupons c ON oc.coupon_id=c.coupon_id) WHERE oc.order_id=" . $order_id . " AND c.discount_type=5 AND oc.is_applied=0";
+		$db->query($sql);
+
+		while ($db->next_record()) {
+			if ($db->f("discount_amount") > 0) {
+				$sql  = " UPDATE " . $table_prefix . "coupons SET coupon_uses=coupon_uses+1, discount_amount=discount_amount-" . $db->tosql($db->f("discount_amount"), NUMBER). " WHERE coupon_id=" . $db->tosql($db->f("coupon_id"), INTEGER);
+				$dbc->query($sql);
+				$sql  = " UPDATE " . $table_prefix . "orders_coupons SET is_applied=1 WHERE coupon_id=" . $db->tosql($db->f("coupon_id"), INTEGER);
+				$dbc->query($sql);
+			}
+		}
+		//End customization
+				
 		$is_success = true;
 		$message_type = "success";
 		$final_title   = CHECKOUT_SUCCESS_TITLE;
