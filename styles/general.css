@@ -360,7 +360,7 @@ div.boxSearch {margin: 36px 40px; width: 260px; position: relative;}
 .leftStyle #subscription-button {position: relative !important; float: none !important; border-radius: 5px !important; right: 0; height: auto;}
 .leftStyle #subscription-email {width: 171px !important; border-radius: 4px;}
 .homeSubscribe .signUp {color: #ab5600; text-transform: uppercase; padding:0px 0px 8px;}
-.share {padding: 6px 6px 2px 6px; width: 265px; margin: 0 0 7px 7px;}
+.share {padding:7px 6px 0px 6px; width: 265px; margin: 0 0 7px 7px;}
 .subscribe {padding: 6px 6px 2px 6px; width: 265px; margin: 0 0 33px 7px; clear: right;}
 
 /*-------------- HEADER CART --------------*/
@@ -477,13 +477,14 @@ div.wishlistContainer div.emptyWishlist {text-align: center;}
 
 .disabled {opacity: 0.4; filter:alpha(opacity=40); cursor: text;}
 
-div.shareFB, div.shareTW, div.sharePIN, div.shareLI, div.shareGP {float: left; margin: 0 4px 4px 0;}
+.shareFB, .shareTW, .sharePIN, .shareLI, .shareGP {float: left; margin: 0 4px 4px 0;}
+.shareGP {width: 94px;}
+.shareFB {max-width: 95px;}
 .boxSocialButtons div.shareFB, .boxSocialButtons div.shareTW, .boxSocialButtons div.sharePIN, .boxSocialButtons div.shareLI, .boxSocialButtons  div.shareGP {margin: 6px;} 
-div.shareGP div {float: left !important; max-width: 86px; overflow: visible;}
-div.sharePIN iframe {max-width: 76px}
-div.shareFB {max-width: 86px;}
-div.shareTW {max-width: 80px;}
-div.sharePIN {margin-right: 51px;}
+.shareGP div {float: left !important; max-width: 86px; overflow: visible;}
+.sharePIN iframe {max-width: 76px}
+.shareTW {max-width: 79px; clear: left;}
+.sharePIN {margin-right: 41px;}
 
 
 #news-slideshow-viewport {overflow: hidden; position: relative; width: 205px; height: 270px;}
@@ -532,8 +533,8 @@ div.boxAddToCart .button, .button-wishlist {display: block; text-transform: uppe
 
 #desc_data, #reviews_data, #accessories_data, #spec_data {border: 1px solid #e6e4dd; margin: 0; padding: 12px; clear: both; border-top: 6px solid; margin: -6px 0 0 0;}
 #desc_data .descText, #accessories_data .descText {font-size: 12pt; line-height: 15pt;}
-#desc_data {height: 400px; overflow: hidden; position: relative;}
-#desc_data .specs-more {position: absolute; bottom: 0; height: 80px; text-align: center; width: 100%; margin-left: -12px; border-bottom: 3px solid #93500C;
+#desc_data {max-height: 400px; overflow: hidden; position: relative;}
+#desc_data .specs-more {display: none; position: absolute; bottom: 0; height: 80px; text-align: center; width: 100%; margin-left: -12px; border-bottom: 3px solid #93500C;
 background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9Ijc0JSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
 background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 74%, rgba(255,255,255,1) 100%); /* FF3.6+ */
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(74%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
@@ -542,7 +543,7 @@ background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1)
 background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 74%,rgba(255,255,255,1) 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-8 */
 }
-#desc_data .specs-more a {position: absolute; bottom: 0; border-radius: 5px 5px 0 0; width: 300px; left: 207px; padding-top: 5px;}
+#desc_data .specs-more a {position: absolute; bottom: 0; border-radius: 5px 5px 0 0; width: 300px; left: 207px; padding-top: 5px; cursor: pointer;}
 #desc_data .specs-more a:after, #desc_data .specs-more a:before {content: ' '; height: 0; width: 0; position: absolute; top: 10px; border: 6px solid transparent; border-top-color: white;}
 #desc_data .specs-more a:after {right: 7px;}
 #desc_data .specs-more a:before{left: 7px;}
@@ -640,7 +641,7 @@ div.block-categories-catalog a:hover:before {box-shadow: 0px 0px 6px rgba(55, 55
 
 
 /* --- SOCIAL BUTTONS --- */
-.NEWSLETTER {margin: 8px 0; padding: 6px 6px 2px; height: 73px;}
+.NEWSLETTER {margin: 8px 0; padding: 6px 0 0 6px; height: 78px;}
 
 
 /* --- LINKS --- */

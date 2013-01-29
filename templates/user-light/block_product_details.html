@@ -13,14 +13,23 @@
 {NEXT_NAME}
 -->
 
-<script type="text/javascript" src="js/images.js"></script>
-<script type="text/javascript" src="js/tabs.js"></script>
-<script type="text/javascript">
-star1 = new Image(); star1.src = "../images/icons/rating-1.png";
-star2 = new Image(); star2.src = "../images/icons/rating-2.png";
-star3 = new Image(); star3.src = "../images/icons/rating-3.png";
-star4 = new Image(); star4.src = "../images/icons/rating-4.png";
-star5 = new Image(); star5.src = "../images/icons/rating-5.png";
+<script async src="js/tabs.js"></script>
+<script>
+var star1 = new Image(); star1.src = "../images/icons/rating-1.png";
+var star2 = new Image(); star2.src = "../images/icons/rating-2.png";
+var star3 = new Image(); star3.src = "../images/icons/rating-3.png";
+var star4 = new Image(); star4.src = "../images/icons/rating-4.png";
+var star5 = new Image(); star5.src = "../images/icons/rating-5.png";
+
+{preloaded_product_images}
+
+function showBigImage(imageURL) {
+$(".pixBigProduct").show();
+$(".pixBigProduct").clearQueue().stop(true, true);
+$("#bigPicBG img").attr("src",imageURL);
+$(".pixBigProduct").not("#bigPicBG, .innerBG").fadeOut(500, function(){$(".pixBigProduct img").attr("src",imageURL);});
+return false;
+}
 
 var rated = false;
 var expanded = false;
@@ -28,6 +37,7 @@ function showMore(){
     if(!expanded && $("div#desc_data div.descText").height() > 400 ){
 	$("div#desc_data .specs-more").show();
 	$("div#desc_data .specs-more a.button").click(function(){
+	    $("#desc_data").css({'max-height': $("div#desc_data div.descText").height(), 'height': '400px'});
 	    $("div#desc_data").animate({height: $("div#desc_data div.descText").height()}, 800, function(){
 		$("div#desc_data .specs-more").fadeOut(500);
 	    });
@@ -199,8 +209,20 @@ $(document).ready(function() {
 			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="pixBigTable">
 			<tr>
 				<td align="center" valign="top" width="">
+				    <div style="position: relative; width: 490px; height: 490px; margin-left: -3px;">
 					<!-- begin big_image -->
-					<div class="pixBigProduct"><img id="image_{form_id}" name="image_{form_id}" src="{src}" border="0" alt="{alt}" /><!-- end big_image --></div>
+					<div class="pixBigProduct" id="bigPicBG" style="position: absolute;">
+					    <div class="pixBigProduct innerBG" style="border: none;">
+					    <img src="{src}" border="0" alt="{alt}" />
+					    </div>
+					</div>
+					<div class="pixBigProduct" style="position: absolute;">
+					    <div class="pixBigProduct innerBG" style="border: none;">
+					    <img id="image_{form_id}" name="image_{form_id}" src="{src}" border="0" alt="{alt}" />
+					    </div>
+					</div>
+					<!-- end big_image -->
+				    </div>
 				<!-- {product_previews_under_large} -->
 					
 					<!-- begin super_image --><!--div><a id="super_{form_id}" href="{src}" title="{item_name}" onclick="{open_large_image_function}">{PROD_SUPER_IMAGE_MSG}</a></div--><!-- end super_image -->
@@ -324,19 +346,7 @@ $(document).ready(function() {
 <div class="videos"><a href="/how-to-stencil-videos.html"><img src="images/custom/videos.jpg" border="0" /></a></div>
 
 <!--<div class="boxContentSocialButtons">
-<table border="0" cellspacing="0" cellpadding="0" width="100%">
-<tr><td class="shareFacebook"><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like layout="button_count" show_faces="false" width="66" font="verdana"></fb:like></td>
-<td class="shareTwitter"><iframe allowtransparency="true" frameborder="0" scrolling="no" src="http://platform.twitter.com/widgets/tweet_button.html?count=horizontal&url={daUrl}" style="width:97px; height:20px;"></iframe></td>
-
-<tr><td colspan="2" class="sharePinterest">
-<a href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.cuttingedgestencils.com&media=http%3A%2F%2Fwww.cuttingedgestencils.com%2Fimages%2Fhome%2Ffff.jpg" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
-</td></tr>
-</table>
-</div>-->
-
-<!--div class="boxSocialButtons">
-
-<div class="shareFB"><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like layout="button_count" show_faces="false" width="66" font="verdana"></fb:like></div>
+<div class="shareFB"><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like layout="button_count" href="https://www.facebook.com/Cutting.Edge.Stencils" send="false" show_faces="false" width="66" font="verdana"></fb:like></div>
 <div class="shareTW"><iframe allowtransparency="true" src="http://platform.twitter.com/widgets/tweet_button.html?count=horizontal&amp;url=%7BdaUrl%7D" style="width:90px; height:20px;" frameborder="0" scrolling="no"></iframe></div>
 <div class="shareGP">
         <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
@@ -348,7 +358,8 @@ $(document).ready(function() {
    <script src="http://platform.linkedin.com/in.js" type="text/javascript"></script>
 <script type="IN/Share" data-counter="right"></script> 
 </div>
-</div-->
+
+</div>-->
 				</td>
 			</tr>
 		</table>

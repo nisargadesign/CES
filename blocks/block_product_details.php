@@ -1434,7 +1434,12 @@ if (($short_description) && ($short_description != "<br>"))
 
 		$sql .= " WHERE item_id=" . intval($item_id);
 		
-//---------- ORDER IMAGES 
+//---------- ORDER IMAGES
+
+		//Customization by Vital - image mouseover animation
+		$preloaded_product_image_count = 0;
+		$preloaded_product_images = "";
+		//END customization
 
 		$sql .= " ORDER BY image_title";
 		
@@ -1583,8 +1588,12 @@ if (($short_description) && ($short_description != "<br>"))
 				$rollover_js = "rolloverImage(".$image_id.", '".$image_large."', '".$image_name."', '".$super_id."', '".$image_super."'); return false;";
 
 			} else {
+				//Customization by Vital - image mouseover animation
+				$preloaded_product_images .= "var product_image_".++$preloaded_product_image_count." = new Image(); product_image_".$preloaded_product_image_count.".src = '".$image_large."'; ";
+				$rollover_js = "showBigImage('".$image_large."');";
+				//END customization
 
-				$rollover_js = "rolloverImage(".$image_id.", '".$image_large."', '".$image_name."', 'blackImg', '".$image_super."'); return false;";
+				//$rollover_js = "rolloverImage(".$image_id.", '".$image_large."', '".$image_name."', 'blackImg', '".$image_super."'); return false;";
 
 			}
 
@@ -1685,14 +1694,17 @@ if (($short_description) && ($short_description != "<br>"))
 				if ($image_below_large % $images_below_cols == 0) {
 
 					$t->parse("main_images_rows", true);
-
+					
 					$t->set_var("main_images_cols", "");
 
 				}
-
+	
 			}
 
-		}	    
+		}
+		//Customization by Vital - image mouseover animation
+		$t->set_var("preloaded_product_images", $preloaded_product_images);
+		//END customization
 
 		// parse row if columns left  
 
