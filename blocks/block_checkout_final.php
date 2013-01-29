@@ -283,7 +283,7 @@
 			$list = 'CES.COM customers' ;
 			$user = array('email' => $email, 'add_list' => $list);
 			$mailer->AddUser($user);
-			mail('vital@fineonly.com', 'Contact Added', $email." to ".$list);
+			//mail('vital@fineonly.com', 'Contact Added', $email." to ".$list);
 		}
 		//End customization
 		
@@ -659,10 +659,10 @@
 			}
 
 			$t->set_var("google_sku_code", str_replace("\"", "\\\"", htmlspecialchars($google_sku_code)));
-			$t->set_var("google_item_name", str_replace(array("\"", "\'"), array("\\\"", "\\\'"), htmlspecialchars($google_item_name)));
+			$t->set_var("google_item_name", str_replace(array("\"", "'"), array("\\\"", "\\'"), htmlspecialchars($google_item_name)));
 			$t->set_var("google_price", $google_price);
 			$t->set_var("google_quantity", $google_quantity);
-			$t->set_var("google_category", str_replace(array("\"", "\'"), array("\\\"", "\\\'"), htmlspecialchars($google_category)));
+			$t->set_var("google_category", str_replace(array("\"", "'"), array("\\\"", "\\'"), htmlspecialchars($google_category)));
 			$t->sparse("google_items", true);
 
 		}
