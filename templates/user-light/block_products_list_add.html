@@ -8,7 +8,7 @@ var compareMaxAllowed = "{COMPARE_MAX_ALLOWED_MSG}";
 
 //Customization by Vital - second image mouseover
 $(document).ready( function(){
-	$(".boxProductPix a").hover( function(){$('img:last', this).fadeOut('slow');}, function(){$('img:last', this).fadeIn('slow');} );
+	$(".boxProductPix").hover( function(){$('div.imageContainer:last', this).fadeOut('slow');}, function(){$('div.imageContainer:last', this).fadeIn('slow');} );
 });
 //END customization
 
@@ -124,7 +124,17 @@ function checkSize(formID, form, type, button) {
 			<tr>
 				<td valign="top" class="boxProductPix">
 					<!-- begin small_image -->
-					<a href="{product_details_url}" title="{a_title}"><img class="" src="{src2}" {width} {height} border="0" alt="{alt}" /><img class="" name="image_{form_id}" src="{src}" {width} {height} border="0" alt="{alt}" /></a><!-- end small_image -->
+					<div class="imageContainer">
+					<div class="centeredImageContainer">
+					<a href="{product_details_url}" title="{a_title}"><img src="{src2}" alt="{alt}" /></a>
+					</div>
+					</div>
+					<div class="imageContainer">
+					<div class="centeredImageContainer">
+					<a href="{product_details_url}" title="{a_title}"><img name="image_{form_id}" src="{src}" alt="{alt}" /></a>
+					</div>				
+					</div>
+					<!-- end small_image -->
 					{product_previews}							
 					<!-- begin compare -->
 					<div align="center">
