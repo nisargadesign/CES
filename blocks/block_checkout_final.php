@@ -640,10 +640,10 @@
 		{
 			$google_item_id = $db->f("item_id");
 			$google_item_name = $db->f("item_name");
-			$google_sku_code = $db->f("manufacturer_code");
-			if (!$google_sku_code) {
+			//$google_sku_code = $db->f("manufacturer_code");
+			//if (!$google_sku_code) {
 				$google_sku_code = $db->f("item_code");
-			}
+			//}
 			$google_price = $db->f("price");
 			$google_quantity = $db->f("quantity");
 			$google_category = "";
@@ -662,7 +662,7 @@
 			$t->set_var("google_item_name", str_replace(array("\"", "'"), array("\\\"", "\\'"), htmlspecialchars($google_item_name)));
 			$t->set_var("google_price", $google_price);
 			$t->set_var("google_quantity", $google_quantity);
-			$t->set_var("google_category", str_replace(array("\"", "'"), array("\\\"", "\\'"), htmlspecialchars($google_category)));
+			$t->set_var("google_category", str_replace(array("\"", "'"), array("\\\"", ""), htmlspecialchars($google_category)));
 			$t->sparse("google_items", true);
 
 		}
