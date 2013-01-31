@@ -1,0 +1,76 @@
+<div class="block-checkout-login {block_class}" style="{block_style}">
+	<div class="BlockMiddle">
+		<div class="MiddleCenter">
+			<form action="{checkout_url}" method="post" name="login">
+				<input type="hidden" name="action" value="login" />
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" border="0" class="loginWrapperTable">
+					<tr>
+						<td width="50%" valign="top">
+							<table width="100%" cellspacing="0" class="infoTableNoLines">
+								<tr>
+									<td colspan="2" class="titleTopNoLeftPadding" style="padding-right: 15px !important;"><h1 class="commonbg">{EXISTS_USER_MSG}</h1></td>
+								</tr>
+								<tr>
+									<td colspan="2" class="usualbg"  style="padding-top: 15px !important;">{ENTER_LOGIN_MSG}</td>
+								</tr>
+			<!-- begin errors -->
+								<tr>
+									<td colspan="2" align="center"><div class="errorbg">{errors_list}</div></td>
+								</tr>
+			<!-- end errors -->
+								<tr>
+									<td width="25%"><b>{LOGIN_FIELD} {login_desc}</b></td>
+									<td width="65%"><input class="text" type="text" name="login" maxlength="64" value="{login}" /></td>
+								</tr>
+								<tr>
+									<td><b>{PASSWORD_FIELD}</b></td>
+									<td><input class="text" type="password" name="password" maxlength="32" /></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>
+										<span class=""><input class="submit button" type="submit" value="{SIGN_IN_BUTTON}" /></span>
+									</td>
+								</tr>
+								<tr class="usualbg">
+									<td colspan="2">
+										<b><a href="{forgot_password_href}">{FORGOT_PASSWORD_MSG}</a><br /><br />
+                					<!-- BEGIN checkout_without_link --><a href="{order_info_url}">{CHECKOUT_WITHOUT_MSG}</a></b><!-- END checkout_without_link -->
+									</td>
+								</tr>
+							</table>
+
+						</td>
+						<td width="50%" valign="top" class="separatorLeft">
+							<table width="100%" cellspacing="0" class="infoTableNoLines">
+			<!-- begin new_user_block -->
+								<tr>
+									<td colspan="2" class="titleTopNoLeftPadding"><h1 class="commonbg">{NEW_USER_MSG}</h1>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2"  style="padding-top: 15px !important;">
+										<b><!-- BEGIN checkout_without_link --><a href="{order_info_url}">{CHECKOUT_WITHOUT_MSG}</a><br /><br /><!-- END checkout_without_link --></b>
+										<!-- begin user_types --><a href="{user_profile_type_url}"><b>{OPEN_AND_CHECKOUT_MSG}</b></a><!-- end user_types -->
+									</td>
+								</tr>
+			<!-- end new_user_block -->
+							</table>
+
+
+
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script language="JavaScript" type="text/javascript">
+//<![CDATA[
+	if(document.login.login) {
+		document.login.login.focus();
+	}
+//]]>
+</script>
