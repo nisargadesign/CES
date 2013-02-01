@@ -43,9 +43,11 @@ function stopAll(){
 $(document).ready(function(){slideUpTime = $("#category-slideshow").length ? 5000 : slideUpTime});
 
 $(window).load(function(){
-    $('.slideshow div:hidden').fadeIn(transitionTime);
-    playAll();
-    $(".slideshow").hover(function(){stopAnimation($(this).attr("id"));}, function(){resumeAnimation($(this).attr("id"));});
-    $(document, window).on(visibilityChange, function(){document[hidden] ? stopAll : playAll;}, false);
-    $(window, document, "body").focus(playAll).blur(stopAll);    
+    if($(".slideshow")[0]){
+        $('.slideshow div:hidden').fadeIn(transitionTime);
+        playAll();
+        $(".slideshow").hover(function(){stopAnimation($(this).attr("id"));}, function(){resumeAnimation($(this).attr("id"));});
+        $(document, window).on(visibilityChange, function(){document[hidden] ? stopAll : playAll;});
+        $(window, document, "body").focus(playAll).blur(stopAll);
+    }
 });
