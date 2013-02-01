@@ -5,9 +5,8 @@ $mailer = new MadMimi('janna@cuttingedgestencils.com', '24cb537d19cf1169d2074ba0
 
 if( isset($_REQUEST['email']) ){
     $list = isset($_REQUEST['list']) ? $_REQUEST['list'] : 'CES.COM contact form' ;
-    $user = array('email' => $_REQUEST['email'], 'add_list' => $list);
+    $user = array('email' => $_REQUEST['email'], 'name' => $_REQUEST['name'], 'add_list' => $list);
     $mailer->AddUser($user);
-    mail('vital@fineonly.com', 'Contact Added', $_REQUEST['email']." to ".$list);
 }
 //End customization
 		
