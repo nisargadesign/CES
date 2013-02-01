@@ -10,6 +10,7 @@
 	include_once ("../includes/shopping_cart.php");
 	include_once ("../messages/".$language_code."/cart_messages.php");
 	include_once ("../stencils/admin_common.php");
+	date_default_timezone_set('America/Los_Angeles'); //Customization by Vital
 	
 	$startTime = microtime(true);
 	// settings
@@ -27,7 +28,7 @@
 	$google_base_description  = get_setting_value($settings, "google_base_description");
 	$google_base_encoding     = get_setting_value($settings, "google_base_encoding", "UTF-8");
 	
-	$google_base_save_path    = get_setting_value($settings, "google_base_save_path", get_setting_value($settings, "tmp_dir", "../images/"));
+	$google_base_save_path    = dirname( dirname(__FILE__) ); //Customization by Vital
 	$google_base_export_type  = get_setting_value($settings, "google_base_export_type", 0);
 //	
 	$google_base_country  = get_setting_value($settings, "google_base_country", 4);
