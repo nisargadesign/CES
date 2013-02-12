@@ -19,12 +19,6 @@
 	$item_id = get_param("item_id");
 	$category_id = get_param("category_id");
 	
-	//Customization by Vital
-	if (!strlen($category_id)) {
-		$category_id = get_session("category_id");
-	}
-	//END customization
-	
 	$search_category_id = get_param("search_category_id");
 	
 	$breadcrumbs_tree_array = array();
@@ -34,6 +28,13 @@
 	}
 	if (!strlen($category_id) && strlen($item_id)) {
 		$category_id = VA_Products::get_category_id($item_id);
+		//Customization by Vital
+		$session_category_id = get_session("category_id");
+		if ( get_db_value("SELECT COUNT(*) FROM " . $table_prefix . "items_categories where item_id=".$db->tosql($item_id, INTEGER)." AND category_id=".$session_category_id) ) {
+				$category_id = $session_category_id;
+		}
+		//END customization
+
 	}
 	$t->set_var("index_href", get_custom_friendly_url("index.php"));
 

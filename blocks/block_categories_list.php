@@ -24,11 +24,6 @@
 		$search_string = get_param("search_string");
 		$is_search = strlen($search_string);
 		if ($is_search && $search_category_id) { $category_id = $search_category_id; }
-		//Customization by Vital
-		if (!strlen($category_id)) {
-			$category_id = get_session("category_id");
-		}
-		//END customization
 	}
 
 
@@ -36,6 +31,12 @@
 	if (!strlen($category_id)) {
 		if (strlen($item_id)) {
 			$category_id = get_db_value("SELECT category_id FROM " . $table_prefix . "items_categories where item_id=".$db->tosql($item_id, INTEGER));
+			//Customization by Vital
+			$session_category_id = get_session("category_id");
+			if ( get_db_value("SELECT COUNT(*) FROM " . $table_prefix . "items_categories where item_id=".$db->tosql($item_id, INTEGER)." AND category_id=".$session_category_id) ) {
+				$category_id = $session_category_id;
+			}
+			//END customization
 		} else {
 			$category_id = "0";
 		}
