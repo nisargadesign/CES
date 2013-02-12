@@ -8,7 +8,7 @@ var compareMaxAllowed = "{COMPARE_MAX_ALLOWED_MSG}";
 
 //Customization by Vital - second image mouseover
 $(document).ready( function(){
-	$(".boxProductPix").hover( function(){$('div.imageContainer:last', this).fadeOut('slow');}, function(){$('div.imageContainer:last', this).fadeIn('slow');} );
+	$(".boxProductPix").hover( function(){$('div.imageContainer:last', this).clearQueue().stop(true, true).fadeOut('slow');}, function(){$('div.imageContainer:last', this).clearQueue().stop(true, true).fadeIn('slow');} );
 });
 //END customization
 
