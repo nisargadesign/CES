@@ -1,10 +1,15 @@
-<script type="text/javascript" src="js/main-slideshow.js"></script>
-<script type="text/javascript">    
+<script async src="js/main-slideshow.js"></script>
+<script>    
 	
 	var viewPortSize = 205;
         var slideNumber = 1;
         var curentSlide = 1;
 	var lastSlide;
+	
+function validateEmail(email) { 
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
 	
 function newsSlideshowStart(){
     var nav = '<div class="slideshow-nav">';
@@ -29,7 +34,7 @@ function newsSlideshowStart(){
 function nextSlide() {
      if($('#news-slideshow-viewport #news-slide-strip div.slide').length > 1){
             if(curentSlide < lastSlide){ 
-                    $('#news-slideshow-viewport #news-slide-strip').animate({marginLeft: '-=' + viewPortSize}, 1200,function (){++curentSlide; $('div.slideshow-nav a').removeClass("current"); $('div.slideshow-nav a[rel="' + curentSlide + '"]').addClass("current");
+                    $('#news-slideshow-viewport #news-slide-strip').stop().animate({marginLeft: '-=' + viewPortSize}, 1200,function (){++curentSlide; $('div.slideshow-nav a').removeClass("current"); $('div.slideshow-nav a[rel="' + curentSlide + '"]').addClass("current");
     });
             } else{
                 rewind();
@@ -67,18 +72,39 @@ function loadWishlist() {
 	
 $(document).ready( function(){
 	$(".cartContainer, .boxAccount").hover( function(){
-		$('a.topLink', this).css({color: "white"});$('div.cartAccountItems', this).slideDown('fast', function(){
+		$('a.topLink', this).css({color: "white"});$('div.cartAccountItems', this).stop().slideDown('fast', function(){
 			if($("#shoppingCartItems").height() > 299) {
 				$("#shoppingCartItems").height($("#shoppingCartItems").height());
 				$("#shoppingCartItems").alternateScroll({"hide-bars": false, "bar-class": "customScroll"});
 			}
 			});
 							},
-			function(){$('a.topLink', this).css({color: "#656565"});$('div.cartAccountItems', this).slideUp('fast');}
+			function(){$('a.topLink', this).css({color: "#656565"});$('div.cartAccountItems', this).stop().slideUp('fast');}
 						);
-     if( $('#wishlistContainer') ){
-	  loadWishlist();
-     }
+	if( $('#wishlistContainer') ){
+		loadWishlist();
+	}
+	$("#subscription-button").click( function(){
+		if ( validateEmail( $("#subscription-email").val() ) ){
+			$.ajax({
+				type: "POST",
+				url: "/blocks_custom/abandoned-cart.php",
+				data: {email: $("#subscription-email").val()},
+				success: function() {
+					showDialog('350', '180', '<b>Thank you for signing up for our special offers</b>', function(){closeInMs(3000, "#background, #dialogWindow");}
+					);
+					$("#email").val("");
+				},
+				error: function() {alert("Sorry it didn't work. Let the webmaster know about it.");}
+			});
+		} else {
+			showDialog('320', '180', '<b>Please enter correct email address</b>', function(){
+				$("#subscription-email").css({"background" : "pink"});
+				closeInMs(3000, "#background, #dialogWindow");
+				});
+		}
+		});
+	$("#subscription-email").val("Enter email address...").blur(function(){if (this.value == '') {this.value = 'Enter email address...';}}).focus(function(){if (this.value == 'Enter email address...') {this.value = '';}});
 
 });
 	
@@ -101,9 +127,10 @@ $(document).ready( function(){
 	});
 </script>
 
-<script type="text/javascript" src="js/menu.js"></script>
+<script async src="js/menu.js"></script>
 
 <div class="Header" style="{block_style}">
+	<img src="/images/custom/logo-bm.png" alt="Benjamin Moore - Industry Partner" style="position: absolute; right: 10px; top: 10px;" />
 	<a class="floatleft" href="{site_url}"><img src="/images/custom/logo.png" alt="{logo_alt}" title="{logo_alt}" /></a>
 <div class="boxSearch floatleft">{header_search}</div>
 
