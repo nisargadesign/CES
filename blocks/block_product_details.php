@@ -87,13 +87,15 @@
 	if (strlen($search_category_id)) {
 		$category_id = $search_category_id;
 	}
-	//Customization by Vital
-	if (!strlen($category_id)) {
-		$category_id = get_session("category_id");
-	}
-	//END customization
-	if (!strlen($category_id) && strlen($item_id)) {		
+
+	if (/*!strlen($category_id) && */ strlen($item_id)) {		
 		$category_id = VA_Products::get_category_id($item_id, VIEW_ITEMS_PERM);
+		//Customization by Vital
+		$session_category_id = get_session("category_id");
+		if ( get_db_value("SELECT COUNT(*) FROM " . $table_prefix . "items_categories where item_id=".$db->tosql($item_id, INTEGER)." AND category_id=".$session_category_id) ) {
+			$category_id = $session_category_id;
+		}
+		//END customization
 	}
 	set_session("category_id", $category_id);	//Customization by Vital
 
@@ -480,7 +482,8 @@ if ($db->next_record())
 	$sql .= " LEFT JOIN " . $table_prefix . "shipping_rules sr ON i.shipping_rule_id=sr.shipping_rule_id) ";
 	$sql .= " WHERE i.item_id = " . $db->tosql($item_id, INTEGER);
 
-	$t->set_var("category_id", htmlspecialchars($category_id));	
+	$t->set_var("category_id", htmlspecialchars($category_id));
+	$t->set_var("session_category_id", htmlspecialchars(get_session("category_id")));
 	$db->query($sql);
 	if ($db->next_record())
 	{
