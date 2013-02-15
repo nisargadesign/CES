@@ -33,7 +33,7 @@
 			$category_id = get_db_value("SELECT category_id FROM " . $table_prefix . "items_categories where item_id=".$db->tosql($item_id, INTEGER));
 			//Customization by Vital
 			$session_category_id = get_session("category_id");
-			if ( get_db_value("SELECT COUNT(*) FROM " . $table_prefix . "items_categories where item_id=".$db->tosql($item_id, INTEGER)." AND category_id=".$session_category_id) ) {
+			if ( $session_category_id && get_db_value("SELECT COUNT(*) FROM " . $table_prefix . "items_categories where item_id=".$db->tosql($item_id, INTEGER)." AND category_id=".$session_category_id) ) {
 				$category_id = $session_category_id;
 			}
 			//END customization
