@@ -441,7 +441,7 @@ div.block-cart .cartAccountItems .button {display: block; margin: 10px 0 0 0;}
 .block-products-list h2, .block-related-products h2, .block-offers h2{ width: 226px; font-size: 14px; font-weight: bold; padding: 6px; text-transform: uppercase; text-align: center; min-height: 38px; height: 38px; display: table-cell; vertical-align: middle; min-width: 203px; line-height: 16px; }
 
 .imageContainer { width: 238px; height: 238px; margin: 0px; border-top: 1px solid #ffffff; border-bottom: 1px solid #ffffff; position: absolute; left: 0; background: #F3F1E9;}
-.block-products-list img, .block-related-products img {max-width: 238px; max-height: 238px; border: none;/* width: 238px; height: 238px;*/}
+.block-products-list img, .block-related-products img {max-width: 238px; max-height: 238px; border: none;}
 
 .centeredImageContainer {width: 238px; height: 238px; display: table-cell; text-align: center; vertical-align: middle;}
 
@@ -470,8 +470,9 @@ div#dialog_arrow {height:241px; float: left; background: #656565 url(/images/pay
 #dialogContent .submit {float: right;}
 #dialogContent div.popup-note {margin: 15px 0 7px; background-color: #e8e8ae; font-size: 11px; line-height: 14px; padding: 7px; border-radius: 7px; -moz-border-radius: 7px; -webkit-border-radius: 7px;}
 
-#dialogContent div.popup-img-container img {width: 112px; height: 112px; position: absolute;}
-#dialogContent div.popup-img-container {border: solid 1px #656565; clear: both; margin: 10px 20px 0 0 !important; width: 112px; height: 112px; position: relative;}
+#dialogContent .popup-img-container img {width: 112px; height: 112px; position: absolute; top: 0; left: 0;}
+#dialogContent .centeredImageContainer, #dialogContent .imageContainer {width: 112px; height: 112px; border: none;}
+#dialogContent .popup-img-container {border: solid 1px #656565; clear: both; margin: 10px 20px 0 0 !important; width: 112px; height: 112px; position: relative;}
 
 /*-------------- WISHLIST SIDEBAR --------------*/
 div.wishlistContainer {background: #F3F1E9; padding: 8px; font-size: 12px;}
@@ -531,10 +532,12 @@ div.wishlistContainer div.emptyWishlist {text-align: center;}
 .boxHeader {font-size: 14px; font-weight: bold;	padding: 6px; text-transform: uppercase; text-align: center; margin: -8px -8px 8px -8px;}
 .manufacturerCode {margin: 10px 0; position: relative; z-index: 1;}
 
-.pixBigProduct {background: #f9f9f9; border: 1px solid #656565;	padding: 0px; height: 490px; width: 490px; min-width: 490px; text-align: center; vertical-align: middle; display: table-cell; line-height: 0;}
+.big-image-container {position: relative; width: 490px; height: 490px; margin-left: -3px; border: 1px solid #656565;}
+.pixBigProduct {background: #f9f9f9; padding: 0px; height: 490px; width: 490px; min-width: 490px; text-align: center; vertical-align: middle; line-height: 0; position: absolute; border-collapse: collapse; border-spacing: 0;}
+.innerBG {position: relative; text-align: center; vertical-align: middle; display: table-cell; line-height: 0;}
 .pixBigProduct img {max-height: 490px; max-width: 490px;}
 .imageRow {padding: 10px 0px; text-align: left; margin: 0 0 0 -3px}
-.stayInRowPix {background: #f9f9f9; border: 1px solid #656565; display: inline-block; margin: 0px 3px 8px 0px; padding: 0px; text-align: center; vertical-align: middle;}	
+.stayInRowPix {background: #f9f9f9; border: 1px solid #656565; display: inline-block; margin: 0px 3px 8px 0px; padding: 0px; text-align: center; vertical-align: middle; border-collapse: collapse; border-spacing: 0;}	
 .pixSize {max-height: 65px; max-width: 65px;}
 .alignVert {height: 65px; width: 65px; vertical-align: middle; text-align: center; display: table-cell; line-height: 0;}
 
