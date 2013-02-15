@@ -280,7 +280,7 @@
 				$item_id      = $db->f("item_id");
 				$item_type_id = $db->f("item_type_id");
 				$item_name    = get_translation($db->f("item_name"));
-				$item_name = ( strlen($item_name) < 70 ) ? $item_name : substr($item_name, 0, 66)."..." ;
+				$item_name = ( strlen($item_name) < 70 ) ? $item_name : substr($item_name, 0, 66)."...";   //Customization by Vital
 				$friendly_url = $db->f("friendly_url");
 				$manufacturer_name = $db->f("manufacturer_name");
 				$manufacturer_code = $db->f("manufacturer_code");
@@ -360,7 +360,7 @@
 				if (preg_match('/.*apparel.*/i', $item_google_type) && !strlen($manufacturer_name) && $google_base_country != 0) {
 					$warning[$item_id]['brand'] = APPAREL_BRAND_WARN_GB . $eol;
 				}
-				$manufacturer_name = (strlen($manufacturer_name))? $manufacturer_name : "Cutting Edge Stencils";
+				$manufacturer_name = (strlen($manufacturer_name))? $manufacturer_name : "Cutting Edge Stencils";	 //Customization by Vital
 				write_to("\t\t<" . $schema_type . ":brand><![CDATA[" . charset_conv($manufacturer_name) . "]]></" . $schema_type . ":brand>" . $eol);
 				if (preg_match('/.*apparel.*/i', $item_google_type) == 0 && (
 						(!strlen($manufacturer_code) && !strlen($item_code)) ||
