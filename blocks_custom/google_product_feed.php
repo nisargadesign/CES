@@ -28,12 +28,12 @@
 	$google_base_description  = get_setting_value($settings, "google_base_description");
 	$google_base_encoding     = get_setting_value($settings, "google_base_encoding", "UTF-8");
 	
-	$google_base_save_path    = dirname( dirname(__FILE__) ); //Customization by Vital
+	$google_base_save_path    = dirname( dirname(__FILE__))."/" ; //Customization by Vital
 	$google_base_export_type  = get_setting_value($settings, "google_base_export_type", 0);
-//	
+	
 	$google_base_country  = get_setting_value($settings, "google_base_country", 4);
 	$show_stats = get_setting_value($settings, "google_base_show_stats", 1);
-//
+
 	$weight_measure = get_setting_value($settings, "weight_measure", "");
 
 	if (!$google_base_filename) {
@@ -210,7 +210,6 @@
 		);
 		if(strlen($google_base_title)) {
 			$google_base_title = htmlspecialchars(charset_conv($google_base_title));
-			$google_base_title = ( strlen($google_base_title) < 70 ) ? $google_base_title : substr($google_base_title, 0, 66)."..." ;
 			write_to("\t<title>" .$google_base_title. "</title>" . $eol);
 		}
 		if(strlen($google_base_description)) {
@@ -280,7 +279,8 @@
 			while ($db->next_record()) {
 				$item_id      = $db->f("item_id");
 				$item_type_id = $db->f("item_type_id");
-				$item_name    = get_translation($db->f("item_name"));		
+				$item_name    = get_translation($db->f("item_name"));
+				$item_name = ( strlen($item_name) < 70 ) ? $item_name : substr($item_name, 0, 66)."..." ;
 				$friendly_url = $db->f("friendly_url");
 				$manufacturer_name = $db->f("manufacturer_name");
 				$manufacturer_code = $db->f("manufacturer_code");
@@ -360,9 +360,8 @@
 				if (preg_match('/.*apparel.*/i', $item_google_type) && !strlen($manufacturer_name) && $google_base_country != 0) {
 					$warning[$item_id]['brand'] = APPAREL_BRAND_WARN_GB . $eol;
 				}
-				if (strlen($manufacturer_name)) {
-					write_to("\t\t<" . $schema_type . ":brand><![CDATA[" . charset_conv($manufacturer_name) . "]]></" . $schema_type . ":brand>" . $eol);
-				}
+				$manufacturer_name = (strlen($manufacturer_name))? $manufacturer_name : "Cutting Edge Stencils";
+				write_to("\t\t<" . $schema_type . ":brand><![CDATA[" . charset_conv($manufacturer_name) . "]]></" . $schema_type . ":brand>" . $eol);
 				if (preg_match('/.*apparel.*/i', $item_google_type) == 0 && (
 						(!strlen($manufacturer_code) && !strlen($item_code)) ||
 						(!strlen($manufacturer_code) && !strlen($manufacturer_name)) ||
