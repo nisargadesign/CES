@@ -2160,6 +2160,7 @@
 
 		// check if new coupons could be added
 		$new_coupons = array();
+		$coupon_title = "";
 		if (strlen($new_coupon_code)) {
 			$sql  = " SELECT c.* FROM (" . $table_prefix . "coupons c";
 			if (isset($site_id)) {
@@ -2179,6 +2180,7 @@
 				$new_coupon_id = $db->f("coupon_id");
 				$start_date_db = $db->f("start_date", DATETIME);
 				$expiry_date_db = $db->f("expiry_date", DATETIME);
+				$coupon_title = $db->f("coupon_title");
 				$new_coupons[$new_coupon_id] = $db->Record;
 				$new_coupons[$new_coupon_id]["start_date_db"] = $start_date_db;
 				$new_coupons[$new_coupon_id]["expiry_date_db"] = $expiry_date_db;
@@ -2402,7 +2404,7 @@
 					$coupon_error = COUPON_EXPIRED_MSG;
 				} elseif ($is_upcoming) {
 					$coupon_error = COUPON_UPCOMING_MSG;
-				} elseif ($exclusive_applied || ($is_exclusive && $coupons_total > 0))  {
+				} elseif (($exclusive_applied || ($is_exclusive && $coupons_total > 0)) && $discount_type != 5 && !is_only_gift_certificate())  {	//Customization by Vital - allow gift cert. with other coupons 
 					$coupon_error = COUPON_EXCLUSIVE_MSG;
 				} elseif ($discount_type <= 4 && $min_cart_cost > $cart_cost) {
 					$coupon_error = str_replace("{cart_amount}", currency_format($min_cart_cost), MIN_CART_COST_ERROR);
@@ -2436,7 +2438,41 @@
 						$item_id = $item["ITEM_ID"];
 						$item_type_id = $item["ITEM_TYPE_ID"];
 						$properties_more = $item["PROPERTIES_MORE"];
-						if (!$item_id || $properties_more > 0) { 
+						
+						//Customization by Vital
+						$properties_info_array = $item["PROPERTIES_INFO"];
+						$properties_info_array = reset($properties_info_array);
+						
+						$coupon_size_applies = array();
+						if( preg_match('#\((.*?)\)#', $coupon_title, $sizes) ){		//get all sizes
+							$sizes[1] = strtolower( str_replace(" ", "", $sizes[1]) ); 	//remove spaces and lowercase it
+							$coupon_size_applies = explode(",", $sizes[1]);			//place them in array
+						}//place them in array
+						
+						$size_does_not_apply = false;
+						$item_size = "";
+						if( count($coupon_size_applies) != 0 && strcasecmp($properties_info_array["NAME"] , "size" ) == 0 ){
+							$sql= "SELECT property_value FROM va_items_properties_values WHERE item_property_id=".$properties_info_array["VALUES"][0];
+							$db->query($sql);
+							if($db->next_record()){
+								$item_size = strtolower( $db->f("property_value") );
+							}
+							$size_does_not_apply = !in_array($item_size, $coupon_size_applies);
+						}
+						//Check if the coupon applies for the item size
+						
+						if( strcasecmp($properties_info_array["NAME"] , "size" ) == 0 && !$items_all){
+							$sql= "SELECT COUNT(*) FROM va_coupons_sizes WHERE coupon_id=".$new_coupon_id." AND item_id=".$item_id." AND item_size_id=".$properties_info_array["VALUES"][0];
+							$size_is_in = get_db_value($sql);
+							$sql= "SELECT COUNT(*) FROM va_coupons_sizes WHERE coupon_id=".$new_coupon_id." AND item_id=".$item_id;
+							$other_sizes = get_db_value($sql);
+							$size_does_not_apply = ($size_is_in == 0 && $other_sizes != 0) ? true : false;
+						}
+						
+						//$coupon_error = $size_does_not_apply."  ".$coupon_size_applies;
+						//if (!$item_id || $properties_more > 0) { //original line
+						if (!$item_id || $properties_more > 0 || $size_does_not_apply) {
+						//EDN customization
 							// ignore the products which has options to be added first
 							continue;
 						}
@@ -2773,5 +2809,20 @@
 			set_session("shopping_cart", $shopping_cart);
 		}
 	}
-
+	
+//Customization by Vital - allow gift cert. with other coupons 	
+	function is_only_gift_certificate()
+	{
+		$ss_coupons = get_session("session_coupons");
+		if(!is_array($ss_coupons) || sizeof($ss_coupons) < 1) {
+			return true;
+		}
+		foreach($ss_coupons as $ss_coupon) {
+			if($ss_coupon["DISCOUNT_TYPE"] != 5) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 ?>
