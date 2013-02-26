@@ -12,8 +12,6 @@
 	include_once("./messages/" . $language_code . "/reviews_messages.php");
 	include_once("./messages/" . $language_code . "/download_messages.php");
 
-	set_script_tag("js/images.js");
-
 	// in case block was added on different than products page check if all vars was set
 	if (!isset($current_category)) { $current_category = PRODUCTS_TITLE; }
 	if (!isset($show_sub_products)) { $show_sub_products = false; }
@@ -173,7 +171,7 @@
 
 	$s = new VA_Sorter($settings["templates_dir"], "sorter_img.html", $products_page, "sort", "", $pass_parameters);
 	
-	$s->order_by = " ORDER BY i.item_order ";
+	$s->order_by = " ORDER BY ic.item_order ";	// ORDER FIX order by items_categories item_order instead of item item_order (i.item_order)
 
 
 	// set up variables for navigator
@@ -307,9 +305,10 @@
 			}		
 		}
 
-		$sql .= " FROM ((((";
+		$sql .= " FROM (((((";	// ORDER FIX
 		$sql .= $table_prefix . "items i ";
 		$sql .= " LEFT JOIN " . $table_prefix . "item_types it ON i.item_type_id=it.item_type_id) ";
+		$sql .= " LEFT JOIN " . $table_prefix . "items_categories ic ON (i.item_id=ic.item_id AND ic.category_id=1024) )";	// ORDER FIX
  		$sql .= " LEFT JOIN " . $table_prefix . "manufacturers m ON i.manufacturer_id=m.manufacturer_id) ";
 		$sql .= " LEFT JOIN " . $table_prefix . "shipping_times st_in ON i.shipping_in_stock=st_in.shipping_time_id) ";
 		$sql .= " LEFT JOIN " . $table_prefix . "shipping_times st_out ON i.shipping_out_stock=st_out.shipping_time_id) ";
