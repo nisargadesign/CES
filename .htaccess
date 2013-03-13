@@ -31,10 +31,21 @@ ExpiresDefault "access 8 days"
 Header set Connection keep-alive
 </ifModule>
 
-ErrorDocument 404 /friendly_url.php
-
 Options +FollowSymLinks
 RewriteEngine on
+
+#Route HTTPS for m. subdomain to /m/ directory
+RewriteCond %{SERVER_PORT} ^443$
+RewriteCond %{HTTP_HOST} ^m\.cuttingedgestencils\.com$ [NC]
+RewriteCond %{REQUEST_URI} !^/m/
+RewriteRule ^(.*) /m/$1
+
+ErrorDocument 404 /friendly_url.php
+
+# Rewrite all requests for images from WWW
+RewriteCond %{HTTP_HOST} ^m\.cuttingedgestencils\.com
+RewriteCond %{REQUEST_URI} ^/images
+RewriteRule ^(.*)$ "http\:\/\/www\.cuttingedgestencils\.com\/%{REQUEST_URI}" [R=301,L]
 
 #remove index.php from URLs; needed for disqus and social media counts of "likes"
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^/]+/)*index\.php\ HTTP/
