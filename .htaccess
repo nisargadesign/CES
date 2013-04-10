@@ -34,6 +34,9 @@ Header set Connection keep-alive
 Options +FollowSymLinks
 RewriteEngine on
 
+#affiliate links redirection so that they would be recorded in Google Analytics
+RewriteRule ^(HG|HGTV|HDTV|DIY)$ http://%{HTTP_HOST}/?referrer=$1 [NC,R=302]
+
 #Route HTTPS for m. subdomain to /m/ directory
 RewriteCond %{SERVER_PORT} ^443$
 RewriteCond %{HTTP_HOST} ^m\.cuttingedgestencils\.com$ [NC]
@@ -55,9 +58,6 @@ RewriteRule ^(([^/]+/)*)index\.php$ http://www.cuttingedgestencils.com/$1 [R=301
 RewriteCond %{HTTP_HOST} ^cuttingedgestencils.com$ [OR]
 RewriteCond %{HTTP_HOST} ^216.70.85.26$ 
 RewriteRule ^(.*)$ "http\:\/\/www\.cuttingedgestencils\.com\/$1" [R=301,L]
-
-#affiliate links redirection so that they would be recorded in Google Analytics
-RewriteRule ^(HG|HGTV|HDTV|DIY)$ http://%{HTTP_HOST}/?referrer=$1 [NC,R=302]
 
 #if no extention add .html; needed for disqus and social media counts of "likes"
 RewriteCond {REQUEST_URI} !=.*\.html
