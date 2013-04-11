@@ -71,6 +71,7 @@ function loadWishlist() {
 }
 	
 $(document).ready( function(){
+	newsSlideshowStart();
 	$(".cartContainer, .boxAccount").hover( function(){
 		$('a.topLink', this).css({color: "white"});$('div.cartAccountItems', this).clearQueue().stop(true, true).slideDown('fast', function(){
 			if($("#shoppingCartItems").height() > 299) {
@@ -84,6 +85,7 @@ $(document).ready( function(){
 	if( $('#wishlistContainer') ){
 		loadWishlist();
 	}
+	
 	$("#subscription-button").click( function(){
 		if ( validateEmail( $("#subscription-email").val() ) ){
 			$.ajax({
@@ -104,27 +106,10 @@ $(document).ready( function(){
 				});
 		}
 		});
+	
 	$("#subscription-email").val("Enter email address...").blur(function(){if (this.value == '') {this.value = 'Enter email address...';}}).focus(function(){if (this.value == 'Enter email address...') {this.value = '';}});
 
 });
-	
-	$(function() {
-		$.getFeed({
-			url: 'proxy.php?url=http://blog.cuttingedgestencils.com/category/news/feed',
-			success: function(feed) {
-				$('#news-slide-strip').html("");
-				var html = '';
-				for(var i = 0; i < feed.items.length && i < 5; i++) {
-					var item = feed.items[i];
-					var image = item.description.substring(item.description.indexOf("<img "), item.description.indexOf(" />")) + " />";
-					var itemTitle = item.title.length < 50 ? item.title : item.title.substr(0, 47) + "...";
-					html += '<div class="slide" rel="' + (i+1) + '"><h4>' + '<a href="' + item.link + '">' + itemTitle + '</a>' + '</h4><a href="' + item.link + '">' + image + '</a></div>';
-				}
-				$('#news-slide-strip').append(html);
-				newsSlideshowStart();
-			}
-		});
-	});
 </script>
 
 <script async src="js/menu.js"></script>
