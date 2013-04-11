@@ -10,9 +10,18 @@
 			dialogWidth += 30;
 			dialogHeight += 30;
 		}
+		var pinMedia = "/images/custom/pintrest-default-image.jpg";
+		pinMedia =  $(elem).children("img").attr("src")
+		pinMedia = (pinMedia.search("http") != -1) ? pinMedia : "http://www.cuttingedgestencils.com" + pinMedia;
 		showDialog(dialogWidth, dialogHeight,
-				     '<iframe width="' + (dialogWidth - 40) + '" height="' + (dialogHeight - 40) + '" src="' + $(elem).attr("href").replace("/v/", "/embed/").replace("&rel=", "?rel=") + '" frameborder="0" allowfullscreen></iframe>',
+				     '<div class="pin-container" style="top: 5px !important; left: ' + (dialogWidth/2 - 15) + 'px !important; margin-right: 30px;"><a class="pin-it-button" data-pin-config="none" href="//pinterest.com/pin/create/button/?url=' + encodeURIComponent( $(elem).attr("href").replace("/v/", "/embed/").replace("&rel=", "?rel=") ) + '&media=' + encodeURIComponent(pinMedia) + '&description=' + encodeURIComponent( "Cutting Edge Stencils - " + $(elem).parent(".pix").next(".text").children(".title").html() ) + '" data-pin-do="buttonPin" ><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a></div><div style="margin: -20px;line-height: 0;position: relative;"><iframe width="' + (dialogWidth) + '" height="' + (dialogHeight) + '" src="' + $(elem).attr("href").replace("/v/", "/embed/").replace("&rel=", "?rel=") + '" frameborder="0" allowfullscreen></iframe></div>',
 				     function(){
+					$("#dialogContent").css({overflow: "hidden"});
+					try {
+						(function(x){ for (var n in x) if (n.indexOf('PIN_')==0) return x[n]; return null; })(window).f.render.buttonPin($("#dialogWindow .pin-it-button")[0]);
+					} catch(e) {
+						//do nothing
+					}
 					$("#background, #dialogHeader a").click(function(){
 						$("#dialogContent").html("");
 						});
@@ -21,11 +30,11 @@
 	
 	$(document).ready(function(){
 		if( window.location.hash.length > 2){
-			if($("a.youtube img[src*='" + window.location.hash.substr(1) + "']").length){
-				showVideo($("a.youtube img[src*='" + window.location.hash.substr(1) + "']").parent("a.youtube"));
+			if($(".youtube img[src*='" + window.location.hash.substr(1) + "']").length){
+				showVideo($(".youtube img[src*='" + window.location.hash.substr(1) + "']").parent(".youtube"));
 			}
 		}
-		$("a.youtube").removeAttr("rel").click(function(){
+		$(".youtube").click(function(){
 			showVideo(this);
 			newHash = $("img" ,this).attr("src");
 			location.hash = newHash.substring( newHash.lastIndexOf("/") + 1, newHash.lastIndexOf(".") ).replace("video-","");
@@ -251,18 +260,6 @@
 </table>
 
 
-
-	</div>
-
-</div>
-
-<div class="BlockBottom">
-
-	<div class="BottomCenter">
-
-		<div class="BottomLeft"></div>
-
-		<div class="BottomRight"></div>
 
 	</div>
 
