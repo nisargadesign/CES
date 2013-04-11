@@ -1,0 +1,104 @@
+<script>
+	$("#menu-account").addClass("active");
+	$(document).ready( function(){
+		if (window.location.href.indexOf("updated=") >= 0 || window.location.href.indexOf("created=") >= 0){
+			var theRegexp = /\?(updated|created)=(.+)/gi;
+			var params = theRegexp.exec(window.location.search);
+			showDialog('252', '180', '<b>Your ' + params[2] + ' has been ' + params[1] + '</b>', function(){closeInMs(3000, "#background, #dialogWindow");});
+		}
+	});
+</script>
+<div class="block-user-home {block_class}" style="{block_style}">
+
+	<h1 class="commonbg category">My Account</h1>
+
+	<div class="BlockData">
+<!-- begin rows -->
+		<div class="UHBRows"><!-- begin cols -->
+			<div class="UserHomeBlock">
+				<div class="UHBContent">
+					<!-- begin details_block -->
+					<a class="title" href="{user_profile_url}">View/Edit  profile >></a>
+					<!--a href="{user_profile_url}" class="clearboth floatleft"><img class="profile" src="/images/tr.gif" /></a>
+					<div>{CHANGE_DETAILS_DESC}</div>
+					<div>{CHANGE_PASSWORD_DESC}</div-->
+					<div  class="ta-c clearboth"><img class="arr" src="images/tr.gif" /><a class="title" href="{user_change_password_url}">{CHANGE_PASSWORD_MSG} >></a></div><!-- begin upgrade_downgrade_block -->
+					<div><img class="arr" src="images/tr.gif" /><a class="smallText" href="{user_change_type_url}"><b>{UPGRADE_DOWNGRADE_MSG}</b></a></div><!-- end upgrade_downgrade_block --><!-- begin edit_pd_block -->
+					<div><img class="arr" src="images/tr.gif" /><a class="smallText" href="{user_psd_list_url}"><b>{PAYMENT_DETAILS_MSG}</b></a></div><!-- end edit_pd_block --><!-- end details_block -->
+				<div class="hide">
+					<!-- begin orders_block -->
+					<a href="{user_orders_href}"><img class="orders" src="images/tr.gif" /></a>
+					<a class="title" href="{user_orders_href}">{MY_ORDERS_MSG}</a>
+					<div>{MY_ORDERS_DESC}</div>
+					<div><!-- begin points_balance_block -->
+					<br />{POINTS_BALANCE_MSG}: <b>{points_balance}</b><!-- end points_balance_block --><!-- begin credit_balance_block -->
+					<br />Credit Balance: <b>{credit_balance}</b><!-- end credit_balance_block --><!-- begin current_subscription -->
+					<br />{CURRENT_SUBSCRIPTION_MSG}: {subscription_name} {subscription_fee} ({subscription_interval} {subscription_period})<!-- end current_subscription -->
+					</div><!-- end orders_block -->
+					<!-- BEGIN support_block -->
+					<a href="{user_support_href}"><img class="support" src="images/tr.gif" /></a>
+					<a class="title" href="{user_support_href}">{MY_SUPPORT_ISSUES_MSG}</a>
+					<div>{MY_SUPPORT_ISSUES_DESC}</div><!-- END support_block --><!-- BEGIN forum_block -->
+					<a href="{forum_href}?u=1"><img class="forum" src="images/tr.gif" /></a>
+					<a class="title" href="{forum_href}?u=1">{MY_FORUM_TOPICS_MSG}</a><br />
+					<div>{MY_FORUM_TOPICS_DESC}</div><!-- END forum_block -->
+					<!-- begin products_block -->
+					<a href="{user_products_href}"><img class="products" src="images/tr.gif" /></a>
+					<a class="title" href="{user_products_href}">{MY_PRODUCTS_MSG}</a>
+					<div>{MY_PRODUCTS_DESC}</div><!-- end products_block -->
+					<!-- begin product_registrations_block -->
+					<a href="{user_product_registrations_href}"><img class="products" src="images/tr.gif" /></a>
+					<a class="title" href="{user_product_registrations_href}">{MY_PRODUCT_REGISTRATIONS_MSG}</a>
+					<div>{MY_PRODUCT_REGISTRATIONS_DESC}</div><!-- end product_registrations_block-->
+					<!-- begin ad_block -->
+					<a href="{user_ads_href}"><img class="pages" src="images/tr.gif" /></a>
+					<a class="title" href="{user_ads_href}">{MY_ADS_MSG}</a>
+					<div>{MY_ADS_DESC}</div><!-- end ad_block -->
+					<!-- begin dating_block -->
+					<a href="{user_datings_href}"><img class="pages" src="images/tr.gif" /></a>
+					<a class="title" href="{user_datings_href}">{MY_DATING_MSG}</a>
+					<div>{MY_DATING_DESC}</div><!-- end dating_block -->
+					<!-- begin merchant_sales_block -->
+					<a href="{user_merchant_sales_href}"><img class="merchant" src="images/tr.gif" /></a>
+					<a class="title" href="{user_merchant_sales_href}">{MERCHANT_SALES_MSG}</a>
+					<div>{MERCHANT_SALES_DESC}</div><!-- end merchant_sales_block -->
+					<!-- begin merchant_orders_block -->
+					<a href="{user_merchant_orders_href}"><img class="orders" src="images/tr.gif" /></a>
+					<a class="title" href="{user_merchant_orders_href}">{MY_SALES_ORDERS_MSG}</a>
+					<div>{MY_SALES_ORDERS_DESC}</div><!-- end merchant_orders_block -->
+					<!-- begin affiliate_sales_block -->
+					<a href="{user_affiliate_sales_href}"><img class="affiliates" src="images/tr.gif" /></a>
+					<a class="title" href="{user_affiliate_sales_href}">{AFFILIATE_SALES_MSG}</a>
+					<div>{AFFILIATE_SALES_DESC}</div><!-- end affiliate_sales_block -->
+					<!-- begin payments_block -->
+					<a href="{user_payments_href}"><img class="payments" src="images/tr.gif" /></a>
+					<a class="title" href="{user_payments_href}">{COMMISSION_PAYMENTS_MSG}</a>
+					<div>{COMMISSION_PAYMENTS_DESC}</div><!-- end payments_block -->
+					<!-- begin carts_block -->
+					<a href="{user_carts_href}"><img class="carts" src="images/tr.gif" /></a>
+					<a class="title" href="{user_carts_href}">{MY_SAVED_CARTS_MSG}</a>
+					<div>{MY_SAVED_CARTS_DESC}</div><!-- end carts_block -->
+					<!-- begin wishlist_block -->
+					<a href="{user_wishlist_href}"><img class="wishlist" src="images/tr.gif" /></a>
+					<a class="title" href="{user_wishlist_href}">{MY_WISHLIST_MSG}</a>
+					<div>Here you can view wishlist items saved in the past.</div><!-- end wishlist_block -->
+					<!-- begin reminders_block -->
+					<a href="{user_reminders_href}"><img class="reminders" src="images/tr.gif" /></a>
+					<a class="title" href="{user_reminders_href}">{MY_REMINDERS_MSG}</a>
+					<div>{MY_REMINDERS_MSG}</div><!-- end reminders_block -->
+				</div>
+				</div>
+			</div><!-- end cols -->
+		</div><!-- end rows -->
+		<div class="ta-c">
+			<a class="f18 button" href="user_home.php?operation=logout">{LOGOUT_BUTTON}</a>
+		</div>
+	</div>
+</div>
+<div class="BlockBottom">
+	<div class="BottomCenter">
+		<div class="BottomLeft"></div>
+		<div class="BottomRight"></div>
+	</div>
+</div>
+</div>

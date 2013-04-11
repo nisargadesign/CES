@@ -141,7 +141,12 @@
 
 	$r->set_parameters();
 
+
+
 	$block_parsed = true;
 
 	$t->parse("block_body", false);
+
+
+
 ?>
