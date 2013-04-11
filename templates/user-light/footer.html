@@ -1,4 +1,4 @@
-<script language="JavaScript" type="text/javascript">
+<script>
 //<![CDATA[
 {footer_js}
 //]]>
@@ -29,14 +29,16 @@
 
 </div>
 
-<script type="text/javascript">
+<script>
 var pinDomain = encodeURIComponent("http://www.cuttingedgestencils.com/");
 var pinURL = encodeURIComponent(window.location);
 var pinMedia = "images%2Fcustom%2Fpintrest-default-image.jpg";
-if( $("div.pixBigProduct img") && $("div.pixBigProduct img").length != 0 ){
-	pinMedia = encodeURIComponent($("div.pixBigProduct img").attr("src"));
-} else if( $("div.block-category-description img.pixHome") && $("div.block-category-description img.pixHome").length != 0 ){
-	pinMedia = encodeURIComponent($("div.block-category-description img.pixHome").attr("src"));
+if( $(".pixBigProduct img") && $(".pixBigProduct img").length != 0 ){
+	pinMedia = encodeURIComponent($(".pixBigProduct img").attr("src"));
+} else if( $(".block-category-description img.pixHome") && $(".block-category-description img.pixHome").length != 0 ){
+	pinMedia = encodeURIComponent($(".block-category-description img.pixHome").attr("src"));
+} else if ($(".block-articles-details img.ArticleImg") && $(".block-articles-details img.ArticleImg").length != 0) {
+	pinMedia = encodeURIComponent($(".block-articles-details img.ArticleImg").attr("src"));
 }
 pinMedia = (pinMedia.search("http") != -1) ? pinMedia : pinDomain + pinMedia;
 var pinDescription = "";
@@ -46,7 +48,11 @@ if( $("div.contentStyle h1") && $("div.contentStyle h1").length != 0 && $("div.c
 if($("a.pin-it-button")){
 $("a.pin-it-button").attr("href", "http://pinterest.com/pin/create/button/?url=" + pinURL +"&media=" + pinMedia + "&description=Cutting%20Edge%20Stencils" + pinDescription);
 }
-//alert("http://pinterest.com/pin/create/button/?url=" + pinURL +"&media=" + pinDomain + pinMedia + "&description=Cutting%20Edge%20Stencils");
-//document.write("<script src='http://assets.pinterest.com/js/pinit.js'><\/script>");
+     ///// --- Pinterest 
+     (function(d){
+       var f = d.getElementsByTagName('SCRIPT')[0], p = d.createElement('SCRIPT');
+       p.async = true;
+       p.src = '//assets.pinterest.com/js/pinit.js';
+       f.parentNode.insertBefore(p, f);
+     }(document));
 </script>
-<script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>

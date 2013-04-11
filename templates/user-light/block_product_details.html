@@ -12,7 +12,6 @@
 {NEXT_ID}
 {NEXT_NAME}
 -->
-
 <script async src="js/tabs.js"></script>
 
 <script>
@@ -29,6 +28,7 @@ $(".pixBigProduct").show();
 $(".pixBigProduct").clearQueue().stop(true, true);
 $("#bigPicBG img").attr("src",imageURL);
 $(".pixBigProduct").not("#bigPicBG, .innerBG").fadeOut(500, function(){$(".pixBigProduct img").attr("src",imageURL);});
+$(".pin-container a").attr("href", $(".pin-container a").attr("href").replace(/&media=.*&description=/gi, "&media=" + encodeURIComponent(imageURL) + "&description=" ).replace("&media=images", "&media=http%3A%2F%2Fwww.cuttingedgestencils.com%2Fimages" ));
 return false;
 }
 
@@ -117,7 +117,7 @@ function addToWishlist(){
 }
 
 $(document).ready(function() {
-        $(".star").mouseover(function(){
+    $(".star").mouseover(function(){
         if(!rated) $("#rateIt").css("background-image","url('../images/icons/" + $(this).attr("id") + ".png')");
         }).mouseout(function(){
         if(!rated) $("#rateIt").css("background-image","url('../images/icons/not-rated.png')");
@@ -195,6 +195,9 @@ $(document).ready(function() {
 			<tr>
 				<td align="center" valign="top" width="">
 				    <div class="big-image-container">
+					<div class="pin-container">
+					    <a class="pin-it-button" data-pin-config="none" href="//pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.cuttingedgestencils.com&media=http%3A%2F%2Fwww.cuttingedgestencils.com%2Fimages%2Fsmall%2FCasablanca-stencil-design.jpg&description=Cutting%20Edge%20Stencils" data-pin-do="buttonPin" ><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a>
+					</div>
 					<!-- begin big_image -->
 					<div class="pixBigProduct" id="bigPicBG">
 					    <div class="pixBigProduct innerBG">
@@ -322,28 +325,29 @@ $(document).ready(function() {
 </div>                        
 <!-- end features_list_block -->
 {rel_prod}
+
+<!--<div class="videos"><a href="/how-to-stencil-videos.html"><img src="images/custom/videos.jpg" border="0" /></a></div>-->
+
+<div class="NEWSLETTER commonbg">
+    <div class="shareFB">
+	<div class="fb-like" data-send="false" data-layout="button_count" data-width="200" data-show-faces="false"></div>
+    </div>
+    <div class="shareGP">    
+	<div class="g-plus" data-action="share" data-annotation="bubble"></div>
+    </div>
+    <div class="shareTW"><a href="https://twitter.com/share" class="twitter-share-button">&nbsp;</a>
+</div>
+    <div  class="sharePIN"><a class="pin-it-button" data-pin-config="beside" href="//pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.cuttingedgestencils.com&media=http%3A%2F%2Fwww.cuttingedgestencils.com%2Fimages%2Fsmall%2FCasablanca-stencil-design.jpg&description=Cutting%20Edge%20Stencils" data-pin-do="buttonPin" ><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a></div>
+    <div class="shareLI">
+	<script type="IN/Share" data-counter="right"></script> 
+    </div>
+</div>
+
 <!-- begin manufacturer_code_block -->
 <div class="manufacturerCode"><a href="#" class="tt"><img src="images/manufacturers/large/skill_{manufacturer_code}.gif" border="0" /><span class="tooltip"><span class="top"></span><span class="middle"><span class="title">Beginner</span>Roller/brush technique, one layer stencil<br /><br />
 <span class="title">Intermediate</span>Roller/Brush technique, Multi layer stencil<br /><br />
 <span class="title">Advanced</span>Multi color, shading brush technique, Multi layer stencil</span><span class="bottom"></span></span></a></div>
 <!-- end manufacturer_code_block -->
-
-<!--<div class="videos"><a href="/how-to-stencil-videos.html"><img src="images/custom/videos.jpg" border="0" /></a></div>-->
-
-<div class="NEWSLETTER commonbg">
-    <div class="shareFB"><script async src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like layout="button_count" href="https://www.facebook.com/Cutting.Edge.Stencils" send="false" show_faces="false" width="66" font="verdana"></fb:like></div>
-    <div class="shareGP">
-	    <script async src="https://apis.google.com/js/plusone.js"></script>
-    
-    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
-    </div>
-    <div class="shareTW"><iframe allowtransparency="true" src="http://platform.twitter.com/widgets/tweet_button.html?count=horizontal&amp;url=%7BdaUrl%7D" style="width:90px; height:20px;" frameborder="0" scrolling="no"></iframe></div>
-    <div  class="sharePIN"><a href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.cuttingedgestencils.com&amp;media=http%3A%2F%2Fwww.cuttingedgestencils.com%2Fimages%2Fhome%2Ffff.jpg" class="pin-it-button" count-layout="horizontal"><img src="http://assets.pinterest.com/images/PinExt.png" title="Pin It" border="0"></a></div>
-    <div class="shareLI">
-       <script async src="http://platform.linkedin.com/in.js"></script>
-    <script type="IN/Share" data-counter="right"></script> 
-    </div>
-</div>
 				</td>
 			</tr>
 		</table>
@@ -527,7 +531,7 @@ $(document).ready(function() {
 				<div id="rating-5" class="star"></div>	
 			</div>
 			<img id="ratingProgress" alt="Updating..." src="/images/icons/indicator.gif" />
-			<h3 class="clearboth">Leave your review bellow.</h3>
+			<h3 class="clearboth">Leave your review below. If you have a question about this product please <a href="/contact.html">contact us >></a></h3>
 		</div>
 		<div class="padding10px" id="disqus_thread">
 		<!-- removed all legacy "reviews" code -->
