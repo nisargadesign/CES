@@ -834,6 +834,7 @@ if ($db->next_record())
 			}			
 			
 			$t->parse("big_image", false);
+			$meta_OG_image = $big_image;	//Customization by Vital - Open Graph image
 		}
 		else
 		{

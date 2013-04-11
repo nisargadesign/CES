@@ -705,6 +705,7 @@
 
 		$t->set_var("category_id", htmlspecialchars($category_id));
 		$db->query($sql);
+		$is_OG_image_set = false;	//Customization by Vital - Open Graph image
 		if ($db->next_record())
 		{
 			$last_category_id = $db->f("category_id");
@@ -987,6 +988,7 @@
 					}
 					$t->set_var("alt", htmlspecialchars($small_image_alt));
 					$t->set_var("src", htmlspecialchars($small_image));
+					if(!$is_OG_image_set) {$meta_OG_image = $small_image; $is_OG_image_set = true;}	//Customization by Vital - Open Graph image
 					//Customization by Vital - second image mouseover
 					$images = $mouseover_images[$item_id];
 					$mouseover_image = ( isset($images[0]) && $images[0] != $small_image ) ? $images[0] : ( isset($images[1]) ? $images[1] : $small_image );
