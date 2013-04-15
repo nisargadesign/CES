@@ -274,7 +274,15 @@
 
 	}
 
-
+	//Customization by Vital - canonical URL
+	$friendly_extension = get_setting_value($settings, "friendly_extension", "");
+	if ($page_friendly_url) {
+		$canonical_url = $page_friendly_url.$friendly_extension;
+	}
+	else {
+		$canonical_url ="wall-stencils.html";
+	}
+	//END customization
 
 	// check individual page layout settings 
 
