@@ -303,7 +303,9 @@
 		
 		//update the coupons
 		while ($db->next_record()) {
-			$sql  = " UPDATE " . $table_prefix . "coupons SET coupon_uses=coupon_uses+1 WHERE coupon_id=" . $db->tosql($db->f("coupon_id"), INTEGER);
+			//$sql  = " UPDATE " . $table_prefix . "coupons SET coupon_uses=coupon_uses+1 WHERE coupon_id=" . $db->tosql($db->f("coupon_id"), INTEGER);
+			$sql  = " UPDATE ".$table_prefix."coupons SET coupon_uses=( SELECT count(*) FROM ".$table_prefix."orders WHERE FIND_IN_SET( ".$db->tosql($db->f("coupon_id"), INTEGER).", coupons_ids ) AND order_status IN(5,4,3) ) WHERE coupon_id=" . $db->tosql($db->f("coupon_id"), INTEGER);
+			//SELECT count(*) FROM va_orders WHERE FIND_IN_SET( 183, coupons_ids ) AND order_status IN(5,4,3)
 			$dbc->query($sql);
 			$sql  = " UPDATE " . $table_prefix . "orders_coupons SET is_applied=1 WHERE coupon_id=" . $db->tosql($db->f("coupon_id"), INTEGER);
 			$dbc->query($sql);
