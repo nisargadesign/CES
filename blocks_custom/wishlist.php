@@ -53,7 +53,9 @@ else if(isset($_REQUEST['action'])&& $_REQUEST['action'] == "show"){
 	$db->query($sql);
 	$cnt = 0;
 	while( $db->next_record() && $cnt++ < 5){
-		$wishlist_content .= '<div class="wishlistItem"><a href="/'.$db->f("url").'.html"><img src="/'.$db->f("image").'" alt="'.$db->f("name").'" /></a><h4><a href="/'.$db->f("url").'.html">'.$db->f("name").'</a></h4><b>$'.$db->f("price").'</b><a class="button small-button floatright" href="/'.$db->f("url").'.html">View > </a></div>';
+		$link_URL = ( strpos( $db->f("url"), "http:" ) === false )? '/'.$db->f("url"): $db->f("url");
+		$image_URL = ( strpos( $db->f("image"), "http:" ) === false )? '/'.$db->f("image"): $db->f("image");
+		$wishlist_content .= '<div class="wishlistItem"><a href="'.$link_URL.'.html"><img src="'.$image_URL.'" alt="'.$db->f("name").'" /></a><h4><a href="/'.$db->f("url").'.html">'.$db->f("name").'</a></h4><b>$'.$db->f("price").'</b><a class="button small-button floatright" href="/'.$db->f("url").'.html">View > </a></div>';
 	}
 	echo strlen($wishlist_content) == 0 ? "empty" : $wishlist_content;
 }
