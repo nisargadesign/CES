@@ -1,6 +1,4 @@
 <?php
-
-//function products_list($block_name, $list_template, $current_category, $page_friendly_url, $page_friendly_params, $show_sub_products, $category_path)
 	include_once("./includes/sorter.php");
 	include_once("./includes/navigator.php");
 	include_once("./includes/items_properties.php");
@@ -12,8 +10,6 @@
 	include_once("./messages/" . $language_code . "/cart_messages.php");
 	include_once("./messages/" . $language_code . "/reviews_messages.php");
 	include_once("./messages/" . $language_code . "/download_messages.php");
-
-	set_script_tag("js/images.js");
 
 	// in case block was added on different than products page check if all vars was set
 	if (!isset($current_category)) { $current_category = PRODUCTS_TITLE; }
@@ -990,8 +986,11 @@
 					$t->set_var("src", htmlspecialchars($small_image));
 					if(!$is_OG_image_set) {$meta_OG_image = $small_image; $is_OG_image_set = true;}	//Customization by Vital - Open Graph image
 					//Customization by Vital - second image mouseover
-					$images = $mouseover_images[$item_id];
-					$mouseover_image = ( isset($images[0]) && $images[0] != $small_image ) ? $images[0] : ( isset($images[1]) ? $images[1] : $small_image );
+					$mouseover_image = $small_image; 
+					if (isset($mouseover_images[$item_id])) {
+						$images = $mouseover_images[$item_id];
+						$mouseover_image = ( isset($images[0]) && $images[0] != $small_image ) ? $images[0] : ( isset($images[1]) ? $images[1] : $small_image );
+					}
 					
 					$t->set_var("src2", htmlspecialchars($mouseover_image));
 					//END customization
@@ -1307,10 +1306,8 @@
 		$block_parsed = true;
 	}
 
-
 	// check if we need to parse hidden block for wishlist types
 	if ($user_id && !$shop_hide_wishlist_list) {
 		include_once("./blocks/block_wishlist_types.php");
 	}
-
 ?>
