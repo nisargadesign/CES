@@ -1,7 +1,7 @@
 <?php
 
 	$html_template = get_setting_value($block, "html_template", "block_checkout_final.html"); 
-  $t->set_file("block_body", $html_template);
+	$t->set_file("block_body", $html_template);
 
 	$eol = get_eol();
 	$referer = get_session("session_referer");
@@ -96,7 +96,6 @@
 					$error_message = APPROPRIATE_LIBRARY_ERROR_MSG . ": " . $validation_php_lib;
 				}
 			}
-
 			if ($update_order_data) {
 				$r = new VA_Record($table_prefix . "orders");
 				$r->add_where("order_id", INTEGER);
@@ -179,6 +178,7 @@
 	}
 
 	$final_message = ""; $paid_status = 0;
+	$address_to_email = "";	//Customization by Vital - include addresses in customer email notification
 	// get orders data 
 	$sql  = " SELECT o.*,os.status_name,os.final_message,os.paid_status,os.user_invoice_activation ";
 	$sql .= " FROM (" . $table_prefix . "orders o ";
@@ -223,6 +223,41 @@
 		$final_message = $db->f("final_message");
 		$paid_status = $db->f("paid_status");
 		$user_invoice_activation = $db->f("user_invoice_activation");
+		
+		//Customization by Vital - address on final page
+		$billing_address = strlen($db->f("address2")) ? $db->f("address1")."<br />".$db->f("address2") : $db->f("address1") ;
+		$t->set_var("billing_address", $billing_address);
+		
+		$billing_city_country = $db->f("city").", ".$db->f("province")." ".$db->f("state_code")." ".$db->f("zip").", ".$db->f("country_code");
+		$t->set_var("billing_city_country", $billing_city_country);
+		$t->set_var("back_url", htmlspecialchars($_SERVER['HTTP_REFERER']));
+		
+		$first_name = $db->f("first_name");
+		$last_name = $db->f("last_name");
+		$t->set_var("first_name", $first_name);
+		$t->set_var("last_name", $last_name);
+		
+		$shipping_name = $db->f("delivery_name");
+		$shipping_first_name = $db->f("delivery_first_name");
+		$shipping_last_name = $db->f("delivery_last_name");
+		@list($s_first_name, $s_last_name) = explode(" ", $shipping_name, 2);
+		if (!strlen($shipping_first_name)) {
+			$shipping_first_name = $s_first_name;
+		}
+		if (!strlen($shipping_last_name)) {
+			$shipping_last_name = $s_last_name;
+		}
+		$t->set_var("shipping_first_name", $shipping_first_name);
+		$t->set_var("shipping_last_name", $shipping_last_name);
+		
+		$shipping_address = strlen($db->f("delivery_address2")) ? $db->f("delivery_address1")."<br />".$db->f("delivery_address2") : $db->f("delivery_address1") ;
+		$t->set_var("shipping_address", $shipping_address);
+		
+		$shipping_city_country = $db->f("delivery_city").", ".$db->f("delivery_province")." ".$db->f("delivery_state_code")." ".$db->f("delivery_zip").", ".$db->f("delivery_country_code");
+		$t->set_var("shipping_city_country", $shipping_city_country);
+		$address_to_email = '<div style="border: 1px solid #E9E9E9; width: 40%; margin: 1px;"><b style="float: left; background: #E9E9E9; padding: 4px 0; text-align: center; width: 100%;">Shipping Address</b><div style="clear: both; padding: 4px;">'.$shipping_first_name.' '.$shipping_last_name.'<br />'.$shipping_address.'<br />'.$shipping_city_country.'</div></div>';
+		//END customization
+		
 
 		$t->set_var("goods_total", currency_format($goods_total));
 		$t->set_var("goods_total_value", number_format($goods_total, 2, ".", ""));
@@ -303,9 +338,11 @@
 		
 		//update the coupons
 		while ($db->next_record()) {
+			//Customization by Vital - correct coupon use count; not just increment - count the orders
 			//$sql  = " UPDATE " . $table_prefix . "coupons SET coupon_uses=coupon_uses+1 WHERE coupon_id=" . $db->tosql($db->f("coupon_id"), INTEGER);
 			$sql  = " UPDATE ".$table_prefix."coupons SET coupon_uses=( SELECT count(*) FROM ".$table_prefix."orders WHERE FIND_IN_SET( ".$db->tosql($db->f("coupon_id"), INTEGER).", coupons_ids ) AND order_status IN(5,4,3) ) WHERE coupon_id=" . $db->tosql($db->f("coupon_id"), INTEGER);
 			//SELECT count(*) FROM va_orders WHERE FIND_IN_SET( 183, coupons_ids ) AND order_status IN(5,4,3)
+			//END customization correct coupon...
 			$dbc->query($sql);
 			$sql  = " UPDATE " . $table_prefix . "orders_coupons SET is_applied=1 WHERE coupon_id=" . $db->tosql($db->f("coupon_id"), INTEGER);
 			$dbc->query($sql);
@@ -437,8 +474,7 @@
 			$items_text = show_order_items($order_id, true, "");
 			$t->parse("basket_text", false);
 		}
-
-
+		
 		if ($admin_notify)
 		{
 			$admin_subject = get_final_message($order_final["admin_subject"], $message_type);
@@ -544,6 +580,9 @@
 					$t->set_var("gift_vouchers", $order_vouchers["text"]);
 				} else {
 					$t->set_var("basket", $t->get_var("basket_html"));
+					if( strpos($user_message, "{addresses}") !== false ) {
+						$t->set_var("addresses", $address_to_email);
+					}
 				}
 	
 				$t->parse("user_subject", false);

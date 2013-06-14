@@ -57,20 +57,20 @@ function playSlideshow(){
 var newsTimerID;
 	
 function loadWishlist() {
-     var wishlistUserID = "new";
-     if($.cookie('wishlist_user_id') != null){
-	  wishlistUserID = $.cookie('wishlist_user_id');
-     }
-     $.ajax({
-	  type: "POST",
-	  url: "/blocks_custom/wishlist.php",
-	  data: {action : "show", user_id : wishlistUserID },
-	  success: function(data) {if(data != "empty"){$('#wishlistContainer').html(data + '<div align="center"><p><b><a href="/user_wishlist.php">See the complete list &gt;&gt;</a></b></p></div>').show();} else{$('#wishlistContainer').html('<div class="emptyWishlist">No items yet.</div>').show();}},
-	  dataType:"html"
-     });	
+	var wishlistUserID = ( getCookie('wishlist_user_id') != null && getCookie('wishlist_user_id') != "") ? getCookie('wishlist_user_id') : "new";
+	$.ajax({
+	     type: "POST",
+	     url: "/blocks_custom/wishlist.php",
+	     data: {action : "show", user_id : wishlistUserID },
+	     success: function(data) {if(data != "empty"){$('#wishlistContainer').html(data + '<div align="center"><p><b><a href="/user_wishlist.php">See the complete list &gt;&gt;</a></b></p></div>').show();} else{$('#wishlistContainer').html('<div class="emptyWishlist">No items yet.</div>').show();}},
+	     dataType:"html"
+	});	
 }
 	
 $(document).ready( function(){
+	if (window.location.hash == '#logout') {
+		showDialog('250', '180', '<b>You are no longer logged in</b>', function(){window.location.hash = '';closeInMs(3000, "#background, #dialogWindow");});
+	}
 	newsSlideshowStart();
 	$(".cartContainer, .boxAccount").hover( function(){
 		$('a.topLink', this).css({color: "white"});$('div.cartAccountItems', this).clearQueue().stop(true, true).slideDown('fast', function(){

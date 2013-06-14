@@ -1,366 +1,183 @@
-<script type="text/javascript" src="js/images.js"></script>
-
-<script type="text/javascript" src="js/confirm.js"></script>
-
 <div class="block-order-data-preview {block_class}" style="{block_style}">
+	<form action="{order_confirmation}" name="order_confirmation" method="get" id="order_confirmation">
+		<input type="hidden" name="order_id" value="{order_id}"> <input type="hidden" name="vc" value="{vc}"> <input type="hidden" name="action" value="save"> <!-- begin intro_block -->
+
+		<div class="introBlock">
+			{intro_text}
+		</div><!-- end intro_block -->
+		<!-- BEGIN errors -->
+
+		<div class="errorbg">
+			{errors_list}
+		</div><!-- END errors -->
+		<!--<h3>{PERSONAL_DETAILS_MSG}</h3>-->
+
+		<table cellspacing="0" width="100%" border="0" class="padding6px">
+			<tr>
+				<!-- begin personal -->
+
+				<td valign="top" class="usualbg">
+					<h2>{INVOICE_TO_MSG}</h2><!-- begin name_block -->
+					{NAME_MSG}: <b>{name}</b><br>
+					<!-- end name_block --><!-- begin first_name_block -->
+					 <b>{first_name} <!-- end first_name_block --><!-- begin last_name_block -->{last_name}</b><br>
+					<!-- end last_name_block --><!-- begin company_id_block -->
+					 {COMPANY_SELECT_FIELD}: <b>{company_id}</b><br>
+					<!-- end company_id_block --><!-- begin company_name_block -->
+					 {COMPANY_NAME_FIELD}: <b>{company_name}</b><br>
+					<!-- end company_name_block --><!-- begin address1_block -->
+					 <b>{address1}</b> <!-- end address1_block --><!-- begin address2_block --><b>{address2}</b><br>
+					<!-- end address2_block --><!-- begin city_block -->
+					{city} ,</b> <!-- end city_block --><!-- begin province_block --><b>{province}</b>
+					<!-- end province_block --><!-- begin state_id_block -->
+					 <b>{state_id}</b> <!-- end state_id_block --><!-- begin zip_block -->
+					 <b>{zip}</b><br>
+					<!-- end zip_block --><!-- begin country_id_block -->
+					<b>{country_id}</b><br>
+					<!-- end country_id_block --><!-- begin phone_block -->
+					 {PHONE_FIELD}: <b>{phone}</b><br>
+					<!-- end phone_block --><!-- begin daytime_phone_block -->
+					 {DAYTIME_PHONE_FIELD}: <b>{daytime_phone}</b><br>
+					<!-- end daytime_phone_block --><!-- begin evening_phone_block -->
+					 {EVENING_PHONE_FIELD}: <b>{evening_phone}</b><br>
+					<!-- end evening_phone_block --><!-- begin cell_phone_block -->
+					 {CELL_PHONE_FIELD}: <b>{cell_phone}</b><br>
+					<!-- end cell_phone_block --><!-- begin fax_block -->
+					 {FAX_FIELD}: <b>{fax}</b><br>
+					<!-- end fax_block -->
+					<!-- begin email_block -->
+					 {EMAIL_FIELD}: <b>{email}</b><br>
+					<!-- end email_block -->
+					 <!-- begin personal_properties -->{property_name}: <b>{property_value}</b> {property_price}<br>
+					<!-- end personal_properties -->
+				</td><!-- end personal --><!-- begin delivery -->
+
+				<td valign="top" class="usualbg">
+					<h2>{DELIVERY_TO_MSG}</h2><!-- begin delivery_name_block -->
+					{NAME_MSG}: <b>{delivery_name}</b><br>
+					<!-- end delivery_name_block --><!-- begin delivery_first_name_block -->
+					 <b>{delivery_first_name}</b> 
+					<!-- end delivery_first_name_block --><!-- begin delivery_last_name_block -->
+					<b>{delivery_last_name}</b><br>
+					<!-- end delivery_last_name_block --><!-- begin delivery_company_id_block -->
+					 {COMPANY_SELECT_FIELD}: <b>{delivery_company_id}</b><br>
+					<!-- end delivery_company_id_block --><!-- begin delivery_company_name_block -->
+					 {COMPANY_NAME_FIELD}: <b>{delivery_company_name}</b><br>
+					<!-- end delivery_company_name_block --><!-- begin delivery_address1_block -->
+					 <b>{delivery_address1}</b> 
+					<!-- end delivery_address1_block --><!-- begin delivery_address2_block -->
+					 <b>{delivery_address2}</b><br>
+					<!-- end delivery_address2_block --><!-- begin delivery_city_block -->
+					 <b>{delivery_city} ,</b>
+					<!-- end delivery_city_block --><!-- begin delivery_province_block -->
+					 <b>{delivery_province}</b>
+					<!-- end delivery_province_block --><!-- begin delivery_state_id_block -->
+					 <b>{delivery_state_id}</b>
+					<!-- end delivery_state_id_block --><!-- begin delivery_zip_block -->
+					 <b>{delivery_zip}</b><br>
+					<!-- end delivery_zip_block --><!-- begin delivery_country_id_block -->
+					 <b>{delivery_country_id}</b><br>
+					<!-- end delivery_country_id_block --><!-- begin delivery_phone_block -->
+					 {PHONE_FIELD}: <b>{delivery_phone}</b><br>
+					<!-- end delivery_phone_block --><!-- begin delivery_daytime_phone_block -->
+					 {DAYTIME_PHONE_FIELD}: <b>{delivery_daytime_phone}</b><br>
+					<!-- end delivery_daytime_phone_block --><!-- begin delivery_evening_phone_block -->
+					 {EVENING_PHONE_FIELD}: <b>{delivery_evening_phone}</b><br>
+					<!-- end delivery_evening_phone_block --><!-- begin delivery_cell_phone_block -->
+					 {CELL_PHONE_FIELD}: <b>{delivery_cell_phone}</b><br>
+					<!-- end delivery_cell_phone_block --><!-- begin delivery_fax_block -->
+					 {FAX_FIELD}: <b>{delivery_fax}</b><br>
+					<!-- end delivery_fax_block -->
+					<!-- begin delivery_email_block -->
+					 {EMAIL_FIELD}: <b>{delivery_email}</b><br>
+					<!-- end delivery_email_block -->
+					 <!-- begin delivery_properties -->{property_name}: <b>{property_value}</b> {property_price}<br>
+					<!-- end delivery_properties -->
+				</td><!-- end delivery -->
+			</tr>
+		</table><!-- begin payment -->
+
+		<h2>{PAYMENT_DETAILS_MSG}</h2>
+
+		<table cellspacing="0" width="100%" border="0" class="padding6px">
+			<!-- begin payment_info_block -->
 
-<form action="{order_confirmation}" name="order_confirmation" method="get">
+			<tr>
+				<td class="usualbg" colspan="2">{payment_info}</td>
+			</tr><!-- end payment_info_block -->
+			<!-- begin cc_name_block -->
 
-<input type="hidden" name="order_id" value="{order_id}" />
+			<tr>
+				<td width="200" valign="top" class="usualbg">{CC_NAME_FIELD}</td>
 
-<input type="hidden" name="vc" value="{vc}" />
+				<td class="usualbg"><b>{cc_name}</b></td>
+			</tr><!-- end cc_name_block --><!-- begin cc_first_name_block -->
 
-<input type="hidden" name="action" value="save" />
+			<tr>
+				<td width="200" valign="top" class="usualbg">{CC_FIRST_NAME_FIELD}</td>
 
+				<td class="usualbg">{cc_first_name}</td>
+			</tr><!-- end cc_first_name_block --><!-- begin cc_last_name_block -->
 
+			<tr>
+				<td width="200" valign="top" class="usualbg">{CC_LAST_NAME_FIELD}</td>
 
-<!-- begin intro_block --><div class="introBlock">{intro_text}</div><!-- end intro_block -->
+				<td class="usualbg">{cc_last_name}</td>
+			</tr><!-- end cc_last_name_block --><!-- begin cc_type_block -->
 
+			<tr>
+				<td width="200" valign="top" class="usualbg">{CC_TYPE_FIELD}</td>
 
+				<td width="550" class="usualbg"><b>{cc_type}</b></td>
+			</tr><!-- end cc_type_block --><!-- begin cc_number_block -->
 
-<!-- BEGIN errors --><div class="errorbg">{errors_list}</div><!-- END errors -->
+			<tr>
+				<td width="200" valign="top" class="usualbg">{CC_NUMBER_FIELD}</td>
 
-<!--<h3>{PERSONAL_DETAILS_MSG}</h3>-->
+				<td width="550" class="usualbg"><b>{cc_number}</b></td>
+			</tr><!-- end cc_number_block --><!-- begin cc_issue_number_block -->
 
-<div class="BlockMiddle">
+			<tr>
+				<td width="200" valign="top" class="usualbg">{CC_ISSUE_NUMBER_FIELD}</td>
 
-	<div class="MiddleCenter">
+				<td class="usualbg"><b>{cc_issue_number}</b></td>
+			</tr><!-- end cc_issue_number_block --><!-- begin cc_start_date_block -->
 
+			<tr>
+				<td width="200" valign="top" class="usualbg">{CC_START_DATE_FIELD}</td>
 
+				<td class="usualbg"><b>{cc_start_date}</b></td>
+			</tr><!-- end cc_start_date_block --><!-- begin cc_expiry_date_block -->
 
-<table cellspacing="0" width="100%" border="0" class="padding6px">
+			<tr>
+				<td width="200" valign="top" class="usualbg">{CC_EXPIRY_DATE_FIELD}</td>
 
-<tr><!-- begin personal -->
+				<td class="usualbg"><b>{cc_expiry_date}</b></td>
+			</tr><!-- end cc_expiry_date_block --><!-- begin cc_security_code_block -->
 
-	<td valign="top" class="usualbg">
+			<tr>
+				<td width="200" valign="top" class="usualbg">{CC_SECURITY_CODE_FIELD}</td>
 
-			<h2>{INVOICE_TO_MSG}</h2><!-- begin name_block -->
+				<td class="usualbg"><b>{cc_security_code}</b></td>
+			</tr><!-- end cc_security_code_block --><!-- begin pay_without_cc_block -->
 
-			{NAME_MSG}: <b>{name}</b><br /><!-- end name_block --><!-- begin first_name_block -->
+			<tr>
+				<td width="200" valign="top" class="usualbg">{PAY_WITHOUT_CC_FIELD}</td>
 
-			{FIRST_NAME_FIELD}: <b>{first_name}</b><br /><!-- end first_name_block --><!-- begin last_name_block -->
+				<td class="usualbg"><b>{pay_without_cc}</b></td>
+			</tr><!-- end pay_without_cc_block --><!-- begin payment_properties -->
 
-			{LAST_NAME_FIELD}: <b>{last_name}</b><br /><!-- end last_name_block --><!-- begin email_block -->
+			<tr>
+				<td width="25%" valign="top" class="usualbg">{property_name}</td>
 
-			{EMAIL_FIELD}: <b>{email}</b><br /><!-- end email_block --><!-- begin company_id_block -->
+				<td class="usualbg"><b>{property_value}</b></td>
+			</tr><!-- end payment_properties -->
 
-			{COMPANY_SELECT_FIELD}: <b>{company_id}</b><br /><!-- end company_id_block --><!-- begin company_name_block -->
+			<tr>
+				<td width="25%" valign="top" class="usualbg"></td>
 
-			{COMPANY_NAME_FIELD}: <b>{company_name}</b><br /><!-- end company_name_block --><!-- begin address1_block -->
-
-			{STREET_FIRST_FIELD}: <b>{address1}</b><br /><!-- end address1_block --><!-- begin address2_block -->
-
-			{STREET_SECOND_FIELD}: <b>{address2}</b><br /><!-- end address2_block --><!-- begin city_block -->
-
-			{CITY_FIELD}: <b>{city}</b><br /><!-- end city_block --><!-- begin province_block -->
-
-			{PROVINCE_FIELD}: <b>{province}</b><br /><!-- end province_block --><!-- begin state_id_block -->
-
-			{STATE_FIELD}: <b>{state_id}</b><br /><!-- end state_id_block --><!-- begin zip_block -->
-
-			{ZIP_FIELD}: <b>{zip}</b><br /><!-- end zip_block --><!-- begin country_id_block -->
-
-			{COUNTRY_FIELD}: <b>{country_id}</b><br /><!-- end country_id_block --><!-- begin phone_block -->
-
-			{PHONE_FIELD}: <b>{phone}</b><br /><!-- end phone_block --><!-- begin daytime_phone_block -->
-
-			{DAYTIME_PHONE_FIELD}: <b>{daytime_phone}</b><br /><!-- end daytime_phone_block --><!-- begin evening_phone_block -->
-
-			{EVENING_PHONE_FIELD}: <b>{evening_phone}</b><br /><!-- end evening_phone_block --><!-- begin cell_phone_block -->
-
-			{CELL_PHONE_FIELD}: <b>{cell_phone}</b><br /><!-- end cell_phone_block --><!-- begin fax_block -->
-
-			{FAX_FIELD}: <b>{fax}</b><br /><!-- end fax_block -->
-
-			<!-- begin personal_properties -->{property_name}: <b>{property_value}</b> {property_price}<br /><!-- end personal_properties -->
-
-		</td><!-- end personal --><!-- begin delivery -->
-
-		<td valign="top" class="usualbg">
-
-			<h2>{DELIVERY_TO_MSG}</h2><!-- begin delivery_name_block -->
-
-			{NAME_MSG}: <b>{delivery_name}</b><br /><!-- end delivery_name_block --><!-- begin delivery_first_name_block -->
-
-			{FIRST_NAME_FIELD}: <b>{delivery_first_name}</b><br /><!-- end delivery_first_name_block --><!-- begin delivery_last_name_block -->
-
-			{LAST_NAME_FIELD}: <b>{delivery_last_name}</b><br /><!-- end delivery_last_name_block --><!-- begin delivery_email_block -->
-
-			{EMAIL_FIELD}: <b>{delivery_email}</b><br /><!-- end delivery_email_block --><!-- begin delivery_company_id_block -->
-
-			{COMPANY_SELECT_FIELD}: <b>{delivery_company_id}</b><br /><!-- end delivery_company_id_block --><!-- begin delivery_company_name_block -->
-
-			{COMPANY_NAME_FIELD}: <b>{delivery_company_name}</b><br /><!-- end delivery_company_name_block --><!-- begin delivery_address1_block -->
-
-			{STREET_FIRST_FIELD}: <b>{delivery_address1}</b><br /><!-- end delivery_address1_block --><!-- begin delivery_address2_block -->
-
-			{STREET_SECOND_FIELD}: <b>{delivery_address2}</b><br /><!-- end delivery_address2_block --><!-- begin delivery_city_block -->
-
-			{CITY_FIELD}: <b>{delivery_city}</b><br /><!-- end delivery_city_block --><!-- begin delivery_province_block -->
-
-			{PROVINCE_FIELD}: <b>{delivery_province}</b><br /><!-- end delivery_province_block --><!-- begin delivery_state_id_block -->
-
-			{STATE_FIELD}: <b>{delivery_state_id}</b><br /><!-- end delivery_state_id_block --><!-- begin delivery_zip_block -->
-
-			{ZIP_FIELD}: <b>{delivery_zip}</b><br /><!-- end delivery_zip_block --><!-- begin delivery_country_id_block -->
-
-			{COUNTRY_FIELD}: <b>{delivery_country_id}</b><br /><!-- end delivery_country_id_block --><!-- begin delivery_phone_block -->
-
-			{PHONE_FIELD}: <b>{delivery_phone}</b><br /><!-- end delivery_phone_block --><!-- begin delivery_daytime_phone_block -->
-
-			{DAYTIME_PHONE_FIELD}: <b>{delivery_daytime_phone}</b><br /><!-- end delivery_daytime_phone_block --><!-- begin delivery_evening_phone_block -->
-
-			{EVENING_PHONE_FIELD}: <b>{delivery_evening_phone}</b><br /><!-- end delivery_evening_phone_block --><!-- begin delivery_cell_phone_block -->
-
-			{CELL_PHONE_FIELD}: <b>{delivery_cell_phone}</b><br /><!-- end delivery_cell_phone_block --><!-- begin delivery_fax_block -->
-
-			{FAX_FIELD}: <b>{delivery_fax}</b><br /><!-- end delivery_fax_block -->
-
-			<!-- begin delivery_properties -->{property_name}: <b>{property_value}</b> {property_price}<br /><!-- end delivery_properties -->
-
-		</td><!-- end delivery -->
-
-	</tr>
-
-</table>
-
-
-
-	</div>
-
-</div>
-
-
-<!-- begin payment -->
-
-<h2>{PAYMENT_DETAILS_MSG}</h2>
-
-<div class="BlockMiddle">
-
-	<div class="MiddleCenter">
-
-
-
-		<table cellspacing="0" width="100%" border="0" class="padding6px"><!-- begin payment_info_block -->
-
-		<tr>
-
-			<td class="usualbg" colspan="2">
-
-				{payment_info}
-
-			</td>
-
-		</tr><!-- end payment_info_block -->
-
-		<!-- begin cc_name_block -->
-
-		<tr>
-
-			<td width="200"  valign="top" class="usualbg">
-
-				{CC_NAME_FIELD}
-
-			</td>
-
-			<td class="usualbg">
-
-				<b>{cc_name}</b>
-
-			</td>
-
-		</tr><!-- end cc_name_block --><!-- begin cc_first_name_block -->
-
-		<tr>
-
-			<td width="200"  valign="top" class="usualbg">
-
-				{CC_FIRST_NAME_FIELD}
-
-			</td>
-
-			<td class="usualbg">
-
-				{cc_first_name}
-
-			</td>
-
-		</tr><!-- end cc_first_name_block --><!-- begin cc_last_name_block -->
-
-		<tr>
-
-			<td width="200"  valign="top" class="usualbg">
-
-				{CC_LAST_NAME_FIELD}
-
-			</td>
-
-			<td class="usualbg">
-
-				{cc_last_name}
-
-			</td>
-
-		</tr><!-- end cc_last_name_block --><!-- begin cc_type_block -->
-
-		<tr>
-
-			<td width="200" valign="top" class="usualbg">
-
-				{CC_TYPE_FIELD}
-
-			</td>
-
-			<td width="550" class="usualbg">
-
-				<b>{cc_type}</b>
-
-			</td>
-
-		</tr><!-- end cc_type_block --><!-- begin cc_number_block -->
-
-		<tr>
-
-			<td width="200" valign="top" class="usualbg">
-
-				{CC_NUMBER_FIELD}
-
-			</td>
-
-			<td width="550" class="usualbg">
-
-				<b>{cc_number}</b>
-
-			</td>
-
-		</tr><!-- end cc_number_block --><!-- begin cc_issue_number_block -->
-
-		<tr>
-
-			<td width="200" valign="top" class="usualbg">
-
-				{CC_ISSUE_NUMBER_FIELD}
-
-			</td>
-
-			<td class="usualbg">
-
-				<b>{cc_issue_number}</b>
-
-			</td>
-
-		</tr><!-- end cc_issue_number_block --><!-- begin cc_start_date_block -->
-
-		<tr>
-
-			<td width="200"  valign="top"  class="usualbg">
-
-				{CC_START_DATE_FIELD}
-
-			</td>
-
-			<td class="usualbg">
-
-				<b>{cc_start_date}</b>
-
-			</td>
-
-		</tr><!-- end cc_start_date_block --><!-- begin cc_expiry_date_block -->
-
-		<tr>
-
-			<td width="200" valign="top" class="usualbg">
-
-				{CC_EXPIRY_DATE_FIELD}
-
-			</td>
-
-			<td class="usualbg">
-
-				<b>{cc_expiry_date}</b>
-
-			</td>
-
-		</tr><!-- end cc_expiry_date_block --><!-- begin cc_security_code_block -->
-
-		<tr>
-
-			<td width="200"  valign="top"  class="usualbg">
-
-				{CC_SECURITY_CODE_FIELD}
-
-			</td>
-
-			<td  class="usualbg">
-
-				<b>{cc_security_code}</b>
-
-			</td>
-
-		</tr><!-- end cc_security_code_block --><!-- begin pay_without_cc_block -->
-
-		<tr>
-
-			<td width="200"  valign="top"  class="usualbg">
-
-				{PAY_WITHOUT_CC_FIELD}
-
-			</td>
-
-			<td class="usualbg">
-
-				<b>{pay_without_cc}</b>
-
-			</td>
-
-		</tr><!-- end pay_without_cc_block --><!-- begin payment_properties -->
-
-		<tr>
-
-			<td width="25%"  valign="top"  class="usualbg">
-
-				{property_name}
-
-			</td>
-
-			<td class="usualbg">
-
-				<b>{property_value}</b>
-
-			</td>
-
-		</tr><!-- end payment_properties -->
-
-
-<tr>
-
-			<td width="25%"  valign="top"  class="usualbg">
-
-
-			</td>
-
-			<td align="right">
-
-	<span class=""><button name="confirm" class="submit button rightArrow" id="continue" type="submit" value="Place secure order >>" onclick="confirmOrder();">Place secure order</button></span>
-
-			</td>
-
-		</tr>
-        
-        
-		</table>
-
-
-
-	</div>
-
-</div>
-
-
-<!-- end payment -->
-
-
-
-</form>
-
+				<td align="right"><span class=""><button name="confirm" class="submit button rightArrow" id="continue" type="submit" value="Place secure order &gt;&gt;" onclick="confirmOrder();"><span class=""><span class="">Place secure order</span></span></button></span></td>
+			</tr>
+		</table><!-- end payment -->
+	</form>
 </div>

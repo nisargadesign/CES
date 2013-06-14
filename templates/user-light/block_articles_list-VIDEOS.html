@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script>
 	var minDialogWidth = 160;
 	var maxDialogWidth = 1000;
 	function showVideo(elem){
@@ -14,7 +14,7 @@
 		pinMedia =  $(elem).children("img").attr("src")
 		pinMedia = (pinMedia.search("http") != -1) ? pinMedia : "http://www.cuttingedgestencils.com" + pinMedia;
 		showDialog(dialogWidth, dialogHeight,
-				     '<div class="pin-container" style="top: 5px !important; left: ' + (dialogWidth/2 - 15) + 'px !important; margin-right: 30px;"><a class="pin-it-button" data-pin-config="none" href="//pinterest.com/pin/create/button/?url=' + encodeURIComponent(window.location.href) + '&media=' + encodeURIComponent(pinMedia) + '&description=' + encodeURIComponent( "Cutting Edge Stencils - " + $(elem).parent(".pix").next(".text").children(".title").html() ) + '" data-pin-do="buttonPin" ><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a></div><div style="margin: -20px;line-height: 0;position: relative;"><iframe width="' + (dialogWidth) + '" height="' + (dialogHeight) + '" src="' + $(elem).attr("href").replace("/v/", "/embed/").replace("&rel=", "?rel=") + '" frameborder="0" allowfullscreen></iframe></div>',
+				     '<div class="pin-container" style="left: ' + (dialogWidth/2 - 15) + 'px;"><a class="pin-it-button" data-pin-config="none" href="//pinterest.com/pin/create/button/?url=' + encodeURIComponent(window.location.href) + '&media=' + encodeURIComponent(pinMedia) + '&description=' + encodeURIComponent( "Cutting Edge Stencils - " + $(elem).parent(".pix").next(".text").children(".title").html() ) + '" data-pin-do="buttonPin" ><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a></div><div style="margin: -20px;line-height: 0;position: relative;"><iframe width="' + (dialogWidth) + '" height="' + (dialogHeight) + '" src="' + $(elem).attr("href").replace("/v/", "/embed/").replace("&rel=", "?rel=") + '" frameborder="0" allowfullscreen></iframe></div>',
 				     function(){
 					$("#dialogContent").css({overflow: "hidden"});
 					try {
@@ -42,227 +42,108 @@
 			})
 	});
 </script>
-
 <div class="block-articles-list {block_class}" style="{block_style}">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<!-- begin search_and_navigation -->
 
-<div class="BlockMiddle">
+		<tr class="">
+			<td valign="top">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<!-- begin search_results -->
 
-	<div class="MiddleCenter">
+						<td>{FOUND_ARTICLES_MSG}</td><!-- end search_results -->
+						<!-- begin navigator_block -->
 
+						<td align="right" nowrap="nowrap" class="navigator">{navigator}</td><!-- end navigator_block -->
+					</tr>
+				</table>
+			</td>
+		</tr><!-- end search_and_navigation -->
 
+		<tr class="usualbg">
+			<td valign="top">
+				<!-- begin no_items -->
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td align="center" class="padding10px">{NO_ARTICLES_MSG}</td>
+					</tr>
+				</table><!-- end no_items -->
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-
-<!-- begin search_and_navigation -->
-
-<tr class=""> 
-
-	<td valign="top">
-
-
-
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-
-		<tr>
-
-			<!-- begin search_results --><td>{FOUND_ARTICLES_MSG}</td><!-- end search_results -->
-
-			<!-- begin navigator_block --><td align="right" nowrap="nowrap" class="navigator">{navigator}</td><!-- end navigator_block -->
-
-		</tr>
-
-		</table>
-
-
-
-	</td>
-
-</tr>
-
-<!-- end search_and_navigation -->
-
-<tr class="usualbg"> 
-
-	<td valign="top">
-
-
-
-			<!-- begin no_items -->
-
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-
-			<tr><td align="center" class="padding10px">{NO_ARTICLES_MSG}</td></tr>
-
-			</table>
-
-			<!-- end no_items -->
-
-
-
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"><!-- BEGIN items_rows -->
-
-			<tr><!-- BEGIN items_cols -->
-
-				<td valign="top" width="{item_column}" class="">
-
-					<a name="a{a_name}"></a>
-
-					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<!-- BEGIN items_rows -->
 
 					<tr>
+						<!-- BEGIN items_cols -->
 
-						<td class="">	
+						<td valign="top" width="{item_column}" class="">
+							<a name="a{a_name}"></a>
 
-							<!-- begin reviews --><!-- end reviews -->
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								<tr>
+									<td class="">
+										<!-- begin reviews --><!-- end reviews -->
+										<!-- begin found_in_category --><!-- BEGIN found_categories -->
+										<!--begin restricted_cat_image--><!--end restricted_cat_image--><!-- END found_categories --><!-- end found_in_category -->
+										<!-- begin author_block -->
+										<!-- begin author_name_block --><!-- end author_name_block -->
+										<!-- begin author_email_block --><!-- end author_email_block -->
+										<!-- begin author_url_block --><!-- end author_url_block -->
+										<!-- end author_block -->
+										<!-- begin date_block -->
+										<!-- begin article_date_block --><!-- end article_date_block --><!-- begin date_end_block --><!-- end date_end_block --><!-- end date_block -->
 
-							
+										<div class="articlesBox">
+											<!-- begin flash_player_block -->
+											<!-- end flash_player_block -->
+											<!-- begin windows_media_block-->
+											<!-- end windows_media_block-->
+											<!-- begin image_large_block --><!-- end image_large_block -->
 
-							<!-- begin found_in_category --><!-- BEGIN found_categories -->
+											<div class="pix">
+												<!-- begin image_small_block -->
+												<a class="youtube" href="{alt}"><img src="{src}" border="0"></a> <!-- end image_small_block -->
+											</div><!-- begin short_description_block -->
 
-							<!--begin restricted_cat_image--><!--end restricted_cat_image--><!-- END found_categories -->	
-
-							<!-- end found_in_category -->
-
-
-
-							<!-- begin author_block -->
-
-							<!-- begin author_name_block --><!-- end author_name_block -->
-
-							<!-- begin author_email_block --><!-- end author_email_block -->
-
-							<!-- begin author_url_block --><!-- end author_url_block -->
-
-							<!-- end author_block -->
-
-
-
-							<!-- begin date_block -->
-
-
-							<!-- begin article_date_block --><!-- end article_date_block --> 
-
-							<!-- begin date_end_block --><!-- end date_end_block --> 
-
-
-							<!-- end date_block -->
-
-
-<div class="articlesBox">
-
-							<!-- begin flash_player_block -->
-
-							<!-- end flash_player_block -->
-
-							<!-- begin windows_media_block-->
-
-							<!-- end windows_media_block-->
-
-							<!-- begin image_large_block --><!-- end image_large_block -->
-
-<div class="pix">
-<!-- begin image_small_block -->
-<a class="youtube" href="{alt}"><img src="{src}" border="0" /></a>
-<!-- end image_small_block -->
-</div>
-
-<!-- begin short_description_block -->
-<div class="text">
-<span class="title">{article_title}<!--begin restricted_image--><!--end restricted_image--></span><br />
-{short_description}
-</div>
-
-</div>
-
-<!-- begin link_url_block -->
-<!-- end link_url_block -->
-
-							<!-- end short_description_block -->
-
-                            
-                            
-<!-- begin link_url_block --><!-- end link_url_block -->
-				            <!-- begin download_url_block --><!-- end download_url_block -->                            
-                            
-
-							
-
-
-
-
-
-				            <!-- begin notes_block --><!-- end notes_block -->
-
-				            <!-- begin keywords_block --><!-- end keywords_block -->
-
-
-							</td>
-
-					</tr>
-
-					</table>
-
-      <!-- BEGIN items_rows_thumb -->
-<!-- BEGIN items_cols_thumb -->           
-          
-  
- <!-- END items_cols_thumb -->
-<!-- END items_rows_thumb -->   
-
-				</td><!-- END items_cols -->
-
-			</tr><!-- begin delimiter -->
-
-			<!--tr>
-
+											<div class="text">
+												<span class="title">{article_title}<!--begin restricted_image--><!--end restricted_image--></span><br>
+												{short_description}
+											</div>
+										</div><!-- begin link_url_block -->
+										<!-- end link_url_block -->
+										<!-- end short_description_block -->
+										<!-- begin link_url_block --><!-- end link_url_block -->
+										<!-- begin download_url_block --><!-- end download_url_block --><!-- begin notes_block --><!-- end notes_block -->
+										<!-- begin keywords_block --><!-- end keywords_block -->
+									</td>
+								</tr>
+							</table><!-- BEGIN items_rows_thumb -->
+							<!-- BEGIN items_cols_thumb --><!-- END items_cols_thumb -->
+							<!-- END items_rows_thumb -->
+						</td><!-- END items_cols -->
+					</tr><!-- begin delimiter -->
+					<!--tr>
 				<td colspan="{total_columns}" class="hDelimiter"><img src="images/tr.gif" alt="" /></td>
-
 			</tr--><!-- end delimiter -->
+					<!-- END items_rows -->
+				</table>
+			</td>
+		</tr><!-- begin search_and_navigation -->
 
-			<!-- END items_rows -->
+		<tr class="">
+			<td valign="top">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<!-- begin search_results -->
 
-			</table>
+						<td>{FOUND_ARTICLES_MSG}</td><!-- end search_results -->
+						<!-- begin navigator_block -->
 
-
-
-	</td>
-
-</tr>
-
-<!-- begin search_and_navigation -->
-
-<tr class=""> 
-
-	<td valign="top">
-
-
-
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-
-		<tr>
-
-			<!-- begin search_results --><td>{FOUND_ARTICLES_MSG}</td><!-- end search_results -->
-
-			<!-- begin navigator_block --><td align="right" nowrap="nowrap" class="navigator">{navigator}</td><!-- end navigator_block -->
-
-		</tr>
-
-		</table>
-
-
-
-	</td>
-
-</tr>
-
-<!-- end search_and_navigation -->
-
-</table>
-
-
-
-	</div>
-
+						<td align="right" nowrap="nowrap" class="navigator">{navigator}</td><!-- end navigator_block -->
+					</tr>
+				</table>
+			</td>
+		</tr><!-- end search_and_navigation -->
+	</table>
 </div>
 
-</div>
