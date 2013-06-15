@@ -1,3 +1,6 @@
+<script>
+	sec_code_dialog_text = '<h3 style="text-align: center; margin-top: 0;">Credit Card Security Code</h3><div>The card security code is a unique three digit number printed on your debit/credit card. Some card issuers refer to this number as the <em><b>Card Security Code</b></em> others as the <em><b>Personal Security Code</b></em> and others as <em><b>Card Verification Value</b></em>.<br /><br /><img src="images/cc_security_code.gif" align="left" border="0" height="116" width="185" style="margin-right: 7px;">VISA and Mastercard cards have a three-digit number printed at the top of the signature strip on the reverse of the card. American Express card uses the LAST 4 DIGITS of the actual card number embossed on the front of the card.</div>';
+</script>
 <div class="block-order-payment-form {block_class}" style="{block_style}">
 	<div class="floatleft address">
 		<b class="floatleft">Billing Address</b> <a class="button small-button floatright" href="{back_url}">EDIT</a>
@@ -137,7 +140,7 @@
 			<tr>
 				<td class="usualbg">{CC_SECURITY_CODE_FIELD}&nbsp;<span class="required">{cc_security_code_required}</span></td>
 
-				<td class="usualbg"><input class="text" type="text" name="cc_security_code" width="10" value="{cc_security_code}"> <a href="{cc_security_code_help_href}" target="_blank" onclick="window.open('{cc_security_code_help_href}', 'cc_security_code_help', 'width=425,height=300,location=no,menubar=no,status=no,toolbar=no');return false;" class="tocreverse">{CC_SECURITY_CODE_HELP_MSG}</a></td>
+				<td class="usualbg"><input class="text" type="text" name="cc_security_code" width="10" value="{cc_security_code}"> <a href="{cc_security_code_help_href}" target="_blank" onclick="showDialog('510', '380', sec_code_dialog_text); return false;" class="tocreverse">{CC_SECURITY_CODE_HELP_MSG}</a></td>
 			</tr><!-- end cc_security_code_block --><!-- begin pay_without_cc_block -->
 
 			<tr class="usualbg">
