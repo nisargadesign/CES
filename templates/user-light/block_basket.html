@@ -1,23 +1,11 @@
-<script type="text/javascript" src="js/basket.js"></script>
-
-<script type="text/javascript" src="js/images.js"></script>
-
-<script language="JavaScript" type="text/javascript">
-
-//<![CDATA[
-
+<script src="js/basket.js"></script>
+<script>
 var removeFromCart = "{REMOVE_FROM_CART_JS}";
-
 var cartQtyZero = "{CART_QTY_ZERO_JS}";
-
 var alterCartQty = "{ALTER_CART_QTY_JS}";
-
 var requiredProperty = "{REQUIRED_PROPERTY_MSG}";
-
 var requiredMessage = "{REQUIRED_MESSAGE}";
-
 var addProduct = "{ADD_PRODUCT_MSG}";
-
 var confirmAdd = "{confirm_add}";
 
 $(document).ready(function() {
@@ -26,394 +14,404 @@ $(document).ready(function() {
 	showDialog('400', '220',
                        '<b style="color: red;">' + message + '</b> ',
 		       function(){closeInMs(3500, "#background, #dialogWindow");}
-            );}
+            );
+    }
+    
+    $("#returns").click(function(){
+	showDialog('750','450','<h1 class="commonbg">Easy Returns!</h1>Cutting Edge Stencils is dedicated to providing quality products and great customer service. You may return the item within 30 days from the date of purchase. If you would like to return an item, you must first contact us to let us know of your intention. Next, ship the unused, undamaged and unopened item back to us.  Do not ship items using Media mail because it can take weeks to arrive and we can\'t issue refund or exchange the item until we receive the original item from you. Please use original box or similar packaging to ensure that the stencil arrives in undamaged condition.<br><br>Ship the items to:<br>Cutting Edge Stencils<br>630 Swan st.<br>Ramsey NJ 07446<br><br>Upon receipt of the unopened and unused goods, we will gladly refund your credit card or PayPal account for the full amount  minus shipping charges and 10% restocking fee. <br><br>If you received damaged or defective stencil from us, you may return it within 30 days for a full refund including shipping fees or replacement.');
+	return false;
+    });
+    
+    $("#secure").click(function(){
+	showDialog('495','350','<h1 class="commonbg">Your Privacy and Security</h1><br />Cutting Edge Stencils respects your privacy. Our website is secure and it meets or exceeds the current standards for security. We will not share the personal information that you provide with anyone outside of our company.');
+	return false;
+    });
+    
+    $("#shipping").click(function(){
+	showDialog('900','650','<h1 class="commonbg">Shipping and Handling</h1><div style="height: 550px; overflow: auto;padding-right: 20px;"><br />We have found the <span style="font-weight: bold;">United States Postal Service</span> to be the most efficient and least expensive way to ship our merchandise. Orders will be shipped within 1-3 business days and should arrive within 5-8 business days except for international orders, which can take longer.&nbsp; We ship Priority Mail only.&nbsp; Orders placed on weekends will get shipped on Mondays. <br>Please understand that USPS or any other carrier is a third party service. We cannot be responsible for shipping delays or mistakes made by these carriers.&nbsp; <br>Cutting Edge Stencils cannot be held responsible for any inconvenience and/or loss of business profits because of delivery delays. <br><br>If you need <span style="font-weight: bold;">expedited shipping</span>, please call us at 201-828-9146 to get rates and delivery time estimates. <span style="font-weight: bold;"><br>Any overnight orders must be placed before 2 PM EST.</span><br><font size="3"><br></font><font size="2"><span style="color: maroon; font-weight: bold;">ATTENTION INTERNATIONAL CUSTOMERS: </span></font><font size="1"><br><br></font>Your order may be subject to import duties, custom tariffs or VAT charges.&nbsp; They vary greatly from country to country and we strongly suggest checking your country\'s customs policy before placing your order with us. <span style="font-weight: bold;">These charges are always the responsibility of the recipient.</span><br>If any package is refused or undeliverable, the original shipping cost is non-refundable.<br><br>If your order is intended as a "Gift", and you wish it to be marked as such, please clearly indicate so in the Comments box at the checkout. Please note that UK can charge tax even on boxes marked as "Gift". <br>Customs authorities require the value of the gift item to be stated directly on the package.<br><br><table border="0" cellspacing="0" cellpadding="0" class="shippingTable"><tr><td colspan="5" valign="top" class="notice">Shipping cost is added at checkout and is calculated as follows:</td></tr><tr><th width="32%" valign="top">USA <br />SHIPPING</th><td width="2%" valign="top"></td><th width="32%" valign="top">INTERNATIONAL <br />SHIPPING (Canada)</th><td width="2%" valign="top"></td><th width="32%" valign="top">INTERNATIONAL <br />SHIPPING (Mexico)</th></tr><tr><td valign="top" class="data">$0.01 - $49.99: $8.95<br />$50.00 - $ 99.99: $10.95<br />$100.00 - $199.99: $12.95<br />$200.00 - $299.99: $14.95<br />$300.00 and up: <b>FREE!</b><br /><br /><span class="notice">7% sales tax is added for New Jersey residents.</span><br /></td><td valign="top"></td><td valign="top" class="data">$0.01 - $49.99: $27.00<br />$50.00 - $99.99: $29.00<br />$100.00 - $199.99: $32.00<br />$200.00 - $299.99: $38.00<br />$300.00 - $499.99: $42.00<br />$500 and up: $46.00</td><td valign="top"></td><td valign="top" class="data">$0.01 - $49.99: $55.00<br />$50.00 - $99.99: $60.00<br />$100.00 - $199.99: $65.00<br />$200.00 - $299.99: $70.00<br />$300.00 - $499.99: $80.00<br />$500 and up: $90.00</td></tr><tr><td valign="top">&nbsp;</td><td valign="top"></td><td valign="top"></td><td valign="top"></td><td valign="top"></td></tr><tr><tr><th valign="top">INTERNATIONAL <br />SHIPPING (UK)</th><td valign="top"></td><th valign="top">INTERNATIONAL <br />SHIPPING (World)</th><td valign="top"></td><td valign="top">&nbsp;</td></tr><tr><td valign="top" class="data">$0.01 - $49.99: $42.00<br />$50.00 - $99.99: $44.00<br />$100.00 - $199.99: $48.00<br />$200.00 - $299.99: $52.00<br />$300.00 - $499.99: $54.00<br />$500 and up: $58.00<br /></td><td valign="top"></td><td valign="top" class="data">$0.01 - $49.99: $36.00<br />$50.00 - $99.99: $42.00<br />$100.00 - $199.99: $44.00<br />$200.00 - $299.99: $48.00<br />$300.00 - $499.99: $52.00<br />$500 and up: $54.00</td><td valign="top"></td><td valign="top" class="">&nbsp;</td></tr></table></div>');
+	return false;
+    });
 });
 
-//]]>
+function openWin(examplesURL) {
+    var myBars = "menubar=no,toolbar=no,location=no,directories=no,status=no,titlebar=no,scrollbars=yes";
+    var myOptions = "width=600,height=600,left=50,top=50,resizable=no";
+    var myFeatures = myBars + "," + myOptions;
+    detailsWindow = window.open(examplesURL,"myWindow",myFeatures);
+    detailsWindow.focus();
+}
 
 </script>
 
-
-
 <div id="pb_{pb_id}" class="block-basket {block_class}" style="{block_style}">
+    <form name="shopping_cart" action="" id="shopping_cart">
+	<input type="hidden" name="pb_id" value="{pb_id}">
+    </form><!-- begin sc_errors -->
 
-<form name="shopping_cart" action=""><input type="hidden" name="pb_id" value="{pb_id}" /></form>
-
-
-
-	<!-- begin sc_errors -->
-
-	<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
-
-	<tr class="errorbg"> 
-
-		<td valign="top" align="center">
-
-  
-
-			<table width="100%" border="0" cellspacing="1" cellpadding="5">
-
-			<tr><td class="errorbg" align="center">
-
-				{errors_list}
-
-			</td></tr>
-
-			</table>
-
-  
-
-		</td>
-
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+	<tr class="errorbg">
+	    <td valign="top" align="center">
+		<table width="100%" border="0" cellspacing="1" cellpadding="5">
+		    <tr>
+			<td class="errorbg" align="center">{errors_list}</td>
+		    </tr>
+		</table>
+	    </td>
 	</tr>
+    </table><br>
+    <!-- end sc_errors -->
 
-	</table><br /><!-- end sc_errors -->
+    <h1 class="commonbg">{CART_TITLE}</h1>
 
-<h1 class="commonbg">{CART_TITLE}</h1>
-
-<div class="BlockMiddle">
-
+    <div class="BlockMiddle">
 	<div class="MiddleCenter">
+	    <!-- begin empty -->
 
-		<!-- begin empty -->
-		<table cellpadding="0" cellspacing="0" width="100%">
+	    <table cellpadding="0" cellspacing="0" width="100%">
 		<tr>
-			<td class="userMessage">{EMPTY_CART_MSG}</td>
-		</tr></table>
-		<!-- end empty -->
+		    <td class="userMessage">{EMPTY_CART_MSG}</td>
+		</tr>
+	    </table><!-- end empty -->
+	    <!-- begin basket -->
 
-
-		<!-- begin basket -->
-		<form name="basket" action="{basket_href}">
-		{hidden_parameters}
-		<input type="hidden" name="cart" value="QTY">
-		<input type="hidden" name="rnd" value="{random_value}">
-		<input type="hidden" name="cart_id" value="">
-		<input type="hidden" name="new_quantity" value="">
+	    <form name="basket" action="{basket_href}" id="basket">
+		{hidden_parameters} <input type="hidden" name="cart" value="QTY"> <input type="hidden" name="rnd" value="{random_value}"> <input type="hidden" name="cart_id" value=""> <input type="hidden" name="new_quantity" value="">
 
 		<table border="0" cellspacing="0" width="100%" class="cartTable">
-		<tr>
-			<td colspan="11" class="">{CART_INSTRUCTIONS}<br><br></td>
-			
-		</tr>
+		    <tr>
+			<td colspan="11" class="">{CART_INSTRUCTIONS}<br>
+			<br></td>
+		    </tr>
 
-		<tr>
+		    <tr>
 			<!-- begin item_image_header -->
+
 			<td class="cartHeader"></td><!-- end item_image_header -->
 			<!-- begin item_name_header -->
+
 			<td class="cartHeader">{PROD_TITLE_COLUMN}</td><!-- end item_name_header -->
 			<!-- begin item_price_header -->
+
 			<td align="right" class="cartHeader">{PROD_PRICE_COLUMN} {tax_note_excl}</td><!-- end item_price_header -->
 			<!-- begin item_tax_percent_header -->
+
 			<td class="cartHeader">{tax_name} (%)</td><!-- end item_tax_percent_header -->
 			<!-- begin item_tax_header -->
+
 			<td class="cartHeader">{tax_name}</td><!-- end item_tax_header -->
 			<!-- begin item_price_incl_tax_header -->
+
 			<td align="right" class="cartHeader">{PROD_PRICE_COLUMN} {tax_note}</td><!-- end item_price_incl_tax_header -->
 			<!-- begin item_quantity_header -->
+
 			<td align="right" class="cartHeader">{PROD_QTY_COLUMN}</td><!-- end item_quantity_header -->
 			<!-- begin item_price_total_header -->
+
 			<td align="right" class="cartHeader" width="100">{PROD_TOTAL_COLUMN} {tax_note_excl}</td><!-- end item_price_total_header -->
 			<!-- begin item_tax_total_header -->
+
 			<td class="cartHeader">{tax_name} {PROD_TAX_TOTAL_COLUMN}</td><!-- end item_tax_total_header -->
 			<!-- BEGIN item_price_incl_tax_total_header -->
-			<td class="cartHeader">{PROD_TOTAL_COLUMN} {tax_note}</td><!-- END item_price_incl_tax_total_header -->
-			<td class="cartHeader"></td>
-		</tr><!-- begin items -->
-		<tr>
-			<!-- begin item_image_column -->
-			<td class="cartRow" align="center" valign="top">
-				<!-- begin image_preview -->
-				<img src="{src}" {height} {width} border="0" alt="{alt}" align="left">
-				<!-- end image_preview -->
-			</td>
-			<!-- end item_image_column -->
-			<!-- begin item_name_column -->
-			<td class="cartRow">
-				<a href="{product_url}" class="productLinkCart">{item_name}</a>
-				<!-- begin item_code_block -->
-				<br>{PROD_CODE_MSG}: {item_code}<!-- end item_code_block -->	
-				<!-- begin manufacturer_code_block -->
-				<br>{MANUFACTURER_CODE_MSG}: {manufacturer_code}<!-- end manufacturer_code_block -->	
-				<font class="smallText">{properties_values}</font>
-				<!-- begin components_block -->
-				<div>{PROD_SUBCOMPONENTS_MSG}:</div>
-				<!-- begin components -->
-				<div>{selection_name} {component_quantity} x {component_name} {component_price} {component_icon}</div>
-				<!-- end components -->
-				<!-- end components_block -->
-				<!-- begin points_price_block -->
-				<div class="points_price">{POINTS_PRICE_MSG}:&nbsp;{points_price}</div><!-- end points_price_block -->
-				<!-- begin reward_points_block -->
-				<div class="reward_points">{REWARD_POINTS_MSG}:&nbsp;{reward_points}</div><!-- end reward_points_block -->
-				<!-- begin reward_credits_block -->
-				<div class="reward_credits">{REWARD_CREDITS_MSG}:&nbsp;{reward_credits}</div><!-- end reward_credits_block -->
 
-				<!-- begin item_error -->
-				<div class="errorMessage">{errors_list}</div>
-				<!-- end item_error -->
-			</td>
-			<!-- end item_name_column -->
+			<td class="cartHeader">{PROD_TOTAL_COLUMN} {tax_note}</td><!-- END item_price_incl_tax_total_header -->
+
+			<td class="cartHeader"></td>
+		    </tr><!-- begin items -->
+
+		    <tr>
+			<!-- begin item_image_column -->
+
+			<td class="cartRow" align="center" valign="top"><!-- begin image_preview -->
+			<img src="{src}" border="0" alt="{alt}" align="left"> <!-- end image_preview --></td><!-- end item_image_column -->
+			<!-- begin item_name_column -->
+
+			<td class="cartRow">
+			    <a href="{product_url}" class="productLinkCart">{item_name}</a> <!-- begin item_code_block -->
+			    <br>
+			    {PROD_CODE_MSG}: {item_code}<!-- end item_code_block --> <!-- begin manufacturer_code_block -->
+			    <br>
+			    {MANUFACTURER_CODE_MSG}: {manufacturer_code}<!-- end manufacturer_code_block --> <font class="smallText">{properties_values}</font> <!-- begin components_block -->
+
+			    <div>
+				{PROD_SUBCOMPONENTS_MSG}:
+			    </div><!-- begin components -->
+
+			    <div>
+				{selection_name} {component_quantity} x {component_name} {component_price} {component_icon}
+			    </div><!-- end components -->
+			    <!-- end components_block -->
+			    <!-- begin points_price_block -->
+
+			    <div class="points_price">
+				{POINTS_PRICE_MSG}:&nbsp;{points_price}
+			    </div><!-- end points_price_block -->
+			    <!-- begin reward_points_block -->
+
+			    <div class="reward_points">
+				{REWARD_POINTS_MSG}:&nbsp;{reward_points}
+			    </div><!-- end reward_points_block -->
+			    <!-- begin reward_credits_block -->
+
+			    <div class="reward_credits">
+				{REWARD_CREDITS_MSG}:&nbsp;{reward_credits}
+			    </div><!-- end reward_credits_block -->
+			    <!-- begin item_error -->
+
+			    <div class="errorMessage">
+				{errors_list}
+			    </div><!-- end item_error -->
+			</td><!-- end item_name_column -->
 			<!-- begin item_price_column -->
-				<td align="right" class="cartRow">{price_excl_tax}</td><!-- end item_price_column -->
-				<!-- begin item_tax_percent_column -->
-				<td align="right" class="cartRow">{tax_percent}</td><!-- end item_tax_percent_column -->
-				<!-- begin item_tax_column -->
-				<td align="right" class="cartRow">{tax}&nbsp;</td><!-- end item_tax_column -->
-				<!-- begin item_price_incl_tax_column -->
-				<td align="right" class="cartRow">{price_incl_tax}</td><!-- end item_price_incl_tax_column -->
-				<!-- begin item_quantity_column -->
-				<td align="right" class="cartRow">{quantity}</td><!-- end item_quantity_column -->
-				<!-- begin item_price_excl_tax_total_column -->
-				<td align="right" class="cartRow">{price_excl_tax_total}</td><!-- end item_price_excl_tax_total_column -->
-				<!-- begin item_tax_total_column -->
-				<td align="right" class="cartRow">{tax_total}</td><!-- end item_tax_total_column -->
-				<!-- begin item_price_incl_tax_total_column -->
-				<td align="right" class="cartRow">{price_incl_tax_total}</td><!-- end item_price_incl_tax_total_column -->
-				<td align="center" class="cartRow"><a href="{remove_href}" onClick="return confirmDelete('{item_type}');" class="button small-button">{REMOVE_FROM_CART_MSG}</a></td>
-			</tr><!-- end items -->
-		<tr>
-			<td colspan="{columns_colspan}" align="right" class="totals1">
-            {GOODS_TOTAL_MSG}
-            
-				<!--table width="100%" border="1" cellpadding="0" cellspacing="0">
+
+			<td align="right" class="cartRow">{price_excl_tax}</td><!-- end item_price_column -->
+			<!-- begin item_tax_percent_column -->
+
+			<td align="right" class="cartRow">{tax_percent}</td><!-- end item_tax_percent_column -->
+			<!-- begin item_tax_column -->
+
+			<td align="right" class="cartRow">{tax}&nbsp;</td><!-- end item_tax_column -->
+			<!-- begin item_price_incl_tax_column -->
+
+			<td align="right" class="cartRow">{price_incl_tax}</td><!-- end item_price_incl_tax_column -->
+			<!-- begin item_quantity_column -->
+
+			<td align="right" class="cartRow">{quantity}</td><!-- end item_quantity_column -->
+			<!-- begin item_price_excl_tax_total_column -->
+
+			<td align="right" class="cartRow">{price_excl_tax_total}</td><!-- end item_price_excl_tax_total_column -->
+			<!-- begin item_tax_total_column -->
+
+			<td align="right" class="cartRow">{tax_total}</td><!-- end item_tax_total_column -->
+			<!-- begin item_price_incl_tax_total_column -->
+
+			<td align="right" class="cartRow">{price_incl_tax_total}</td><!-- end item_price_incl_tax_total_column -->
+
+			<td align="center" class="cartRow"><a href="{remove_href}" onclick="return confirmDelete('{item_type}');" class="button small-button">{REMOVE_FROM_CART_MSG}</a></td>
+		    </tr><!-- end items -->
+
+		    <tr>
+			<td colspan="{columns_colspan}" align="right" class="totals1">{GOODS_TOTAL_MSG} <!--table width="100%" border="1" cellpadding="0" cellspacing="0">
 				<tr>
 					<td-->
-						<!-- begin reward_points_total_block -->
-						{REWARD_POINTS_MSG}: {reward_points_total}
-						<!-- end reward_points_total_block -->
-						<!-- begin reward_credits_total_block -->
-						{REWARD_CREDITS_MSG}: {reward_credits_total}
-						<!-- end reward_credits_total_block -->
-					<!--/td>
+			 <!-- begin reward_points_total_block -->
+			 {REWARD_POINTS_MSG}: {reward_points_total} <!-- end reward_points_total_block -->
+			 <!-- begin reward_credits_total_block -->
+			 {REWARD_CREDITS_MSG}: {reward_credits_total} <!-- end reward_credits_total_block -->
+			 <!--/td>
 					<td align="right" class="totals1">{GOODS_TOTAL_MSG}</td>
 				</tr>
-				</table-->
-			</td>
-			<!-- BEGIN goods_total_excl_tax_column -->
+				</table--></td><!-- BEGIN goods_total_excl_tax_column -->
+
 			<td align="right" class="totals1LastCart">{goods_total_excl_tax}</td><!-- END goods_total_excl_tax_column -->
 			<!-- BEGIN goods_tax_total_column -->
+
 			<td align="right" class="totals1">{goods_tax_total}</td><!-- END goods_tax_total_column -->
-            <td align="right" class="totals1"></td>
-			<!-- BEGIN goods_total_incl_tax_column -->
+
+			<td align="right" class="totals1"></td><!-- BEGIN goods_total_incl_tax_column -->
+
 			<td align="right">{goods_total_incl_tax}</td><!-- END goods_total_incl_tax_column -->
-		</tr>
-		
-		<!-- Customization by Vital - adding US estimated shipping costs -->
-		<tr>
+		    </tr><!-- Customization by Vital - adding US estimated shipping costs -->
+
+		    <tr>
 			<td colspan="{columns_colspan}" align="right" class="totals1">
-			    {shipping_type_desc} <br />
-			    <div class="commonbgPlain floatright" style="padding: 3px 5px 5px 6px; margin: 2px;">Shipping Internationaly? <select style="font-size: 8pt;" name="country_id" onchange="document.basket.submit();"><!-- begin country_id -->
-			<option {country_id_selected} value="{country_id_value}">{country_id_description}</option><!-- end country_id -->
-		</select></div>
-			    <div  class="clearboth"></div>
-		<div class="smallTextCart">*Estimated shipping cost. The final cost depends on the actual delivery address entered at checkout</div>
+			    {shipping_type_desc}<br>
+
+			    <div class="commonbgPlain floatright" style="padding: 3px 5px 5px 6px; margin: 2px;">
+				Shipping Internationally? <select style="font-size: 8pt;" name="country_id" onchange="document.basket.submit();">
+				    <!-- begin country_id -->
+
+				    <option value="{country_id_value}">
+					{country_id_description}
+				    </option><!-- end country_id -->
+				</select>
+			    </div>
+
+			    <div class="clearboth"></div>
+
+			    <div class="smallTextCart">
+				*Estimated shipping cost. The final cost depends on the actual delivery address entered at checkout
+			    </div>
 			</td>
-			<td align="right"  valign="top" class="totals1LastCart">{estimated_US_shipping}</td>
+
+			<td align="right" valign="top" class="totals1LastCart">{estimated_US_shipping}</td>
+
 			<td align="right"></td>
-		</tr>
-		<tr>
-			<td colspan="{columns_colspan}" align="right" class="totals1">
-			    Estimated Total
-			</td>
+		    </tr>
+
+		    <tr>
+			<td colspan="{columns_colspan}" align="right" class="totals1">Estimated Total</td>
+
 			<td align="right" class="totals1LastCart">{estimated_total}</td>
+
 			<td align="right"></td>
-		</tr>
-		<!-- E N D Customization by Vital -->
-		
-		<!-- begin coupons -->
-		<tr valign="top">
-			<td align="right" colspan="{columns_colspan}" class="totals1">{coupon_title}</td>
-			<!-- BEGIN discount_amount_excl_tax_column -->
+		    </tr><!-- E N D Customization by Vital -->
+		    <!-- begin coupons -->
+
+		    <tr valign="top">
+			<td align="right" colspan="{columns_colspan}" class="totals1">{coupon_title}</td><!-- BEGIN discount_amount_excl_tax_column -->
+
 			<td align="right" class="totals1">{discount_amount_excl_tax}</td><!-- END discount_amount_excl_tax_column -->
 			<!-- BEGIN discount_tax_column -->
+
 			<td align="right" class="totals1">{discount_tax_amount}</td><!-- END discount_tax_column -->
 			<!-- BEGIN discount_amount_incl_tax_column -->
+
 			<td align="right" class="totals1">{discount_amount_incl_tax}</td><!-- END discount_amount_incl_tax_column -->
-			<td valign="middle" align="center"><a href="{remove_href}" onClick="return confirmDelete('{item_type}');" class="buttonSmall">{COUPON_REMOVE_MSG}</a></td>
-		</tr><!-- end coupons --><!-- begin discount -->
-		<tr class="">
-			<td colspan="{columns_colspan}" align="right" class="totals1">{TOTAL_DISCOUNT_MSG}</td>
-			<!-- BEGIN total_discount_amount_excl_tax_column -->
+
+			<td valign="middle" align="center"><a href="{remove_href}" onclick="return confirmDelete('{item_type}');" class="button small-button">{COUPON_REMOVE_MSG}</a></td>
+		    </tr><!-- end coupons --><!-- begin discount -->
+
+		    <tr class="">
+			<td colspan="{columns_colspan}" align="right" class="totals1">{TOTAL_DISCOUNT_MSG}</td><!-- BEGIN total_discount_amount_excl_tax_column -->
+
 			<td align="right" class="totals1">{total_discount_excl_tax}</td><!-- END total_discount_amount_excl_tax_column -->
 			<!-- BEGIN total_discount_tax_column -->
+
 			<td align="right">{total_tax_discount_amount}</td><!-- END total_discount_tax_column -->
 			<!-- BEGIN total_discount_amount_incl_tax_column -->
+
 			<td align="right">{total_discount_incl_tax}</td><!-- END total_discount_amount_incl_tax_column -->
-		</tr><!-- end discount -->
-		<!-- begin vouchers -->
-		<tr valign="top">
-			<td colspan="{columns_colspan}" align="right" class="totals1">{voucher_title} ({voucher_max_amount})</td>
-			<!-- BEGIN voucher_excl_tax_column -->
+		    </tr><!-- end discount -->
+		    <!-- begin vouchers -->
+
+		    <tr valign="top">
+			<td colspan="{columns_colspan}" align="right" class="totals1">{voucher_title} ({voucher_max_amount})</td><!-- BEGIN voucher_excl_tax_column -->
+
 			<td align="right" class="totals1LastCart">{voucher_amount_excl_tax}</td><!-- END voucher_excl_tax_column -->
 			<!-- BEGIN voucher_tax_column -->
+
 			<td align="right" class="totals1">{voucher_tax_amount}</td><!-- END voucher_tax_column -->
 			<!-- BEGIN voucher_incl_tax_column -->
+
 			<td align="right" class="totals1">{voucher_amount_incl_tax}</td><!-- END voucher_incl_tax_column -->
-			<td align="center"><a href="{remove_href}" onClick="return confirmDelete('{item_type}');" class="buttonSmall">{COUPON_REMOVE_MSG}</a></td>
-		</tr><!-- end vouchers --><!-- begin discounted -->
-		<tr class="">
-			<td colspan="{columns_colspan}" align="right" class="totals1">{GOODS_WITH_DISCOUNT_MSG}</td>
-			<!-- BEGIN discounted_amount_excl_tax_column -->
+
+			<td align="center"><a href="{remove_href}" onclick="return confirmDelete('{item_type}');" class="buttonSmall">{COUPON_REMOVE_MSG}</a></td>
+		    </tr><!-- end vouchers --><!-- begin discounted -->
+
+		    <tr class="">
+			<td colspan="{columns_colspan}" align="right" class="totals1">{GOODS_WITH_DISCOUNT_MSG}</td><!-- BEGIN discounted_amount_excl_tax_column -->
+
 			<td align="right" class="cartHeader">{discounted_amount_excl_tax}</td><!-- END discounted_amount_excl_tax_column -->
 			<!-- BEGIN discounted_tax_column -->
+
 			<td align="right" class="cartHeader">{discounted_tax_amount}</td><!-- END discounted_tax_column -->
 			<!-- BEGIN discounted_amount_incl_tax_column -->
+
 			<td align="right" class="cartHeader">{discounted_amount_incl_tax}</td><!-- END discounted_amount_incl_tax_column -->
-		</tr><!-- end discounted -->
+		    </tr><!-- end discounted -->
 		</table>
-		</form>
-		<!-- end basket -->
-       
-		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="padding6px">
-        
+	    </form><!-- end basket -->
+	    <a class="button button-continue clearboth" id="" href="javascript:history.back();" name=""><span>&lt;&lt; Continue Shopping</span></a>
+
+	    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="padding6px">
 		<!-- begin coupon_errors -->
+
 		<tr>
-			<td><div class="errorMessage" style="display: none;">{errors_list}</div></td>
-			<td></td>
-		</tr>
-		<!-- end coupon_errors -->
+		    <td>
+			<div class="errorMessage" style="display: none;">
+			    {errors_list}
+			</div>
+		    </td>
+
+		    <td></td>
+		</tr><!-- end coupon_errors -->
+
 		<tr>
-        	
-			<!-- begin coupon_form -->
-			<td valign="top"><div>
-				<form name="coupon" action="{basket_href}">
-				<input type="hidden" name="operation" value="add">
-				{hidden_parameters}
-                
-                <div class="boxCoupon commonbgPlain"><div class="couponText floatleft">{COUPON_CODE_FIELD}</div><input class="field" size="16" type="text" name="coupon_code" value="{coupon_code}" /><input class="submit button" type="submit" value="{APPLY_BUTTON}"></form></div>
-                </div>
-			     <a class="button button-continue clearboth" id="" href="javascript:history.back();"><span><< Continue Shopping</span></a>
-			</td>
-			<!-- end coupon_form -->
-			<td align="right" valign="top">
-				<!--a class="buttonBasket button-shopping" id="shopping" href="{rp_href}">{CONTINUE_SHOPPING_MSG}</a>
+		    <!-- begin coupon_form -->
+
+		    <td valign="top">
+			<div>
+			    <form name="coupon" action="{basket_href}" id="coupon">
+				<input type="hidden" name="operation" value="add"> {hidden_parameters}
+
+				<div class="boxCoupon commonbgPlain">
+				    <div class="couponText floatleft">
+					{COUPON_CODE_FIELD}
+				    </div><input class="field" size="16" type="text" name="coupon_code" value="{coupon_code}"><input class="submit button" type="submit" value="{APPLY_BUTTON}">
+				</div>
+			    </form>
+			</div>
+		    </td><!-- end coupon_form -->
+
+		    <td align="right" valign="top">
+			<!--a class="buttonBasket button-shopping" id="shopping" href="{rp_href}">{CONTINUE_SHOPPING_MSG}</a>
 				<span class="spacer">&nbsp;|&nbsp;</span>
 				<a class="buttonBasket button-retrieve" id="retrieve" href="{cart_retrieve_href}">{RETRIEVE_CART_BUTTON}</a-->
-				<!-- begin basket_links -->
-				<!--span class="spacer">&nbsp;|&nbsp;</span>
+			<!-- begin basket_links -->
+			<!--span class="spacer">&nbsp;|&nbsp;</span>
 				<a class="buttonBasket button-save" id="save" href="{cart_save_href}">{SAVE_CART_BUTTON}</a>
 				&nbsp;|&nbsp;<br><br>
 				<a class="linkGeneral" id="clear" href="{remove_all_href}" onCLick=" return confirm('{CLEAR_CART_JS}');">{CLEAR_CART_MSG}</a>
 				&nbsp;&nbsp;-->
-<!--<a class="button button-shipping-calculator" id="shipping" href="{shipping_calculator_href}" onclick="popupShippingWin('{shipping_calculator_href}'); return false;"><span>{SHIPPING_CALCULATOR_MSG}</span></a>-->
+			<!--<a class="button button-shipping-calculator" id="shipping" href="{shipping_calculator_href}" onclick="popupShippingWin('{shipping_calculator_href}'); return false;"><span>{SHIPPING_CALCULATOR_MSG}</span></a>-->
+			<a class="button button-check-cart" id="checkout" href="{checkout_href}" name="checkout"><span>{GOTO_CHECKOUT_MSG} &gt;&gt;</span></a> <!-- end basket_links -->
 
-				<a class="button button-check-cart" id="checkout" href="{checkout_href}"><span>{GOTO_CHECKOUT_MSG} >></span></a>
-				<!-- end basket_links -->
-				
-				<div class="boxConfidence">
-                <script>
-function openWin(examplesURL)
-{
-var myBars = "menubar=no,toolbar=no,location=no,directories=no,status=no,titlebar=no,scrollbars=yes";
-var myOptions = "width=600,height=600,left=50,top=50,resizable=no";
-var myFeatures = myBars + "," + myOptions;
+			<div class="boxConfidence">
+			    <h2>Shop with confidence</h2>
+			    <a href="javascript:openWin('/static/cart-returns.html')" class="cartLink" id="returns" name="returns">&bull; Easy Returns &gt;&gt;</a><br>
+			    <a href="javascript:openWin('/static/cart-security.html')" class="cartLink" id="secure" name="secure">&bull; Secure Shopping &gt;&gt;</a><br>
+			    <a href="javascript:openWin('/static/cart-shipping.html')" class="cartLink" id="shipping" name="shipping">&bull; Shipping Policy &gt;&gt;</a><br>
+			</div>
+		    </td>
+		</tr><!-- begin fast_checkout_form -->
 
-detailsWindow = window.open(examplesURL,"myWindow",myFeatures);
-detailsWindow.focus();
-}
-</script>
-                <h2>Shop with confidence</h2>
-                <!--a href="javascript:openWin('/cart-returns-information.html');">&bull; Easy Returns >></a><br-->
-				<a href="javascript:openWin('/static/cart-returns.html')" class="cartLink">&bull; Easy Returns >></a><br>
-                <a href="javascript:openWin('/static/cart-security.html')" class="cartLink">&bull; Secure Shopping >></a><br>
-                <a href="javascript:openWin('/static/cart-shipping.html')" class="cartLink">&bull; Shipping Policy >></a><br>
-                
-                </div>
-                
-			</td>
-		</tr>
-        
-        <!--tr>
-           <td align="center" colspan="2">
-
-       </td>
-		</tr--> 
-		<!-- begin fast_checkout_form -->
 		<tr>
-			<td colspan="2" align="right">
-				<form name="fast_checkout" action="{order_info_url}" method="POST" onSubmit="return checkFastCheckoutDetails();">
-				<input type="hidden" name="operation" value="fast_checkout">
-				<input type="hidden" name="fast_payment_id" value="{fast_payment_id}">
-				<input type="hidden" name="postcode_required" value="{postcode_required}">
-				<input type="hidden" name="state_required" value="{state_required}">
-				<input type="hidden" name="country_required" value="{country_required}">
-				<table cellspacing="3" cellpadding="0" border="0">
+		    <td colspan="2" align="right">
+			<form name="fast_checkout" action="{order_info_url}" method="post" onsubmit="return checkFastCheckoutDetails();" id="fast_checkout">
+			    <input type="hidden" name="operation" value="fast_checkout"> <input type="hidden" name="fast_payment_id" value="{fast_payment_id}"> <input type="hidden" name="postcode_required" value="{postcode_required}"> <input type="hidden" name="state_required" value="{state_required}"> <input type="hidden" name="country_required" value="{country_required}">
+
+			    <table cellspacing="3" cellpadding="0" border="0">
 				<tr>
-					<td></td><td align="center">&ndash;&ndash; or use &ndash;&ndash;</td>
+				    <td></td>
+
+				    <td align="center">&ndash;&ndash; or use &ndash;&ndash;</td>
 				</tr>
+
 				<tr>
-					<td valign="top">
-		
-						<!-- begin fast_checkout_country_select -->
-						<span id="fast_checkout_country_name">Country</span> <span class="asterix">{country_required}</span> 
-						<select style="font-size: 8pt; width: 200px;" name="fast_checkout_country_id"><!-- begin fast_checkout_country_id -->
-							<option {fast_checkout_country_id_selected} value="{fast_checkout_country_id_value}">{fast_checkout_country_id_description}<!-- end fast_checkout_country_id -->
-						</select>
-						<!-- end fast_checkout_country_select -->
-						<!-- begin fast_checkout_country_hidden -->
-						<input type="hidden" name="fast_checkout_country_id" value="{fast_checkout_country_id_value}">
-						<!-- end fast_checkout_country_hidden -->
-			    
-						<!-- begin fast_checkout_state_select -->
-						<span id="fast_checkout_state_name">State</span> <span class="asterix">{state_required}</span>
-						<select style="font-size: 8pt;" name="fast_checkout_state_id"><!-- begin fast_checkout_state_id -->
-							<option {fast_checkout_state_id_selected} value="{fast_checkout_state_id_value}">{fast_checkout_state_id_description}<!-- end fast_checkout_state_id -->
-						</select>
-						<!-- end fast_checkout_state_select -->
-						<!-- begin fast_checkout_state_hidden -->
-						<input type="hidden" name="fast_checkout_state_id" value="{fast_checkout_state_id_value}">
-						<!-- end fast_checkout_state_hidden -->
-			    
-						<!-- begin fast_checkout_postcode_textbox -->
-						<span id="fast_checkout_postcode_name">Postcode</span> <span class="asterix">{postcode_required}</span>
-						<input style="font-size: 8pt;" class="text" type="text" name="fast_checkout_postcode" value="{fast_checkout_postcode}" size="8" maxlength="16">
-						<!-- end fast_checkout_postcode_textbox  -->
-						<!-- begin fast_checkout_postcode_hidden -->
-						<input type="hidden" name="fast_checkout_postcode" value="{fast_checkout_postcode_value}">
-						<!-- end fast_checkout_postcode_hidden -->
-		
-					</td>
-					<td>
-						<table border="0" cellpadding="0" cellspacing="0">
-						<!-- begin fast_checkout_payments -->
-						<tr>
-							<td>
-								<!-- begin fast_checkout_image -->
-								<input type="image" name="{fast_checkout_alt}" alt="{fast_checkout_alt}" {fast_checkout_width} {fast_checkout_height}
-									src="{fast_checkout_src}" onClick="document.fast_checkout.fast_payment_id.value={fast_payment_id};">
-								<!-- end fast_checkout_image -->
-								<!-- begin fast_checkout_button -->
-								<span class="submit"><input class="submit" type="submit" 
-									value="{fast_checkout_alt}" onClick="document.fast_checkout.fast_payment_id.value={fast_payment_id};"></span>
-								<!-- end fast_checkout_button -->
-							</td>
-						</tr><!-- end fast_checkout_payments -->
-						</table>
-					</td>
+				    <td valign="top"><!-- begin fast_checkout_country_select -->
+				    <span id="fast_checkout_country_name">Country</span> <span class="asterix">{country_required}</span> <select style="font-size: 8pt; width: 200px;" name="fast_checkout_country_id">
+					<!-- begin fast_checkout_country_id -->
+
+					<option value="{fast_checkout_country_id_value}">
+					    {fast_checkout_country_id_description}<!-- end fast_checkout_country_id -->
+					</option>
+				    </select> <!-- end fast_checkout_country_select -->
+				     <!-- begin fast_checkout_country_hidden -->
+				     <input type="hidden" name="fast_checkout_country_id" value="{fast_checkout_country_id_value}"> <!-- end fast_checkout_country_hidden -->
+				     <!-- begin fast_checkout_state_select -->
+				     <span id="fast_checkout_state_name">State</span> <span class="asterix">{state_required}</span> <select style="font-size: 8pt;" name="fast_checkout_state_id">
+					<!-- begin fast_checkout_state_id -->
+
+					<option value="{fast_checkout_state_id_value}">
+					    {fast_checkout_state_id_description}<!-- end fast_checkout_state_id -->
+					</option>
+				    </select> <!-- end fast_checkout_state_select -->
+				     <!-- begin fast_checkout_state_hidden -->
+				     <input type="hidden" name="fast_checkout_state_id" value="{fast_checkout_state_id_value}"> <!-- end fast_checkout_state_hidden -->
+				     <!-- begin fast_checkout_postcode_textbox -->
+				     <span id="fast_checkout_postcode_name">Postcode</span> <span class="asterix">{postcode_required}</span> <input style="font-size: 8pt;" class="text" type="text" name="fast_checkout_postcode" value="{fast_checkout_postcode}" size="8" maxlength="16"> <!-- end fast_checkout_postcode_textbox  -->
+				     <!-- begin fast_checkout_postcode_hidden -->
+				     <input type="hidden" name="fast_checkout_postcode" value="{fast_checkout_postcode_value}"> <!-- end fast_checkout_postcode_hidden --></td>
+
+				    <td>
+					<table border="0" cellpadding="0" cellspacing="0">
+					    <!-- begin fast_checkout_payments -->
+
+					    <tr>
+						<td><!-- begin fast_checkout_image -->
+						<input type="image" name="{fast_checkout_alt}" alt="{fast_checkout_alt}" src="{fast_checkout_src}" onclick="document.fast_checkout.fast_payment_id.value={fast_payment_id};"> <!-- end fast_checkout_image -->
+						 <!-- begin fast_checkout_button -->
+						 <span class="submit"><input class="submit" type="submit" value="{fast_checkout_alt}" onclick="document.fast_checkout.fast_payment_id.value={fast_payment_id};"></span> <!-- end fast_checkout_button --></td>
+					    </tr><!-- end fast_checkout_payments -->
+					</table>
+				    </td>
 				</tr>
-				</table>
-				</form>
-			</td>
-		</tr>
-		<!-- end fast_checkout_form -->
-		</table>
-		
-		
-		</div>
-
-</div>
-
-<div class="BlockBottom">
-
-	<div class="BottomCenter">
-
-		<div class="BottomLeft"></div>
-
-		<div class="BottomRight"></div>
-
+			    </table>
+			</form>
+		    </td>
+		</tr><!-- end fast_checkout_form -->
+	    </table>
 	</div>
-
+    </div>
 </div>
 
-</div>
