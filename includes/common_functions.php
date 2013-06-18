@@ -1628,6 +1628,13 @@
 			$current_date = va_time();
 			$current_ts = va_timestamp();
 			$user_id = $db->f("user_id");
+			
+			//Customization by Vital - wishlist sync
+			if($user_id) {
+				sync_wishlist($user_id);
+			}
+			//END Customization - wishlist sync
+			
 			$layout_id = $db->f("layout_id");
 			$is_approved = $db->f("is_approved");
 			$is_sms_allowed = $db->f("is_sms_allowed");
@@ -1874,6 +1881,14 @@
 
 	function user_logout()
 	{
+		
+		//Customization by Vital - wishlist sync
+		$user_id = get_session('session_user_id');
+		if($user_id) {
+			sync_wishlist($user_id);
+		}
+		//END Customization - wishlist sync
+		
 		global $settings;
 
 		set_session("session_user_id", "");
@@ -2766,5 +2781,37 @@ function save_log_file($filename, $content)
 		@fwrite($fp, $content);
 		@fclose($fp);
 	}
-}	
+}
+
+//Customization by Vital - wishlist sync
+function sync_wishlist($user_id){
+	if(isset($_COOKIE['wishlist_user_id']) && is_numeric($_COOKIE['wishlist_user_id'])) {
+		global $db,$table_prefix;
+		$dba = new VA_SQL();
+		$dba->DBType       = $db->DBType;
+		$dba->DBDatabase   = $db->DBDatabase;
+		$dba->DBUser       = $db->DBUser;
+		$dba->DBPassword   = $db->DBPassword;
+		$dba->DBHost       = $db->DBHost;
+		$dba->DBPort       = $db->DBPort;
+		$dba->DBPersistent = $db->DBPersistent;
+		// 1st sync step: add cookie wishlist items to user wishlist items by updating the user_id
+		$sql = "UPDATE " . $table_prefix . "saved_items SET user_id=". $db->tosql($user_id, INTEGER) ." WHERE user_id=". $db->tosql($_COOKIE['wishlist_user_id'], INTEGER)." AND item_id NOT IN (SELECT item_id FROM (SELECT DISTINCT item_id FROM va_saved_items WHERE user_id = ".$db->tosql($user_id, INTEGER) .") AS tmptable)";
+		$dba->query($sql);
+		
+		// 2nd sync step: get and load items to the cookie wishlist
+		$sql =  "SELECT DISTINCT item_id, item_name, quantity, price, date_added FROM " . $table_prefix . "saved_items WHERE user_id=" . $db->tosql($user_id, INTEGER)." AND item_id NOT IN (SELECT item_id FROM (SELECT DISTINCT item_id FROM va_saved_items WHERE user_id = ".$db->tosql($_COOKIE['wishlist_user_id'], INTEGER) .") AS tmptable)";
+		$dba->query($sql);
+		if ($dba->next_record()) {
+			$wishlist_item_values = "(NULL, 1, '".$dba->f("item_id")."', 0, '".$dba->tosql($_COOKIE['wishlist_user_id'], INTEGER)."', '1', '".$dba->f("item_name")."', '".$dba->f("quantity")."', 0, '".$db->f("price")."', TIMESTAMP('".$dba->f("date_added")."'))";
+			while ($dba->next_record()) {
+				$wishlist_item_values .= ",(NULL, 1, '".$dba->f("item_id")."', 0, '".$dba->tosql($_COOKIE['wishlist_user_id'], INTEGER)."', '1', '".$dba->f("item_name")."', '".$dba->f("quantity")."', 0, '".$dba->f("price")."', TIMESTAMP('".$dba->f("date_added")."'))";
+			}
+			$sql = "INSERT INTO `va_saved_items` (`cart_item_id`, `site_id`, `item_id`, `cart_id`, `user_id`, `type_id`, `item_name`, `quantity`, `quantity_bought`, `price`,`date_added`) VALUES ".$wishlist_item_values;
+			$dba->query($sql);
+		}
+	}
+}
+//END Customization - wishlist sync
+
 ?>
