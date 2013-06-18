@@ -2803,11 +2803,11 @@ function sync_wishlist($user_id){
 		$sql =  "SELECT DISTINCT item_id, item_name, quantity, price, date_added FROM " . $table_prefix . "saved_items WHERE user_id=" . $db->tosql($user_id, INTEGER)." AND item_id NOT IN (SELECT item_id FROM (SELECT DISTINCT item_id FROM va_saved_items WHERE user_id = ".$db->tosql($_COOKIE['wishlist_user_id'], INTEGER) .") AS tmptable)";
 		$dba->query($sql);
 		if ($dba->next_record()) {
-			$wishlist_item_values = "(NULL, 1, '".$dba->f("item_id")."', 0, '".$dba->tosql($_COOKIE['wishlist_user_id'], INTEGER)."', '1', '".$dba->f("item_name")."', '".$dba->f("quantity")."', 0, '".$db->f("price")."', TIMESTAMP('".$dba->f("date_added")."'))";
+			$wishlist_item_values = "(NULL, 1, '".$dba->f("item_id")."', 0, '".$dba->tosql($_COOKIE['wishlist_user_id'], INTEGER)."', '1', '".$dba->f("item_name")."', '".$dba->f("quantity")."', 0, '".$dba->f("price")."', TIMESTAMP('".$dba->f("date_added")."'))";
 			while ($dba->next_record()) {
 				$wishlist_item_values .= ",(NULL, 1, '".$dba->f("item_id")."', 0, '".$dba->tosql($_COOKIE['wishlist_user_id'], INTEGER)."', '1', '".$dba->f("item_name")."', '".$dba->f("quantity")."', 0, '".$dba->f("price")."', TIMESTAMP('".$dba->f("date_added")."'))";
 			}
-			$sql = "INSERT INTO `va_saved_items` (`cart_item_id`, `site_id`, `item_id`, `cart_id`, `user_id`, `type_id`, `item_name`, `quantity`, `quantity_bought`, `price`,`date_added`) VALUES ".$wishlist_item_values;
+			$sql = "INSERT INTO `va_saved_items` (`cart_item_id`, `site_id`, `item_id`, `cart_id`, `user_id`, `type_id`, `item_name`, `quantity`, `quantity_bought`, `price`, `date_added`) VALUES ".$wishlist_item_values;
 			$dba->query($sql);
 		}
 	}
