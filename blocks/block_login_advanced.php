@@ -57,6 +57,11 @@
 		header("Location: " . $ulu->get_url());
 		exit;
 	}
+	//Customization by Vital - login redirection
+	if (!strlen($return_page) && isset($_SERVER['HTTP_REFERER']) && ( strpos($_SERVER['HTTP_REFERER'], $site_url) !== false  || strpos($_SERVER['HTTP_REFERER'], $secure_url) !== false )) {
+		$return_page = $_SERVER['HTTP_REFERER'];
+	}
+	//END customization -  - login redirection
 	if (!strlen($return_page)) {
 		$return_page = $user_home_url;
 	}
