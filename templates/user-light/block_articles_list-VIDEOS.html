@@ -2,7 +2,7 @@
 	var minDialogWidth = 160;
 	var maxDialogWidth = 1000;
 	function showVideo(elem){
-		var viewPortWidth = window.innerWidth; //$(window).width(); //window.innerWidth
+		var viewPortWidth = window.innerWidth || document.documentElement.clientWidth;
 		var dialogWidth = ( viewPortWidth > minDialogWidth + 40 ) ? viewPortWidth*0.9 : minDialogWidth;
 		dialogWidth = ( dialogWidth > maxDialogWidth ) ? maxDialogWidth : dialogWidth;
 		var dialogHeight = (dialogWidth + 40*0.7777)/1.7777;
@@ -146,4 +146,3 @@
 		</tr><!-- end search_and_navigation -->
 	</table>
 </div>
-
