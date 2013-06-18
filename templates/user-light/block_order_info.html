@@ -1,10 +1,6 @@
-<script type="text/javascript" language="JavaScript" src="js/images.js"></script>
-
-<script type="text/javascript" language="JavaScript">
-
-//<![CDATA[
+<script>
 function progressDialog() {
-               showDialog('100', '10', '<b>Saving...</b>',
+               showDialog('100', '100', '<b>Saving...</b>',
                               function(){
                               $("#dialogHeader").hide();
                               $("#background, #dialogHeader a").unbind("click").removeAttr("href");
@@ -32,7 +28,7 @@ $(document).ready(function(){
     $("option[value='']").attr({'disabled': 'true'});
      //Checkout Paypal address warning
      if($('input[name$="dialog"]').val() == "1" && $('input[name$="dialog_url"]').val().length > 20 && $('select[name="payment_id"] option:selected').val() == "70") {
-          showDialog('690', '392', '<img id="paypal_warning" src="/images/paypal-address-warning.jpg" alt="PayPal Address Warning" /><div id="dialog_arrow">&nbsp;</div><div id="dialog_info">Once you reach the Paypal page, make sure that the Shipping address registered with PayPal is the one that you want your order shipped to. If it’s not correct, click on CHANGE and enter a correct shipping address. We can only ship to your registered PayPal address and will not be responsible for orders shipped to the incorrect address.</div><hr /><a class="cancel button floatleft " href="#">&nbsp;&#9668; &nbsp; Choose another Payment Method&nbsp;&nbsp;</a><a class="submit button" href="' + $('input[name$="dialog_url"]').val() + '">&nbsp;&nbsp;Proceed to PayPal &nbsp; &#9658;&nbsp;</a>', function(){$("#dialogContent .cancel").click(function(){jQuery("#background, #dialogWindow").fadeOut("normal"); $('html,body').animate({scrollTop: $('.middlebg').offset().top},'slow'); $('select[name="payment_id"]').css({"background" : "pink"});return false;});});
+          showDialog('690', '392', '<img id="paypal_warning" src="/images/paypal-address-warning.jpg" alt="PayPal Address Warning" /><div id="dialog_arrow">&nbsp;</div><div id="dialog_info">Once you reach the Paypal page, make sure that the Shipping address registered with PayPal is the one that you want your order shipped to. If it is not correct, click on CHANGE and enter a correct shipping address. We can only ship to your registered PayPal address and will not be responsible for orders shipped to the incorrect address.</div><hr /><a class="cancel button floatleft " href="#">&nbsp;&#9668; &nbsp; Choose another Payment Method&nbsp;&nbsp;</a><a class="submit button" href="' + $('input[name$="dialog_url"]').val() + '">&nbsp;&nbsp;Proceed to PayPal &nbsp; &#9658;&nbsp;</a>', function(){$("#dialogContent .cancel").click(function(){jQuery("#background, #dialogWindow").fadeOut("normal"); $('html,body').animate({scrollTop: $('.middlebg').offset().top},'slow'); $('select[name="payment_id"]').css({"background" : "pink"});return false;});});
     } else if( $('select[name$="delivery_country_id"] option:selected').val() != 228 && $('select[name$="delivery_country_id"] option:selected').val() != "") {
           showDialog('500', nonUSAHeight, nonUSAText,
                          function(){
@@ -283,64 +279,54 @@ $(document).ready(function(){
 	</td><!-- end item_image_column -->
 
 	<!-- begin item_name_column -->
-
-	<td class="cartRow">
-
-		{item_name}
-
-		<!-- begin item_code_block -->
-
-		<br />{PROD_CODE_MSG}: {item_code}<!-- end item_code_block -->	
-
-		<!-- begin manufacturer_code_block -->
-
-		<br />{MANUFACTURER_CODE_MSG}: <b>{manufacturer_code}</b><!-- end manufacturer_code_block -->	
-
-		<font class="">{properties_values}</font>
-
-		<font class="">{coupons_list}</font>
-
-			<!-- begin components_block -->
-
-			<div><b>{PROD_SUBCOMPONENTS_MSG}:</b></div>
-
-			<!-- begin components -->
-
-			<div>{selection_name} {component_quantity} x {component_name} {component_price} {component_icon}</div>
-
-			<!-- end components -->
-
-			<!-- end components_block -->
-
-			<!-- begin specification_block -->
-
-				<!-- begin spec_groups -->
-
-				<div><b><u>{group_name}</b></u></div><!-- begin spec_features -->
-
-				<div>{feature_name}: {feature_value}</div><!-- end spec_features --><!-- end spec_groups -->
-
-			<!-- end specification_block -->
-
-		<!-- begin item_taxes -->
-
-		<div>{tax_name}:&nbsp;<b>{tax_amount_total}</b></div><!-- end item_taxes -->
-
-		<!-- begin points_price_block -->
-
-		<div class="points_price"><input type="checkbox" name="pay_points_{cart_id}" {pay_points_checked} value="1" onclick="calculateItems();" /> {PROD_PAY_POINTS_MSG}:&nbsp;<b>{points_price}</b> {points_msg}</div><!-- end points_price_block -->
-
-		<!-- begin reward_points_block -->
-
-		<div class="reward_points">{REWARD_POINTS_MSG}:&nbsp;{reward_points}</div><!-- end reward_points_block -->
-
-		<!-- begin reward_credits_block -->
-
-		<div class="reward_credits">{REWARD_CREDITS_MSG}:&nbsp;{reward_credits}</div><!-- end reward_credits_block -->
-
-		<input type="hidden" name="item_name_{cart_id}" value="{item_name_strip}" />
-
-	</td><!-- end item_name_column -->
+               <td class="cartRow">
+                              <a href="{friendly_url}">{item_name}</a> <!-- begin item_code_block -->
+                              <br>
+                              {PROD_CODE_MSG}: {item_code}<!-- end item_code_block --> <!-- begin manufacturer_code_block -->
+                              <br>
+                              {MANUFACTURER_CODE_MSG}: <b>{manufacturer_code}</b><!-- end manufacturer_code_block --> <font class="">{properties_values}</font> <font class="">{coupons_list}</font> <!-- begin components_block -->
+               
+                              <div>
+                                             <b>{PROD_SUBCOMPONENTS_MSG}:</b>
+                              </div><!-- begin components -->
+               
+                              <div>
+                                             {selection_name} {component_quantity} x {component_name} {component_price} {component_icon}
+                              </div><!-- end components -->
+                              <!-- end components_block -->
+                              <!-- begin specification_block -->
+                              <!-- begin spec_groups -->
+               
+                              <div>
+                                             <b><u>{group_name}</u></b>
+                              </div><!-- begin spec_features -->
+               
+                              <div>
+                                             {feature_name}: {feature_value}
+                              </div><!-- end spec_features --><!-- end spec_groups -->
+                              <!-- end specification_block -->
+                              <!-- begin item_taxes -->
+               
+                              <div>
+                                             {tax_name}:&nbsp;<b>{tax_amount_total}</b>
+                              </div><!-- end item_taxes -->
+                              <!-- begin points_price_block -->
+               
+                              <div class="points_price">
+                                             <input type="checkbox" name="pay_points_{cart_id}" value="1" onclick="calculateItems();"> {PROD_PAY_POINTS_MSG}:&nbsp;<b>{points_price}</b> {points_msg}
+                              </div><!-- end points_price_block -->
+                              <!-- begin reward_points_block -->
+               
+                              <div class="reward_points">
+                                             {REWARD_POINTS_MSG}:&nbsp;{reward_points}
+                              </div><!-- end reward_points_block -->
+                              <!-- begin reward_credits_block -->
+               
+                              <div class="reward_credits">
+                                             {REWARD_CREDITS_MSG}:&nbsp;{reward_credits}
+                              </div><!-- end reward_credits_block -->
+                              <input type="hidden" name="item_name_{cart_id}" value="{item_name_strip}">
+               </td><!-- end item_name_column -->
 
 	<!-- begin item_price_excl_tax_column -->
 
@@ -1761,17 +1747,6 @@ $(document).ready(function(){
 
 </div>
 
-<div class="BlockBottom">
-
-	<div class="BottomCenter">
-
-		<div class="BottomLeft"></div>
-
-		<div class="BottomRight"></div>
-
-	</div>
-
-</div>
 
 </form>
 

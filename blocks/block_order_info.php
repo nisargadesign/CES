@@ -1,5 +1,4 @@
 <?php
-
  	// redirect to secure page 
 	$secure_redirect = get_setting_value($settings, "secure_redirect", 0);
 	$site_url = get_setting_value($settings, "site_url", "");
@@ -22,7 +21,7 @@
 	$t->set_template_path($settings["templates_dir"]);
 
 	$html_template = get_setting_value($block, "html_template", "block_order_info.html"); 
-  $t->set_file("block_body", $html_template);
+	$t->set_file("block_body", $html_template);
 
 	$sc_errors = ""; $delivery_errors = "";
 	$user_id = get_session("session_user_id");
@@ -1090,6 +1089,7 @@
 			$item_coupons = isset($item["COUPONS"]) ? $item["COUPONS"] : "";
 			if (VA_Products::check_permissions($item_id, VIEW_ITEMS_PERM)) {
 				$sql  = " SELECT i.item_code, i.manufacturer_code, i.item_type_id, i.supplier_id, i.user_id, i.item_name, i.short_description, i.full_description, ";
+				$sql .= " i.friendly_url, ";	// Customization by Vital - prod. link
 				$sql .= " i.buying_price, i." . $price_field . ", i.is_price_edit, i.is_sales, i." . $sales_field . ", i.tax_id, i.tax_free, ";
 				$sql .= " i.is_points_price, i.points_price, i.reward_type, i.reward_amount, i.credit_reward_type, i.credit_reward_amount, ";
 				$sql .= " it.reward_type AS type_bonus_reward, it.reward_amount AS type_bonus_amount, ";
@@ -1148,6 +1148,7 @@
 	
 					$item_name_initial = $db->f("item_name");
 					$item_name = get_translation($item_name_initial);
+					$friendly_url = $db->f('friendly_url');	// Customization by Vital - prod. link
 					$downloadable = $db->f("downloadable");
 					$download_period = $db->f("download_period");
 					$download_path = $db->f("download_path");
@@ -1280,6 +1281,7 @@
 						"recurring_start_date" => $recurring_start_date, "recurring_end_date" => $recurring_end_date,
 						"is_subscription" => 0, "is_account_subscription" => 0, "subscription_period" => "", 
 						"subscription_interval" => "", "subscription_suspend" => "",
+						"friendly_url" => $friendly_url	// Customizatin by Vital - prod. link
 					);
 	
 					$cart_ids[] = $cart_id;
@@ -2295,6 +2297,7 @@
 			$parent_item_id = $cart_item["parent_item_id"];
 			$item_name_initial = $cart_item["item_name"];
 			$item_name = get_translation($item_name_initial);
+			$friendly_url = $cart_item["friendly_url"];	// Customization by Vital - prod. link
 			$item_tax_id = $cart_item["tax_id"];
 			$item_tax_values = $cart_item["item_tax_values"];
 			$item_tax_total_values = $cart_item["item_tax_total_values"];
@@ -2491,6 +2494,7 @@
 
 			$t->set_var("cart_id", $cart_item_id);
 			$t->set_var("item_name", $item_name);
+			$t->set_var("friendly_url", $friendly_url.$friendly_extension);	// Customization by Vital - prod. link
 			$t->set_var("item_name_strip", htmlspecialchars(strip_tags($item_name)));
 			$t->set_var("short_description", $short_description);
 			$t->set_var("quantity", $quantity);
@@ -5041,5 +5045,4 @@
 		}
 		$t->set_var("payment_select_id" . "_disabled", $disabled);
 	}
-
 ?>
