@@ -375,7 +375,7 @@
 			$t->set_var("records", "");
 			$t->set_var("navigator", "");
 			$t->parse("no_records", false);
-			$t->set_var("wishlist_message", "<p>Here is a list of the items you have selected.</p>Your wishlist is saved on this browser on this computer only. If you want to see your wishlist from another computer please <a href=\"./user_login.php?return_page=" . urlencode( $site_url . get_custom_friendly_url('user_wishlist.php') ) . "\">login to save it</a>.<br /><br />");
+			$t->set_var("wishlist_message", "");
 		}
 	
 		$block_parsed = true;
