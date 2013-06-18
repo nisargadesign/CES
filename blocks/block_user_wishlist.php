@@ -246,7 +246,7 @@
 		$t->set_var("user_wishlist_href", get_custom_friendly_url("user_wishlist.php"));
 		$t->set_var("cart_retrieve_href", get_custom_friendly_url("cart_retrieve.php"));
 		$t->set_var("user_home_href", get_custom_friendly_url("user_home.php"));
-		$t->set_var("wishlist_message", "<p>Here is a list of the items you have selected.</p>Your wishlist is saved on this browser on this computer only. If you want to see your wishlist from another computer please <a href=\"./user_login.php?return_page" . urlencode( $site_url . get_custom_friendly_url('user_wishlist.php') ) . "\">login to save it</a>.<br /><br />");
+		$t->set_var("wishlist_message", "<p>Here is a list of the items you have selected.</p>Your wishlist is saved on this browser on this computer only. If you want to see your wishlist from another computer please <a href=\"./user_login.php?return_page=" . urlencode( $site_url . get_custom_friendly_url('user_wishlist.php') ) . "\">login to save it</a>.<br /><br />");
 	
 		$s = new VA_Sorter($settings["templates_dir"], "sorter_img.html", get_custom_friendly_url("user_wishlist.php"));
 		$s->set_parameters(false, true, true, false);
@@ -285,7 +285,7 @@
 		{
 			$t->parse("sorters", false);
 			$t->set_var("no_records", "");
-			$t->set_var("wishlist_message", "<p>Here is a list of the items you have selected.</p>Your wishlist is saved on this browser on this computer only. If you want to see your wishlist from another computer please <a href=\"./user_login.php?return_page" . urlencode( $site_url . get_custom_friendly_url('user_wishlist.php') ) . "\">login to save it</a>.<br /><br />");
+			$t->set_var("wishlist_message", "<p>Here is a list of the items you have selected.</p>Your wishlist is saved on this browser on this computer only. If you want to see your wishlist from another computer please <a href=\"./user_login.php?return_page=" . urlencode( $site_url . get_custom_friendly_url('user_wishlist.php') ) . "\">login to save it</a>.<br /><br />");
 	
 			$cart_url = new VA_URL("user_wishlist.php", false);
 			$cart_url->add_parameter("cart_item_id", DB, "cart_item_id");
@@ -375,7 +375,7 @@
 			$t->set_var("records", "");
 			$t->set_var("navigator", "");
 			$t->parse("no_records", false);
-			$t->set_var("wishlist_message", "<p>Here is a list of the items you have selected.</p>Your wishlist is saved on this browser on this computer only. If you want to see your wishlist from another computer please <a href=\"./user_login.php?return_page" . urlencode( $site_url . get_custom_friendly_url('user_wishlist.php') ) . "\">login to save it</a>.<br /><br />");
+			$t->set_var("wishlist_message", "<p>Here is a list of the items you have selected.</p>Your wishlist is saved on this browser on this computer only. If you want to see your wishlist from another computer please <a href=\"./user_login.php?return_page=" . urlencode( $site_url . get_custom_friendly_url('user_wishlist.php') ) . "\">login to save it</a>.<br /><br />");
 		}
 	
 		$block_parsed = true;
