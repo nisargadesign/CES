@@ -102,7 +102,7 @@
 
 	$tree = new VA_Tree("category_id", "category_name", "parent_category_id", $table_prefix . "categories", "tree");
 	
-	$sql  = " SELECT i.item_id, i_gbt.type_name AS i_gb_type, it_gbt.type_name AS it_gb_type ";
+	$sql  = " SELECT i.item_id, i.item_name, i_gbt.type_name AS i_gb_type, it_gbt.type_name AS it_gb_type ";
 	if (strlen($sc)) {
 		$sql_tables  = " FROM (((((" . $table_prefix . "items i ";
 		$sql_tables .= " LEFT JOIN " . $table_prefix . "items_categories ic ON ic.item_id=i.item_id) ";
@@ -115,7 +115,7 @@
 	$sql_tables .= " LEFT JOIN " . $table_prefix . "google_base_types i_gbt ON i.google_base_type_id=i_gbt.type_id) ";
 	$sql_tables .= " LEFT JOIN " . $table_prefix . "google_base_types it_gbt ON it.google_base_type_id=it_gbt.type_id) ";
 
-	$where = " WHERE i.google_base_type_id>=0 AND it.google_base_type_id>=0 ";
+	$where = " WHERE i.google_base_type_id>=0 AND it.google_base_type_id>=0 AND i.item_name NOT LIKE '%TEST%' ";
 	if (!$search) {
 		$where .= " AND i.is_showing=1 ";
 		$where .= " AND ((i.hide_out_of_stock=1 AND i.stock_level > 0) OR i.hide_out_of_stock=0)";
@@ -280,7 +280,7 @@
 				$item_id      = $db->f("item_id");
 				$item_type_id = $db->f("item_type_id");
 				$item_name    = get_translation($db->f("item_name"));
-				$item_name = ( strlen($item_name) < 70 ) ? $item_name : substr($item_name, 0, 66)."...";   //Customization by Vital
+				$item_name = ( strlen($item_name) < 70 ) ? $item_name : substr($item_name, 0, 66)."..." ;
 				$friendly_url = $db->f("friendly_url");
 				$manufacturer_name = $db->f("manufacturer_name");
 				$manufacturer_code = $db->f("manufacturer_code");
@@ -360,7 +360,7 @@
 				if (preg_match('/.*apparel.*/i', $item_google_type) && !strlen($manufacturer_name) && $google_base_country != 0) {
 					$warning[$item_id]['brand'] = APPAREL_BRAND_WARN_GB . $eol;
 				}
-				$manufacturer_name = (strlen($manufacturer_name))? $manufacturer_name : "Cutting Edge Stencils";	 //Customization by Vital
+				$manufacturer_name = (strlen($manufacturer_name))? $manufacturer_name : "Cutting Edge Stencils";
 				write_to("\t\t<" . $schema_type . ":brand><![CDATA[" . charset_conv($manufacturer_name) . "]]></" . $schema_type . ":brand>" . $eol);
 				if (preg_match('/.*apparel.*/i', $item_google_type) == 0 && (
 						(!strlen($manufacturer_code) && !strlen($item_code)) ||
@@ -581,7 +581,7 @@
 			array("'", "'", '"', '"', '-', '--', '...'),
 			$string);
 		// Next, deal with the characters not addressed above (most likely the description will be cut off at the character))
-		$string = iconv('UTF-8', 'ASCII//TRANSLIT', $string );
+		$string = iconv('UTF-8', 'ASCII//TRANSLIT', utf8_encode($string) );
 		return iconv(CHARSET, "UTF-8", $string);
 		//**END customization
 	}
