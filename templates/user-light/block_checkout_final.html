@@ -1,23 +1,30 @@
+<script>
+	var error = {error};
+	$(function() {if (error) {
+		var el = $(".address:contains('PAYAPAL')").length ? '.block-order-cart' : '.address, .block-order-cart';
+		$(el).fadeIn('1000').removeClass('hide');
+		} else {
+			$('.order-error').fadeIn('1000').removeClass('hide');
+		}
+	});
+</script>
 <div class="block-checkout-final {block_class}" style="{block_style}">
         <h1 class="commonbg">{final_title}</h1>
-	{final_message}
-	<div style="overflow: auto;">
-        <!-- <div class="floatleft address">
-                <b class="floatleft">Billing Address</b>
-		<div class="clearboth">
-			{first_name} {last_name}<br />
-			{billing_address}<br />
-			{billing_city_country}	
-		</div>
-	</div> -->
+	{final_message}<br /><br />
+	<div class="hide order-error" style="text-align: center">
+		<a class="button" href="/order_info.php">Use a diferent payment method</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="button" href="/wall-stencils.html">Continue Shopping</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="button" href="/basket.php">Shopping Cart</a>
 	
-	<div class="floatleft address">
-		<b class="floatleft">Shipping Address</b>
-		<div class="clearboth">
-			{shipping_first_name} {shipping_last_name}<br />
-			{shipping_address}<br />
-			{shipping_city_country}
-		</div>
 	</div>
+	<div style="overflow: auto;">
+		<div class="hide floatleft address clearboth">
+			<b class="floatleft">Shipping Address</b>
+			<div class="clearboth">
+				{shipping_first_name} {shipping_last_name}<br />
+				{shipping_address}<br />
+				{shipping_city_country}
+			</div>
+		</div>
 	</div>
 </div>

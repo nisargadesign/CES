@@ -1,5 +1,4 @@
 <?php
-
 	$html_template = get_setting_value($block, "html_template", "block_checkout_final.html"); 
 	$t->set_file("block_body", $html_template);
 
@@ -68,7 +67,7 @@
 	}
 
 	$is_validation = get_setting_value($order_final, "is_validation", 0);
-	if ($is_validation && !$is_placed && !strlen($error_message) && !strlen($pending_message)) {
+	if ($is_validation && !($is_placed > 1) && !strlen($error_message) && !strlen($pending_message)) {
 		$validation_php_lib = get_setting_value($order_final, "validation_php_lib", "");
 		if (strlen($validation_php_lib)) {
 
@@ -297,6 +296,7 @@
 		if (!$final_message) {
 			$final_message = $error_message;
 		}
+		$t->set_var("error", 0);	//Customization by Vital - hide/show address/car depending on error
 		$t->set_var("error_desc", $error_message);
 		$t->set_var("error_message", $error_message);
 	} elseif (strlen($pending_message)) {
@@ -307,6 +307,7 @@
 		if (!$final_message) {
 			$final_message = CHECKOUT_PENDING_MSG;
 		}
+		$t->set_var("error", 1);	//Customization by Vital - hide/show address/car depending on error
 		$t->set_var("pending_desc", $pending_message);
 		$t->set_var("pending_message", $pending_message);
 	} else {
@@ -318,7 +319,6 @@
 			$list = 'CES.COM customers' ;
 			$user = array('email' => $email, 'add_list' => $list);
 			$mailer->AddUser($user);
-			//mail('vital@fineonly.com', 'Contact Added', $email." to ".$list);
 		}
 		//End customization
 		
@@ -374,6 +374,7 @@
 			$t->set_var("success_desc", $success_message);
 			$t->set_var("success_message", $success_message);
 		}
+		$t->set_var("error", 1);	//Customization by Vital - hide/show address/car depending on error
 	}
 	$final_message = get_translation($final_message);
 	$final_message = get_currency_message($final_message, $currency);
@@ -713,5 +714,4 @@
 
 	$block_parsed = true;
 	$t->parse("block_body", false);
-
 ?>
