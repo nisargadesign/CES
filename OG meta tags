@@ -1,0 +1,40 @@
+1.    includes/page_layout.php ~ around the place where the usual meta data is handled:
+ 
+     if (!isset($meta_OG_image) || !strlen($meta_OG_image)) { 
+        $meta_OG_image = $site_url."DEFAULT-IMAGE.jpg"; 
+     }
+     $meta_OG_image = (strpos($meta_OG_image, $site_url))? $meta_OG_image : $site_url.$meta_OG_image ;
+     set_head_tag("meta", array("property"=>"og:type","content"=>"website"), "property", 1);
+     set_head_tag("meta", array("property"=>"og:image","content"=>$meta_OG_image), "property", 1);
+     set_head_tag("meta", array("property"=>"og:title","content"=>$meta_title), "property", 1);
+     set_head_tag("meta", array("property"=>"og:url","content"=>$site_url.$canonical_url), "property", 1);
+ 
+ 
+2. Set $meta_OG_image in blocks/block_products_list.php [product listing pages - first image on the list]:
+    $is_OG_image_set = false; //before the "loop" at around line 700
+    ...
+    if(!$is_OG_image_set) {$meta_OG_image = $small_image; $is_OG_image_set = true;} //inside the "loop"; assuming $small_image is usded; around line 1000
+ 
+3. Set $meta_OG_image in blocks/block_product_details.php:
+    $meta_OG_image = $big_image;  //around line 835; assuming $big_image is used;
+ 
+4. Set $meta_OG_image in blocks/block_articles_list.php:
+    $is_OG_image_set = false; //before the "loop" at around line 190
+    ...
+    if(!$is_OG_image_set) {$meta_OG_image = $image_small; $is_OG_image_set = true;}  //inside the "loop"; after $t->set_var("src", htmlspecialchars($image_small));
+    ...
+    if(!$is_OG_image_set) {$meta_OG_image = $image_large; $is_OG_image_set = true;}  //inside the "loop"; after $t->set_var("src", htmlspecialchars($image_large));
+ 
+5. Set $meta_OG_image in  blocks/block_articles_details.php:
+    $is_OG_image_set = false;   //at the top of the script
+    ...
+    if(!$is_OG_image_set) {$meta_OG_image = $image_small; $is_OG_image_set = true;} //after $t->parse("image_small_block", false); around line 155
+    ...
+    if(!$is_OG_image_set) {$meta_OG_image = $image_large; $is_OG_image_set = true;} //after $t->parse("image_large_block", false); around line 180
+ 
+6. Add canonical URLs to categories, article listings & custom pages. In articles.php, page.php and products.php:
+        //at the end before include_once("./includes/page_layout.php");
+        $friendly_extension = get_setting_value($settings, "friendly_extension", ""); 
+        if ($page_friendly_url) $canonical_url = $page_friendly_url.$friendly_extension; 
+ 
+        
