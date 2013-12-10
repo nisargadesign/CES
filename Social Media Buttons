@@ -1,0 +1,64 @@
+1. Go to https://www.addthis.com/get; select style and buttons (Like, Tweet, G+ and LinkedIn - no Pin It or Share); get the code:
+    <!-- AddThis Button BEGIN -->
+    <div class="addthis_toolbox addthis_default_style">
+    <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    <a class="addthis_button_linkedin_counter"></a>
+    <a class="addthis_button_tweet"></a>
+    </div>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-51b63e7912891dcd"></script>
+    <!-- AddThis Button END -->
+ 
+2. Go to business.pinterest.com/widget-builder/; Select options - One image/Count:beside; specify URL/image/description; get just the link code, like:
+    <a href="//pinterest.com/pin/create/button/?url=http%3A%2F%2Fencantojewels.com&media=http%3A%2F%2Fencantojewels.com%2Fnewsite%2Fimages%2Fcustom%2Flogo.png&description=Encanto%20is%20an%20eco-friendly%20company%20that%20works%20with%20versatile%20materials%20that%20highlight%20the%20shapes%2C%20textures%2C%20tones%2C%20and%20colors%20found%20in%20nature.%20Our%20jewelry%20designs%20are%20original%2C%20colorful%2C%20stylish%2C%20and%20vibrant." data-pin-do="buttonPin" data-pin-config="beside"><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a>
+ 
+3. Paste the 2. code into 1. and add class to Pin It for styling; save this in ViArt admin as a custom block:
+    <!-- AddThis Button BEGIN -->
+    <div class="addthis_toolbox addthis_default_style">
+    <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    <a class="addthis_button_linkedin_counter"></a>
+    <a class="addthis_button_tweet"></a>
+    <a class="pin-it-button" href="//pinterest.com/pin/create/button/?url=http%3A%2F%2Fencantojewels.com&media=http%3A%2F%2Fencantojewels.com%2Fnewsite%2Fimages%2Fcustom%2Flogo.png&description=Encanto%20is%20an%20eco-friendly%20company%20that%20works%20with%20versatile%20materials%20that%20highlight%20the%20shapes%2C%20textures%2C%20tones%2C%20and%20colors%20found%20in%20nature.%20Our%20jewelry%20designs%20are%20original%2C%20colorful%2C%20stylish%2C%20and%20vibrant." data-pin-do="buttonPin" data-pin-config="beside"><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a>
+    </div>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-51b63e7912891dcd"></script>
+    <!-- AddThis Button END -->
+4. Style it:
+    .addthis_default_style > a {float: left; height: 29px; margin: 0 8px 0 0; padding: 0 !important;}
+    .addthis_button_tweet {max-width: 80px;}
+ 
+5. Paste this in the footer (assuming OG meta is already generated on the back end):
+    <div id="fb-root"></div>
+    <script>
+    ///// --- Load FB script
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    ///// --- END loading FB
+    
+    ///// --- Update Pin It button values with OG values
+    var pinURL = encodeURIComponent(window.location);
+    var pinMedia = encodeURIComponent('http://DOMAIN.com/DEFAULT.png');
+    pinMedia = $('meta[property*="image"]').length ? encodeURIComponent($('meta[property*="image"]').attr("content")) : pinMedia;
+    
+    var pinDescription = "DEFAULT DESCRIPTION";
+    pinDescription = $('meta[name="description"]').length ? $('meta[name="description"]').attr("content") : $('title').html();
+    pinDescription = encodeURIComponent(pinDescription);
+    
+    if($("a.pin-it-button").length){
+        $("a.pin-it-button").attr("href", "http://pinterest.com/pin/create/button/?url=" + pinURL +"&media=" + pinMedia + "&description=" + pinDescription);
+    }
+    ///// --- END updating Pin It button values
+    
+    ///// --- Load Pinterest script 
+         (function(d){
+           var f = d.getElementsByTagName('SCRIPT')[0], p = d.createElement('SCRIPT');
+           p.async = true;
+           p.src = '//assets.pinterest.com/js/pinit.js';
+           f.parentNode.insertBefore(p, f);
+         }(document));
+    </script>
