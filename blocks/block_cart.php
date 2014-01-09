@@ -44,6 +44,8 @@
 	$tax_rates     = get_session("session_tax_rates");
 
 	$shopping_cart = get_session("shopping_cart");
+	
+	// Cookie Cart goes here
 
 	$total_quantity = 0; $total_price = 0; $goods_excl_tax = 0; $goods_incl_tax = 0;
 
