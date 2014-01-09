@@ -45,7 +45,87 @@
 
 	$shopping_cart = get_session("shopping_cart");
 	
-	// Cookie Cart goes here
+	// Cookie Cart goes here+// Start of Cookie Cart modification
+
++  $cookie_cart = get_cookie("cookie_cart");
+
++  
+
++  $previous_cart =  get_cookie("previous_cart");  // previous_shopping_cart value  
+
++  
+
++  setcookie("previous_cart", serialize($shopping_cart), time()+3600*24*30 , "/", "www.cuttingedgestencils.org"  ); 
+
++  setcookie("cookie_cart", serialize($shopping_cart), time()+3600*24*30 , "/", "www.cuttingedgestencils.org"  );
+
++    
+
++  $serialized_shopping_cart = serialize($shopping_cart);
+
++  $mikeDebug = 0;
+
++  if($mikeDebug) {
+
++    print("<br> serialized shopping cart = $serialized_shopping_cart<br><br>");
+
++    print("previous cart = $previous_cart<br><br>");  // note:   these where serialized when they were set
+
++    print("cookie_cart= $cookie_cart<br><br>");
+
++  }
+
++  $empty_array_str =  "s:0:\"\"";
+
++  
+
++  
+
++  if(!strcmp($serialized_shopping_cart, $empty_array_str) && !strcmp($previous_cart, $empty_array_str)) {  // both are empty
+
++      // check to see if cookie cart has anything in it
+
++           if($mikeDebug) print("both empty");
+
++           if( strcmp($cookie_cart, $empty_array_str) ) {  // if cookie cart set.  set shopping cart
+
++           
+
++             $shopping_cart = unserialize($cookie_cart);     // turn cookie cart into real array and set shopping_cart
+
++          $ret = setcookie("previous_cart", $cookie_cart,
+
++                 time()+3600*24*30 , "/", "www.cuttingedgestencils.org"  ); 
+
++          if($mikeDebug ) 
+
++          $ret = print("<br>shopping_cart and previous_cart empty so set previous_cart and $shopping cart from cookie_cart - return from set previous_cart = $ret");
+
++          }
+
++  }   elseif ( strcmp($shopping_cart, $previous_cart )) {  // this means that shopping cart has changed 
+
++                                // and we need to update cookie cart and previous cart
+
++      if($mikeDebug) print("there is a diff between shopping and previous so update previous<br>");
+
++      setcookie("previous_cart", $cookie_cart, time()+3600*24*30 , "/", "www.cuttingedgestencils.org"  ); 
+
++                         
+
++  
+
++  } else {
+
++      if ($mikeDebug) print("no condition met.  Just let everything stay the same.<br>");
+
++  }
+
++  
+
++  // End of Cookie Cart changes
+
+	
 
 	$total_quantity = 0; $total_price = 0; $goods_excl_tax = 0; $goods_incl_tax = 0;
 
